@@ -1,0 +1,32 @@
+{
+    "name": "mcmetrics",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "check": "biome check --write .",
+        "dev": "turbo dev",
+        "build": "turbo build",
+        "check-types": "turbo check-types",
+        "dev:native": "turbo -F native dev",
+        "dev:web": "turbo -F web dev",
+        "dev:api": "turbo -F api dev",
+        "db:push": "turbo -F api db:push",
+        "db:studio": "turbo -F api db:studio",
+        "db:generate": "turbo -F api db:generate",
+        "db:migrate": "turbo -F api db:migrate",
+        "db:start": "turbo -F api db:start",
+        "db:watch": "turbo -F api db:watch",
+        "db:stop": "turbo -F api db:stop",
+        "db:down": "turbo -F api db:down",
+        "prettier": "bunx prettier -w --config ./.prettierrc ."
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "turbo": "^2.5.4",
+        "@biomejs/biome": "^2.2.0"
+    },
+    "packageManager": "bun@1.2.18"
+}

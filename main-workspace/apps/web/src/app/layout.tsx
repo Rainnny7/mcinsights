@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
-import { ReactNode } from "react";
-import { ThemeProvider } from "../provider/theme-provider";
+import type { ReactNode } from "react";
+import Providers from "../components/providers";
 import "./style/globals.css";
 
 const outfit = Outfit({
@@ -36,9 +36,7 @@ const RootLayout = ({
 }>) => (
     <html lang="en" suppressHydrationWarning>
         <body className={`${outfit.variable} antialiased`}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                {children}
-            </ThemeProvider>
+            <Providers>{children}</Providers>
         </body>
     </html>
 );

@@ -37,9 +37,7 @@ const RootLayout = ({
 }>) => (
     <html lang="en" suppressHydrationWarning>
         <body className={cn("antialiased select-none", outfit.variable)}>
-            <AppProviders>
-                {children}
-            </AppProviders>
+            <AppProviders>{children}</AppProviders>
         </body>
     </html>
 );

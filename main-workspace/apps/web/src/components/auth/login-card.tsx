@@ -1,6 +1,5 @@
 "use client";
 
-import FadeUpAnimation from "@/components/animation/fade-up-animation";
 import AppLogo from "@/components/app-logo";
 import SimpleTooltip from "@/components/simple-tooltip";
 import Spinner from "@/components/spinner";
@@ -19,24 +18,22 @@ import Image from "next/image";
 import { useState, type ReactElement } from "react";
 
 const LoginCard = (): ReactElement => (
-    <FadeUpAnimation>
-        <Card className="min-w-64">
-            {/* Header */}
-            <CardHeader className="justify-center">
-                <AppLogo className="mx-auto" />
-                <CardTitle className="justify-center">
-                    <UserIcon className="size-5.5" />
-                    <span>Login</span>
-                </CardTitle>
-                <CardDescription>Please login to continue.</CardDescription>
-            </CardHeader>
+    <Card className="min-w-64">
+        {/* Header */}
+        <CardHeader className="justify-center">
+            <AppLogo className="mx-auto" />
+            <CardTitle className="justify-center">
+                <UserIcon className="size-5.5" />
+                <span>Login</span>
+            </CardTitle>
+            <CardDescription>Please login to continue.</CardDescription>
+        </CardHeader>
 
-            {/* Content */}
-            <CardContent>
-                <DiscordOAuthButton />
-            </CardContent>
-        </Card>
-    </FadeUpAnimation>
+        {/* Content */}
+        <CardContent>
+            <DiscordOAuthButton />
+        </CardContent>
+    </Card>
 );
 
 const DiscordOAuthButton = () => {
@@ -66,8 +63,8 @@ const DiscordOAuthButton = () => {
                         <Image
                             src="/media/logo/discord.png"
                             alt="Discord"
-                            width={28}
-                            height={28}
+                            width={36}
+                            height={36}
                             draggable={false}
                         />
                     )}

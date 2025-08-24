@@ -15,12 +15,12 @@ const DashboardLayout = async ({
     children: ReactNode;
 }): Promise<ReactElement> => {
     // Before rendering the page, ensure the user is authenticated.
-    const { data } = await getSession();
-    if (!data) {
+    const response = await getSession();
+    if (!response?.session) {
         redirect("/");
     }
     return (
-        <main>
+        <main className="mx-auto max-w-screen-2xl pt-24">
             <DashboardNavbar />
             {children}
         </main>

@@ -1,11 +1,10 @@
-import { protectedProcedure, router } from "../lib/trpc";
+import { router } from "../lib/trpc";
+import { authRouter } from "./auth";
+import { dataRouter } from "./data";
 
 export const appRouter = router({
-    privateData: protectedProcedure.query(({ ctx }) => {
-        return {
-            message: "This is private",
-            user: ctx.session.user
-        };
-    }),
+    auth: authRouter,
+    data: dataRouter,
 });
+
 export type AppRouter = typeof appRouter;

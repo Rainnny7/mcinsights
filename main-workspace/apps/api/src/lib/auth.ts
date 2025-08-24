@@ -10,8 +10,12 @@ export const auth = betterAuth({
         schema: schema,
     }),
     trustedOrigins: [env.CORS_ORIGIN],
-    emailAndPassword: {
-        enabled: true,
+    socialProviders: {
+        discord: {
+            clientId: env.DISCORD_CLIENT_ID,
+            clientSecret: env.DISCORD_CLIENT_SECRET,
+            prompt: "consent",
+        },
     },
     advanced: {
         defaultCookieAttributes: {
@@ -19,5 +23,8 @@ export const auth = betterAuth({
             secure: true,
             httpOnly: true,
         },
+    },
+    telemetry: {
+        enabled: false,
     },
 });

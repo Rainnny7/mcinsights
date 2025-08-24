@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import type { ReactNode } from "react";
-import Providers from "../components/providers";
-import "./style/globals.css";
+import AppProviders from "../provider/app-providers";
+import "./styles/globals.css";
 
 const outfit = Outfit({
     variable: "--font-outfit",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     openGraph: {
         images: [
             {
-                url: "https://mc-metrics.rainnny.club/media/logo.png",
+                url: "https://mc-metrics.rainnny.club/media/logo/app.png",
                 width: 128,
                 height: 128,
             },
@@ -35,8 +36,10 @@ const RootLayout = ({
     children: ReactNode;
 }>) => (
     <html lang="en" suppressHydrationWarning>
-        <body className={`${outfit.variable} antialiased`}>
-            <Providers>{children}</Providers>
+        <body className={cn("antialiased select-none", outfit.variable)}>
+            <AppProviders>
+                {children}
+            </AppProviders>
         </body>
     </html>
 );

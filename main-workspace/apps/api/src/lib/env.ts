@@ -1,11 +1,13 @@
-import { createEnv } from "@t3-oss/env-nextjs";
+import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
 export const env = createEnv({
     server: {
         // App
-        NODE_ENV: z.enum(["development", "test", "production"]),
-        PORT: z.number().default(3000),
+        NODE_ENV: z
+            .enum(["development", "test", "production"])
+            .default("development"),
+        PORT: z.number(),
 
         // Drizzle
         DRIZZLE_DATABASE_URL: z.string(),
@@ -14,8 +16,10 @@ export const env = createEnv({
         CORS_ORIGIN: z.string(),
 
         // BetterAuth
-        BETTER_AUTH_SECRET: z.string(),
         BETTER_AUTH_URL: z.string(),
+        BETTER_AUTH_SECRET: z.string(),
+        DISCORD_CLIENT_ID: z.string(),
+        DISCORD_CLIENT_SECRET: z.string(),
     },
 
     client: {},
@@ -23,7 +27,7 @@ export const env = createEnv({
     runtimeEnv: {
         // App
         NODE_ENV: process.env.NODE_ENV,
-        PORT: process.env.PORT,
+        PORT: parseInt(process.env.PORT ?? "3000"),
 
         // Drizzle
         DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL,
@@ -34,19 +38,25 @@ export const env = createEnv({
         // BetterAuth
         BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
         BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+        DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+        DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     },
 
     /**
-     * i had a stupid fucking error so now this is forever going to be turned on (:
-     * @theo fix ur shit lib
+     * This is the prefix for the environment variables that are available on the client.
      */
-    skipValidation: true,
+    clientPrefix: "NEXT_PUBLIC_",
 
     /**
      * Makes it so that empty strings are treated as undefined.
      * `SOME_VAR: z.string()` and `SOME_VAR=''` will throw an error.
      */
     emptyStringAsUndefined: true,
+
+    /**
+     * Whether to check if the environment variables are valid.
+     */
+    isServer: true,
 });
 
 export const isProd = env.NODE_ENV === "production";

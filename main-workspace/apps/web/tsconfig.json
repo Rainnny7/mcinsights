@@ -33,7 +33,7 @@
     "exclude": ["./node_modules"],
     "references": [
         {
-            "path": "../server"
+            "path": "../api"
         }
     ]
 }

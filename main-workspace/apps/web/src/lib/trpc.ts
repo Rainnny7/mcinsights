@@ -4,8 +4,8 @@ import {
     QueryClient,
     type DefaultError,
 } from "@tanstack/react-query";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
+import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client";
+import { createTRPCReact } from "@trpc/react-query";
 import { toast } from "sonner";
 import type { AppRouter } from "../../../api/src/routers";
 
@@ -24,8 +24,14 @@ export const queryClient = new QueryClient({
     }),
 });
 
-const trpcClient = createTRPCClient<AppRouter>({
+export const trpcClient = createTRPCClient<AppRouter>({
     links: [
+        // adds pretty logs to your console in development and logs errors in production
+        loggerLink({
+            enabled: (opts) =>
+                env.NODE_ENV === "development" ||
+                (opts.direction === "down" && opts.result instanceof Error),
+        }),
         httpBatchLink({
             url: `${env.NEXT_PUBLIC_SERVER_URL}/trpc`,
             fetch(url, options) {
@@ -38,7 +44,4 @@ const trpcClient = createTRPCClient<AppRouter>({
     ],
 });
 
-export const trpc = createTRPCOptionsProxy<AppRouter>({
-    client: trpcClient,
-    queryClient,
-});
+export const trpc = createTRPCReact<AppRouter>();

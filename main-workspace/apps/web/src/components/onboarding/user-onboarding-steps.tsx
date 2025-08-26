@@ -19,9 +19,12 @@ import {
 } from "@/components/ui/select";
 import { ServerIcon, type LucideIcon } from "lucide-react";
 import Image from "next/image";
-import type { ChangeEvent, ReactElement } from "react";
+import type { ChangeEvent, ReactElement, ReactNode } from "react";
 import { useState } from "react";
+import { trpc } from "../../lib/trpc";
 import type { User } from "../../types/auth";
+import SimpleTooltip from "../simple-tooltip";
+import DownloadPluginButton from "./download-plugin-button";
 
 type BaseField = {
     name: string;
@@ -43,13 +46,20 @@ type DropdownField = BaseField & {
     placeholder?: string;
 };
 
-type OnboardingField = TextField | DropdownField;
+type CustomField = BaseField & {
+    type: "custom";
+    component: ReactNode;
+};
+
+type OnboardingField = TextField | DropdownField | CustomField;
 
 type OnboardingStep = {
     id: number;
     icon: LucideIcon | string;
     title: string;
     description: string;
+    skippable?: boolean;
+    skipCompletesForm?: boolean;
     fields: OnboardingField[];
 };
 
@@ -88,12 +98,15 @@ const steps: OnboardingStep[] = [
         icon: ServerIcon,
         title: "Creating your first server",
         description: "Create your first server to get started monitoring!",
+        skippable: true,
+        skipCompletesForm: true,
         fields: [
             {
                 name: "serverName",
                 label: "Server Name",
                 placeholder: "My Proxy Server",
                 type: "text",
+                required: true,
                 regex: new RegExp("^[A-Za-z0-9\\s']+$"),
                 regexErrorMessage:
                     "The organization name must contain only letters, numbers, apostrophes, and spaces.",
@@ -102,6 +115,7 @@ const steps: OnboardingStep[] = [
                 name: "serverPlatform",
                 label: "Server Platform",
                 type: "dropdown",
+                required: true,
                 options: [
                     {
                         value: "proxy",
@@ -115,6 +129,27 @@ const steps: OnboardingStep[] = [
                     },
                 ],
                 placeholder: "Select platform",
+            },
+            {
+                name: "pluginDownload",
+                label: "Plugin Download",
+                type: "custom",
+                component: <DownloadPluginButton />,
+            },
+        ],
+    },
+    {
+        id: 3,
+        icon: ServerIcon,
+        title: "Creating your first server",
+        description: "Create your first server to get started monitoring!",
+        fields: [
+            {
+                name: "bob",
+                label: "Bob",
+                placeholder: "Bob",
+                type: "text",
+                required: true,
             },
         ],
     },
@@ -148,6 +183,9 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
     const isFirstStep: boolean = currentStep === 1;
     const isLastStep: boolean = currentStep === steps.length;
 
+    const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
+    const completeOnboarding = trpc.user.completeOnboarding.useMutation();
+
     const handleInputChange = (fieldName: string, value: string) => {
         setFormData((prev: Record<string, string>) => ({
             ...prev,
@@ -165,7 +203,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
         if (!isLastStep) {
             setCurrentStep((prev: number) => prev + 1);
         } else {
-            console.log("Form submitted:", formData);
+            handleOnboardingComplete();
         }
     };
 
@@ -173,6 +211,32 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
         event.preventDefault();
         if (isCurrentStepValid()) {
             handleNext();
+        }
+    };
+
+    const handleSkip = () => {
+        if (currentStepData.skipCompletesForm) {
+            handleOnboardingComplete();
+        } else {
+            handleNext();
+        }
+    };
+
+    const handleOnboardingComplete = async () => {
+        setIsOnboarding(true);
+
+        try {
+            const result = await completeOnboarding.mutateAsync({
+                orgName: formData.orgName,
+                orgSlug: formData.orgSlug,
+                serverName: formData.serverName,
+                serverPlatform: formData.serverPlatform,
+            });
+            console.log(result);
+        } catch (error) {
+            console.error("Onboarding failed:", error);
+        } finally {
+            setIsOnboarding(false);
         }
     };
 
@@ -279,6 +343,10 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                         </SelectContent>
                     </Select>
                 );
+
+            // Custom type
+            case "custom":
+                return field.component;
         }
     };
 
@@ -346,19 +414,51 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
 
                 <CardFooter className="flex justify-between">
                     {/* Previous */}
-                    <Button
-                        type="button"
-                        variant="outline"
-                        disabled={isFirstStep}
-                        onClick={handlePrevious}
-                    >
-                        Back
-                    </Button>
+                    <SimpleTooltip content="Go back" side="bottom">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            disabled={isFirstStep}
+                            onClick={handlePrevious}
+                        >
+                            Back
+                        </Button>
+                    </SimpleTooltip>
 
-                    {/* Next */}
-                    <Button type="submit" disabled={!isCurrentStepValid()}>
-                        {isLastStep ? "Complete" : "Next"}
-                    </Button>
+                    {/* Right */}
+                    <div className="flex items-center gap-2">
+                        {/* Skip */}
+                        {currentStepData.skippable && (
+                            <SimpleTooltip
+                                content="Skip this step"
+                                side="bottom"
+                            >
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    disabled={isLastStep || isOnboarding}
+                                    onClick={handleSkip}
+                                >
+                                    Skip
+                                </Button>
+                            </SimpleTooltip>
+                        )}
+
+                        {/* Next */}
+                        <SimpleTooltip
+                            content={
+                                isLastStep ? "Let's go!" : "Let's continue"
+                            }
+                            side="bottom"
+                        >
+                            <Button
+                                type="submit"
+                                disabled={!isCurrentStepValid() || isOnboarding}
+                            >
+                                {isLastStep ? "Complete" : "Next"}
+                            </Button>
+                        </SimpleTooltip>
+                    </div>
                 </CardFooter>
             </form>
         </Card>

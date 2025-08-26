@@ -4,6 +4,7 @@ import type { User } from "better-auth";
 import { GithubIcon, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactElement } from "react";
+import { appConfig } from "../../../app/config";
 import { logoutUser } from "../../../lib/user";
 import { Button } from "../../ui/button";
 import {
@@ -53,7 +54,7 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
             <DropdownMenuGroup>
                 {/* GitHub */}
                 <Link
-                    href="https://github.com/Rainnny7/minecraft-metrics"
+                    href={`https://github.com/${appConfig.githubUrl}`}
                     target="_blank"
                     draggable={false}
                 >

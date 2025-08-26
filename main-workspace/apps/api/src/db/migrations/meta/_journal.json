@@ -15,6 +15,13 @@
       "when": 1756048086324,
       "tag": "0001_bright_killer_shrike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756192581857,
+      "tag": "0002_shiny_vivisector",
+      "breakpoints": true
     }
   ]
 }

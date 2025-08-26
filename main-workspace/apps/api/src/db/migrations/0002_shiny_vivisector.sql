@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "onboarded" boolean NOT NULL;

@@ -26,6 +26,14 @@ export const auth = betterAuth({
         },
     },
     plugins: [organization()],
+    // hooks: {
+    //     after: createAuthMiddleware(async (ctx) => {
+    //         if (!ctx.path.startsWith("/callback/")) {
+    //             return;
+    //         }
+    //         console.log(ctx.context.newSession);
+    //     }),
+    // },
     telemetry: {
         enabled: false,
     },

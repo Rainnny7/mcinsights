@@ -1,30 +1,63 @@
 "use client";
 
-import AppLogo from "@/components/app-logo";
-import OrganizationSwitcher from "@/components/dashboard/navbar/organization-switcher";
-import { Separator } from "@/components/ui/separator";
+import type { User } from "better-auth";
 import { SlashIcon } from "lucide-react";
+import Link from "next/link";
 import type { ReactElement } from "react";
+import { useScrolled } from "../../../hooks/use-scrolled";
+import { cn } from "../../../lib/utils";
+import AppLogo from "../../app-logo";
+import OrganizationSwitcher from "./organization-switcher";
+import UserDropdown from "./user-dropdown";
 
-const DashboardNavbar = (): ReactElement => {
+const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
+    const { scrolled } = useScrolled(20);
     return (
-        <nav className="fixed inset-x-0 top-0 px-4 py-1.5 gap-4 bg-muted/50 border-b border-border">
-            <div className="mx-auto max-w-screen-3xl">
+        <nav
+            className={cn(
+                "fixed inset-x-0 top-0 px-5 py-2 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
+                scrolled && "h-13"
+            )}
+        >
+            <div className="relative mx-auto max-w-screen-3xl">
+                {/* Logo */}
+                <Link
+                    className="absolute left-0 top-0 hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                    href="/dashboard"
+                    draggable={false}
+                >
+                    <AppLogo size={36} />
+                </Link>
+
                 {/* Top */}
-                <div className="flex justify-between gap-3.5 items-center">
+                <div
+                    className={`ml-12 flex justify-between gap-3.5 items-center transition-all duration-300 ease-in-out transform-gpu ${
+                        scrolled
+                            ? "opacity-0 -translate-y-2 pointer-events-none"
+                            : "opacity-100 translate-y-0"
+                    }`}
+                >
                     {/* Left */}
                     <div className="flex gap-3 items-center">
-                        <AppLogo size={36} />
-                        <SlashIcon className="size-4 text-muted-foreground" />
+                        <SlashIcon className="size-4 text-muted-foreground/35" />
                         <OrganizationSwitcher />
                     </div>
-                    sdfsd
+
+                    {/* Right */}
+                    <div className="flex gap-3 items-center">
+                        <UserDropdown user={user} />
+                    </div>
                 </div>
 
-                <Separator className="my-1.5" />
-
-                {/* Bottom */}
-                <div>sdfds</div>
+                {/* Bottom Links */}
+                <div
+                    className={cn(
+                        "mt-2.5 transition-all duration-300 ease-in-out transform-gpu",
+                        scrolled && "-translate-y-10 translate-x-12"
+                    )}
+                >
+                    sdfds
+                </div>
             </div>
         </nav>
     );

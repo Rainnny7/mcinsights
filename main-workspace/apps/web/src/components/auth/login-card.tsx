@@ -43,6 +43,7 @@ const DiscordOAuthButton = () => {
         setLoggingIn(true);
         await authClient.signIn.social({
             provider: "discord",
+            newUserCallbackURL: `${env.NEXT_PUBLIC_BASE_URL}/onboarding`,
             callbackURL: `${env.NEXT_PUBLIC_BASE_URL}/dashboard`,
         });
         setTimeout(() => {

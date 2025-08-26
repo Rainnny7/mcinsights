@@ -1,8 +1,9 @@
 import DashboardNavbar from "@/components/dashboard/navbar";
-import { getSession } from "@/lib/auth";
+import { checkAndGetSession } from "@/lib/auth";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import type { ReactElement, ReactNode } from "react";
+import { DashboardProvider } from "../../../provider/dashboard-provider";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -14,15 +15,16 @@ const DashboardLayout = async ({
 }: {
     children: ReactNode;
 }): Promise<ReactElement> => {
-    // Before rendering the page, ensure the user is authenticated.
-    const response = await getSession();
-    if (!response?.session) {
-        redirect("/");
+    const { user } = await checkAndGetSession();
+    if (!user.onboarded) {
+        redirect("/onboarding");
     }
     return (
-        <main className="mx-auto max-w-screen-2xl pt-24">
-            <DashboardNavbar />
-            {children}
+        <main className="mx-auto max-w-screen-2xl pt-32">
+            <DashboardProvider initialUser={user}>
+                <DashboardNavbar user={user} />
+                {children}
+            </DashboardProvider>
         </main>
     );
 };

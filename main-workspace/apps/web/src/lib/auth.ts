@@ -3,6 +3,15 @@
 import { authClient } from "@/lib/auth-client";
 import type { SessionResponse } from "@/types/auth";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export const checkAndGetSession = async (): Promise<SessionResponse> => {
+    const session = await getSession();
+    if (!session) {
+        redirect("/");
+    }
+    return session;
+};
 
 /**
  * Get the current user session.

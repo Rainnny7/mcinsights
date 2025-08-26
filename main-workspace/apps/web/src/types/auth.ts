@@ -1,6 +1,10 @@
-import type { Session, User } from "better-auth";
+import type { User as BetterAuthUser, Session } from "better-auth";
 
 export type SessionResponse = {
     session: Session;
     user: User;
+};
+
+export type User = BetterAuthUser & {
+    onboarded: boolean;
 };

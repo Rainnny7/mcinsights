@@ -11,6 +11,7 @@ export const createContext = async ({ context }: CreateContextOptions) => {
     });
     return {
         session,
+        headers: context.request.headers,
     };
 };
 

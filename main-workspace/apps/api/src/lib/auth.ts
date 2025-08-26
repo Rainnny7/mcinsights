@@ -5,11 +5,21 @@ import { db } from "../db";
 import * as schema from "../db/schema/auth";
 import { env } from "./env";
 
-export const auth = betterAuth({
+export const auth: any = betterAuth({
     database: drizzleAdapter(db, {
         provider: "pg",
         schema: schema,
     }),
+    user: {
+        additionalFields: {
+            onboarded: {
+                type: "boolean",
+                required: false,
+                defaultValue: false,
+                input: false,
+            },
+        },
+    },
     trustedOrigins: [env.CORS_ORIGIN],
     socialProviders: {
         discord: {
@@ -26,14 +36,6 @@ export const auth = betterAuth({
         },
     },
     plugins: [organization()],
-    // hooks: {
-    //     after: createAuthMiddleware(async (ctx) => {
-    //         if (!ctx.path.startsWith("/callback/")) {
-    //             return;
-    //         }
-    //         console.log(ctx.context.newSession);
-    //     }),
-    // },
     telemetry: {
         enabled: false,
     },

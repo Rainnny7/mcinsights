@@ -19,8 +19,10 @@ import {
 } from "@/components/ui/select";
 import { ServerIcon, type LucideIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import type { ChangeEvent, ReactElement, ReactNode } from "react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { trpc } from "../../lib/trpc";
 import type { User } from "../../types/auth";
 import SimpleTooltip from "../simple-tooltip";
@@ -156,6 +158,7 @@ const steps: OnboardingStep[] = [
 ];
 
 const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
+    const router = useRouter();
     const [currentStep, setCurrentStep] = useState<number>(1);
 
     // Initialize form data with default values
@@ -226,17 +229,23 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
         setIsOnboarding(true);
 
         try {
-            const result = await completeOnboarding.mutateAsync({
+            // Try and complete onboarding with the form data
+            const response = await completeOnboarding.mutateAsync({
                 orgName: formData.orgName,
                 orgSlug: formData.orgSlug,
                 serverName: formData.serverName,
                 serverPlatform: formData.serverPlatform,
             });
-            console.log(result);
+            if (response.success) {
+                toast.success("Welcome to the dashboard!");
+                router.push("/dashboard");
+            }
         } catch (error) {
-            console.error("Onboarding failed:", error);
-        } finally {
             setIsOnboarding(false);
+            console.error("Onboarding failed:", error);
+            toast.error("Onboarding", {
+                description: "Failed to complete onboarding ):",
+            });
         }
     };
 

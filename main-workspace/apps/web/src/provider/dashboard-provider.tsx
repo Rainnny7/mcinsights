@@ -2,10 +2,17 @@
 
 import type { User } from "better-auth";
 import type { Organization } from "better-auth/plugins/organization";
+import { AnimatePresence } from "motion/react";
 import { createContext, useContext, type ReactNode } from "react";
+import DashboardLoadingOverlay from "../components/dashboard/dashboard-loading-overlay";
 import { authClient } from "../lib/auth-client";
 
 type DashboardContextType = {
+    /**
+     * Whether the dashboard is loading.
+     */
+    loading: boolean;
+
     /**
      * The authenticated user.
      */
@@ -31,19 +38,27 @@ export const DashboardProvider = ({
     children,
 }: DashboardProviderProps) => {
     const value: DashboardContextType = {
+        loading: false,
         user: initialUser,
         organizations: [],
     };
 
     // Get the user's organizations
-    const { data: organizations } = authClient.useListOrganizations();
+    const { isPending: isLoadingOrganizations, data: organizations } =
+        authClient.useListOrganizations();
     if (organizations?.length === 1) {
         value.organizations = organizations;
     }
 
+    // Ensure the loading state is updated
+    value.loading = isLoadingOrganizations;
+
     return (
         <DashboardContext.Provider value={value}>
-            {children}
+            <AnimatePresence mode="wait">
+                {value.loading && <DashboardLoadingOverlay key="loading" />}
+            </AnimatePresence>
+            {!value.loading && children}
         </DashboardContext.Provider>
     );
 };

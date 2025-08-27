@@ -20,10 +20,10 @@ const DashboardLayout = async ({
         redirect("/onboarding");
     }
     return (
-        <main className="mx-auto max-w-screen-2xl pt-32">
+        <main className="mx-auto max-w-screen-2xl">
             <DashboardProvider initialUser={user}>
                 <DashboardNavbar user={user} />
-                {children}
+                <div className="pt-32">{children}</div>
             </DashboardProvider>
         </main>
     );

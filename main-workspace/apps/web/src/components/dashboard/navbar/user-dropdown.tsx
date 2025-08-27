@@ -49,6 +49,7 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
                     </div>
                 </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
 
             {/* Items */}
             <DropdownMenuGroup>

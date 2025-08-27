@@ -18,12 +18,16 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ServerIcon, type LucideIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, ReactElement, ReactNode } from "react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useDebounce } from "use-debounce";
+import { authClient } from "../../lib/auth-client";
 import { trpc } from "../../lib/trpc";
+import { cn } from "../../lib/utils";
 import type { User } from "../../types/auth";
 import SimpleTooltip from "../simple-tooltip";
 import DownloadPluginButton from "./download-plugin-button";
@@ -35,6 +39,14 @@ type BaseField = {
     required?: boolean;
     regex?: RegExp;
     regexErrorMessage?: string;
+    customValidation?: (
+        value: string
+    ) => Promise<string | undefined> | string | undefined;
+    validationMessages?: {
+        loading?: string;
+        error?: string;
+        success?: string;
+    };
 };
 
 type TextField = BaseField & {
@@ -92,6 +104,18 @@ const steps: OnboardingStep[] = [
                 regex: new RegExp("^[a-z0-9-]+$"),
                 regexErrorMessage:
                     "Slug must contain only lowercase letters, numbers, and hyphens",
+                customValidation: async (value: string) => {
+                    const { error } = await authClient.organization.checkSlug({
+                        slug: value,
+                    });
+                    return error
+                        ? "This org slug is already taken, try another one."
+                        : undefined;
+                },
+                validationMessages: {
+                    loading: "Checking if org is available...",
+                    success: "Great! This org slug is available.",
+                },
             },
         ],
     },
@@ -140,45 +164,16 @@ const steps: OnboardingStep[] = [
             },
         ],
     },
-    {
-        id: 3,
-        icon: ServerIcon,
-        title: "Creating your first server",
-        description: "Create your first server to get started monitoring!",
-        fields: [
-            {
-                name: "bob",
-                label: "Bob",
-                placeholder: "Bob",
-                type: "text",
-                required: true,
-            },
-        ],
-    },
 ];
 
 const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState<number>(1);
 
-    // Initialize form data with default values
-    const initializeFormData = (): Record<string, string> => {
-        const initialData: Record<string, string> = {};
-        steps.forEach((step) => {
-            step.fields.forEach((field) => {
-                if (field.defaultValue) {
-                    initialData[field.name] = field.defaultValue.replace(
-                        "{user}",
-                        user.name
-                    );
-                }
-            });
-        });
-        return initialData;
-    };
-
-    const [formData, setFormData] =
-        useState<Record<string, string>>(initializeFormData);
+    const [formData, setFormData] = useState<Record<string, string>>(
+        initializeFormData(user)
+    );
+    const [debouncedFormData] = useDebounce(formData, 300);
 
     const currentStepData: OnboardingStep =
         steps.find((step: OnboardingStep) => step.id === currentStep) ??
@@ -186,14 +181,75 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
     const isFirstStep: boolean = currentStep === 1;
     const isLastStep: boolean = currentStep === steps.length;
 
+    const [asyncValidationErrors, setAsyncValidationErrors] = useState<
+        Record<string, string | undefined>
+    >({});
+    const [asyncValidationLoading, setAsyncValidationLoading] = useState<
+        Record<string, boolean>
+    >({});
+
+    const completeOnboardingMutation =
+        trpc.user.completeOnboarding.useMutation();
     const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
-    const completeOnboarding = trpc.user.completeOnboarding.useMutation();
+
+    // Run async validation when debounced form data changes
+    useEffect(() => {
+        const runAsyncValidation = async () => {
+            const newErrors: Record<string, string | undefined> = {};
+            const newLoading: Record<string, boolean> = {};
+
+            for (const field of currentStepData.fields) {
+                if (field.customValidation) {
+                    const value = debouncedFormData[field.name] || "";
+                    const syncError = getFieldValidationError(field);
+
+                    // Only run async validation if there's no sync error and there's a value
+                    if (syncError === undefined && value.trim()) {
+                        newLoading[field.name] = true;
+                        try {
+                            const result = await field.customValidation(value);
+                            newErrors[field.name] =
+                                typeof result === "string" ? result : undefined;
+                        } catch (error) {
+                            newErrors[field.name] =
+                                "Validation failed. Please try again.";
+                        } finally {
+                            newLoading[field.name] = false;
+                        }
+                    } else {
+                        // If there's a sync error, don't run async validation and clear any existing async errors
+                        newLoading[field.name] = false;
+                        newErrors[field.name] = undefined;
+                    }
+                }
+            }
+
+            setAsyncValidationErrors(newErrors);
+            setAsyncValidationLoading(newLoading);
+        };
+        runAsyncValidation();
+    }, [debouncedFormData, currentStepData.fields]);
 
     const handleInputChange = (fieldName: string, value: string) => {
         setFormData((prev: Record<string, string>) => ({
             ...prev,
             [fieldName]: value,
         }));
+
+        // Clear async validation error and set loading when user starts typing
+        setAsyncValidationErrors((prev) => ({
+            ...prev,
+            [fieldName]: undefined,
+        }));
+
+        // Set loading state for fields with custom validation
+        const field = currentStepData.fields.find((f) => f.name === fieldName);
+        if (field?.customValidation) {
+            setAsyncValidationLoading((prev) => ({
+                ...prev,
+                [fieldName]: true,
+            }));
+        }
     };
 
     const handlePrevious = () => {
@@ -230,7 +286,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
 
         try {
             // Try and complete onboarding with the form data
-            const response = await completeOnboarding.mutateAsync({
+            const response = await completeOnboardingMutation.mutateAsync({
                 orgName: formData.orgName,
                 orgSlug: formData.orgSlug,
                 serverName: formData.serverName,
@@ -249,42 +305,54 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
         }
     };
 
-    const getFieldValidationError = (
-        field: OnboardingField
-    ): string | undefined => {
-        const value = formData[field.name] || "";
+    const getFieldValidationError = useCallback(
+        (field: OnboardingField): string | undefined => {
+            const value = formData[field.name] || "";
 
-        // Check if field is required
-        if (field.required && (!value || value.trim() === "")) {
-            return "";
-        }
+            // Required field validation
+            if (field.required && !value.trim()) return "";
 
-        // Check regex validation if provided and field has a value
-        if (field.regex && value && value.trim() !== "") {
-            try {
-                if (!field.regex.test(value)) {
-                    return field.regexErrorMessage || "Invalid format";
+            // Regex validation
+            if (field.regex && value.trim()) {
+                try {
+                    return field.regex.test(value)
+                        ? undefined
+                        : field.regexErrorMessage || "Invalid format";
+                } catch {
+                    console.error(
+                        `Invalid regex pattern for field ${field.name}:`,
+                        field.regex
+                    );
+                    return "Invalid validation pattern";
                 }
-            } catch (error) {
-                console.error(
-                    `Invalid regex pattern for field ${field.name}:`,
-                    field.regex
-                );
-                return "Invalid validation pattern";
             }
-        }
-        return undefined;
-    };
 
-    const isCurrentStepValid = (): boolean => {
-        if (!currentStepData) {
-            return false;
-        }
-        return currentStepData.fields.every(
-            (field: OnboardingField) =>
-                getFieldValidationError(field) === undefined
-        );
-    };
+            return undefined;
+        },
+        [formData]
+    );
+
+    const isCurrentStepValid = useCallback((): boolean => {
+        if (!currentStepData) return false;
+
+        return currentStepData.fields.every((field: OnboardingField) => {
+            const syncError = getFieldValidationError(field);
+            const asyncError = asyncValidationErrors[field.name];
+            const isLoading = asyncValidationLoading[field.name];
+
+            // Form is invalid if there are sync errors, async errors, or if async validation is still loading
+            return (
+                syncError === undefined &&
+                asyncError === undefined &&
+                !isLoading
+            );
+        });
+    }, [
+        currentStepData,
+        getFieldValidationError,
+        asyncValidationErrors,
+        asyncValidationLoading,
+    ]);
 
     const renderField = (field: OnboardingField) => {
         const commonProps = {
@@ -392,33 +460,90 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
 
                 {/* Content */}
                 <CardContent className="my-5 space-y-4">
-                    {currentStepData.fields.map((field: OnboardingField) => {
-                        const validationError = getFieldValidationError(field);
-                        return (
-                            <div
-                                key={field.name}
-                                className="flex flex-col gap-2"
+                    {currentStepData.fields.map((field: OnboardingField) => (
+                        <div key={field.name} className="flex flex-col gap-2">
+                            <label
+                                htmlFor={field.name}
+                                className="text-sm font-medium"
                             >
-                                <label
-                                    htmlFor={field.name}
-                                    className="text-sm font-medium"
-                                >
-                                    <span>{field.label}</span>
-                                    {field.required && (
-                                        <span className="ml-1 text-destructive">
-                                            *
-                                        </span>
-                                    )}
-                                </label>
-                                {renderField(field)}
-                                {validationError && (
-                                    <p className="text-sm text-destructive">
-                                        {validationError}
-                                    </p>
+                                <span>{field.label}</span>
+                                {field.required && (
+                                    <span className="ml-1 text-destructive">
+                                        *
+                                    </span>
                                 )}
-                            </div>
-                        );
-                    })}
+                            </label>
+                            {renderField(field)}
+
+                            {/* Validation Messages */}
+                            <AnimatePresence>
+                                {(() => {
+                                    const validationError =
+                                        getFieldValidationError(field) ||
+                                        asyncValidationErrors[field.name];
+                                    const isLoading =
+                                        asyncValidationLoading[field.name];
+                                    const hasValue = (
+                                        formData[field.name] || ""
+                                    ).trim();
+
+                                    let textColor: string | undefined =
+                                        undefined;
+                                    let text: string | undefined = undefined;
+                                    if (
+                                        isLoading &&
+                                        field.validationMessages?.loading
+                                    ) {
+                                        textColor = "text-muted-foreground";
+                                        text =
+                                            field.validationMessages?.loading;
+                                    }
+                                    if (validationError) {
+                                        textColor = "text-destructive";
+                                        text =
+                                            validationError ||
+                                            field.validationMessages?.error;
+                                    }
+                                    if (
+                                        !validationError &&
+                                        !isLoading &&
+                                        hasValue &&
+                                        field.validationMessages?.success
+                                    ) {
+                                        textColor = "text-green-600";
+                                        text =
+                                            field.validationMessages?.success;
+                                    }
+
+                                    if (text) {
+                                        return (
+                                            <motion.p
+                                                className={cn(
+                                                    "text-sm",
+                                                    textColor
+                                                )}
+                                                initial={{
+                                                    opacity: 0,
+                                                    height: 0,
+                                                }}
+                                                animate={{
+                                                    opacity: 1,
+                                                    height: "auto",
+                                                }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                transition={{
+                                                    duration: 0.15,
+                                                    ease: "easeInOut" as const,
+                                                }}
+                                            >
+                                                {text}
+                                            </motion.p>
+                                        );
+                                    }
+                                })()}
+                            </AnimatePresence>
+                        </div>
+                    ))}
                 </CardContent>
 
                 <CardFooter className="flex justify-between">
@@ -472,6 +597,22 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
             </form>
         </Card>
     );
+};
+
+// Initialize form data with default values
+const initializeFormData = (user: User): Record<string, string> => {
+    const initialData: Record<string, string> = {};
+    steps.forEach((step) => {
+        step.fields.forEach((field) => {
+            if (field.defaultValue) {
+                initialData[field.name] = field.defaultValue.replace(
+                    "{user}",
+                    user.name
+                );
+            }
+        });
+    });
+    return initialData;
 };
 
 export default UserOnboardingSteps;

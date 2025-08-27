@@ -22,6 +22,20 @@
       "when": 1756192581857,
       "tag": "0002_shiny_vivisector",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1756334093844,
+      "tag": "0003_medical_patch",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1756334222468,
+      "tag": "0004_omniscient_quasimodo",
+      "breakpoints": true
     }
   ]
 }

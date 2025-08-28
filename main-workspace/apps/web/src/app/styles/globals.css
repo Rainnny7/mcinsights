@@ -72,14 +72,33 @@
 @layer base {
     * {
         @apply border-border outline-ring/50;
+
+        /* Scrollbar (Firefox) */
+        scrollbar-color: var(--accent) var(--background);
+        scrollbar-width: thin;
     }
+
     body {
         @apply bg-background text-foreground;
         letter-spacing: var(--tracking-normal);
     }
+
+    /* Scrollbar (Chrome & Safari) */
+    ::-webkit-scrollbar {
+        @apply w-1.5;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-inherit;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-accent rounded-3xl;
+    }
 }
 
-::view-transition-old(root), ::view-transition-new(root) {
+::view-transition-old(root),
+::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
 }

@@ -46,7 +46,6 @@ export const completeOnboarding = async (
     await db
         .update(userSchema)
         .set({
-            selectedOrganizationId: organization.id,
             onboarded: true,
         })
         .where(eq(userSchema.id, user.id));

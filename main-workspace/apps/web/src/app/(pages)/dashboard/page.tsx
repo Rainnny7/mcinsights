@@ -2,7 +2,7 @@
 
 import { HomeIcon } from "lucide-react";
 import type { ReactElement } from "react";
-import DashboardPageHeader from "../../../components/dashboard/dashboard-page-header";
+import DashboardPageHeader from "../../../components/dashboard/page-header";
 import { useDashboard } from "../../../provider/dashboard-provider";
 
 const DashboardPage = (): ReactElement => {

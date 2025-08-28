@@ -3,14 +3,17 @@
 import type { User } from "better-auth";
 import { SlashIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import AppLogo from "../../app-logo";
+import { Button } from "../../ui/button";
 import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
+import { useDashboard } from "../../../provider/dashboard-provider";
 
 type NavbarLink = {
     label: string;
@@ -18,18 +21,49 @@ type NavbarLink = {
     href: string;
 };
 
-const links: NavbarLink[] = [];
+const links: NavbarLink[] = [
+    {
+        label: "Overview",
+        tooltip: "Get an overview of your account",
+        href: "/dashboard",
+    },
+    {
+        label: "Account",
+        tooltip: "Manage your account",
+        href: "/dashboard/account",
+    },
+];
+
+const organizationLinks: NavbarLink[] = [
+    {
+        label: "Overview",
+        tooltip: "Get an overview of your organization",
+        href: "/dashboard/<org>",
+    },
+    {
+        label: "Members",
+        tooltip: "Manage members of your organization",
+        href: "/dashboard/<org>/members",
+    },
+    {
+        label: "Settings",
+        tooltip: "Manage settings for your organization",
+        href: "/dashboard/<org>/settings",
+    },
+];
 
 const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
+    const path: string = usePathname();
+    const { activeOrganization } = useDashboard();
     const { scrolled } = useScrolled(20);
     return (
         <nav
             className={cn(
-                "fixed inset-x-0 top-0 px-5 py-4 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
+                "fixed inset-x-0 top-0 px-5 py-3.5 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
                 scrolled && "py-2.5 h-12.5"
             )}
         >
-            <div className="relative mx-auto max-w-screen-3xl">
+            <div className="relative mx-auto max-w-screen-3xl flex flex-col gap-2.5">
                 {/* Logo */}
                 <Link
                     className={cn(
@@ -67,11 +101,39 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Bottom Links */}
                 <div
                     className={cn(
-                        "mt-2.5 transition-all duration-300 ease-in-out transform-gpu",
-                        scrolled && "-translate-y-10.5 translate-x-13"
+                        "translate-y-1.5 flex items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
+                        scrolled && "-translate-y-11 translate-x-13"
                     )}
                 >
-                    sdfds
+                    {(activeOrganization ? organizationLinks : links).map((link: NavbarLink) => {
+                        const active: boolean = path.startsWith(link.href);
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                draggable={false}
+                            >
+                                <Button
+                                    className={cn(
+                                        "relative text-muted-foreground",
+                                        active && "text-white"
+                                    )}
+                                    variant="ghost"
+                                    size="sm"
+                                >
+                                    <span>{link.label}</span>
+
+                                    {/* Underline */}
+                                    <div
+                                        className={cn(
+                                            "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
+                                            active && "opacity-100"
+                                        )}
+                                    />
+                                </Button>
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
         </nav>

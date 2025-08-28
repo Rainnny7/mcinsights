@@ -27,7 +27,7 @@ const DashboardLayout = async ({
                     "linear-gradient(to top, var(--dashboard-alternative-background), var(--background))",
             }}
         >
-            <DashboardProvider initialUser={user}>
+            <DashboardProvider user={user}>
                 <DashboardNavbar user={user} />
                 <div className="mx-auto max-w-screen-xl px-5 pt-36">
                     {children}

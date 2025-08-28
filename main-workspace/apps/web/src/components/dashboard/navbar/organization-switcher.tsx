@@ -31,7 +31,7 @@ const OrganizationSwitcher = (): ReactElement => {
                     {activeOrganization ? (
                         <OrganizationAvatar
                             organization={activeOrganization}
-                            className="size-4"
+                            className="size-5.5"
                         />
                     ) : (
                         <BuildingIcon className="size-4.5 text-muted-foreground" />

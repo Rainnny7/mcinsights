@@ -1,11 +1,11 @@
 "use client";
 
-import type { User } from "better-auth";
 import type { Organization } from "better-auth/plugins/organization";
 import { AnimatePresence } from "motion/react";
 import { createContext, useContext, useState, type ReactNode } from "react";
-import DashboardLoadingOverlay from "../components/dashboard/dashboard-loading-overlay";
+import DashboardLoadingOverlay from "../components/dashboard/loading-overlay";
 import { authClient } from "../lib/auth-client";
+import type { User } from "../types/auth";
 
 type DashboardContextType = {
     /**
@@ -39,12 +39,12 @@ const DashboardContext = createContext<DashboardContextType | undefined>(
 );
 
 type DashboardProviderProps = {
-    initialUser: User;
+    user: User;
     children: ReactNode;
 };
 
 export const DashboardProvider = ({
-    initialUser,
+    user,
     children,
 }: DashboardProviderProps) => {
     const [activeOrganization, setActiveOrganization] = useState<
@@ -62,7 +62,7 @@ export const DashboardProvider = ({
         <DashboardContext.Provider
             value={{
                 loading: isLoading,
-                user: initialUser,
+                user,
                 organizations: organizations ?? [],
                 activeOrganization,
                 updateActiveOrganization: (organization: Organization) => {

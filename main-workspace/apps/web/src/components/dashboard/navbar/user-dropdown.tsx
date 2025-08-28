@@ -1,7 +1,12 @@
 "use client";
 
 import type { User } from "better-auth";
-import { HomeIcon, LogOutIcon } from "lucide-react";
+import {
+    BuildingIcon,
+    LogOutIcon,
+    UserIcon,
+    type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { logoutUser } from "../../../lib/user";
@@ -17,6 +22,17 @@ import {
 } from "../../ui/dropdown-menu";
 import ShimmerButton from "../../ui/shimmer";
 import UserAvatar from "../user-avatar";
+
+type DropdownItem = {
+    icon: LucideIcon;
+    label: string;
+    href: string;
+};
+
+const items: DropdownItem[] = [
+    { icon: UserIcon, label: "Account Settings", href: "/dashboard/account" },
+    { icon: BuildingIcon, label: "My Organizations", href: "/dashboard" },
+];
 
 const UserDropdown = ({ user }: { user: User }): ReactElement => (
     <DropdownMenu>
@@ -60,13 +76,14 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
 
             {/* Items */}
             <DropdownMenuGroup>
-                {/* View Organizations */}
-                <Link href="/dashboard" draggable={false}>
-                    <DropdownMenuItem>
-                        <HomeIcon className="size-4" />
-                        <span>Dashboard</span>
-                    </DropdownMenuItem>
-                </Link>
+                {items.map((item: DropdownItem) => (
+                    <Link key={item.label} href={item.href} draggable={false}>
+                        <DropdownMenuItem>
+                            <item.icon className="size-4" />
+                            <span>{item.label}</span>
+                        </DropdownMenuItem>
+                    </Link>
+                ))}
             </DropdownMenuGroup>
 
             {/* Logout */}

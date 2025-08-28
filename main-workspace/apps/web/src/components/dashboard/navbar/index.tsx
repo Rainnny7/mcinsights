@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
 import { useEffect, useRef, useState } from "react";
+import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
@@ -63,6 +64,7 @@ const organizationLinks: NavbarLink[] = [
 
 const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const path: string = usePathname();
+    const isMobile: boolean = useIsScreenSize(ScreenSize.ExtraSmall);
     const { activeOrganization } = useDashboard();
     const { scrolled } = useScrolled(20);
 
@@ -117,7 +119,8 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Logo */}
                 <Link
                     className={cn(
-                        "absolute left-0 -top-0.5 hover:opacity-75 transition-opacity duration-300 transform-gpu",
+                        "hidden absolute left-0 -top-0.5 hover:opacity-75 transition-opacity duration-300 transform-gpu",
+                        !isMobile && "block",
                         scrolled && "-top-1"
                     )}
                     href="/dashboard"
@@ -128,15 +131,22 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                 {/* Top */}
                 <div
-                    className={`ml-12 flex justify-between gap-3.5 items-center transition-all duration-300 ease-in-out transform-gpu ${
+                    className={cn(
+                        "flex justify-between gap-3.5 items-center transition-all duration-300 ease-in-out transform-gpu",
+                        !isMobile && "ml-12",
                         scrolled
                             ? "opacity-0 -translate-y-2 pointer-events-none"
                             : "opacity-100 translate-y-0"
-                    }`}
+                    )}
                 >
                     {/* Left */}
                     <div className="flex gap-2.5 items-center">
-                        <SlashIcon className="size-4 text-muted-foreground/35" />
+                        <SlashIcon
+                            className={cn(
+                                "hidden size-4 text-muted-foreground/35",
+                                !isMobile && "block"
+                            )}
+                        />
                         <OrganizationSwitcher />
                     </div>
 
@@ -154,7 +164,8 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 <div
                     className={cn(
                         "relative translate-y-1.5 text-sm transition-all duration-300 ease-in-out transform-gpu",
-                        scrolled && "-translate-y-11 translate-x-13"
+                        scrolled && "-translate-y-11",
+                        scrolled && !isMobile && "translate-x-13"
                     )}
                 >
                     {allLinks.map((link: NavbarLink, index: number) => {

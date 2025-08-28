@@ -10,7 +10,7 @@ const DashboardPage = (): ReactElement => {
     const { user } = useDashboard();
     return (
         <DashboardPageHeader
-            icon={HomeIcon}
+            icon={<HomeIcon />}
             title="Dashboard"
             description={`Welcome, ${user.name}! Select an organization to get started.`}
         >

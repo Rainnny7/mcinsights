@@ -13,7 +13,9 @@ const OrganizationAvatar = ({
 }: OrganizationAvatarProps) => (
     <Avatar className={cn(className)}>
         <AvatarImage src={organization.logo!} />
-        <AvatarFallback>{organization.name?.charAt(0)}</AvatarFallback>
+        <AvatarFallback className="text-base font-normal">
+            {organization.name?.charAt(0)}
+        </AvatarFallback>
     </Avatar>
 );
 export default OrganizationAvatar;

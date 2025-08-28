@@ -106,7 +106,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Bottom Links */}
                 <div
                     className={cn(
-                        "translate-y-1.5 flex items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
+                        "translate-y-1.5 text-sm transition-all duration-300 ease-in-out transform-gpu",
                         scrolled && "-translate-y-11 translate-x-13"
                     )}
                 >

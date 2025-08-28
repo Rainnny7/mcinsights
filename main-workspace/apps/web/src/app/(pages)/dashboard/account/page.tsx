@@ -4,7 +4,7 @@ import DashboardPageHeader from "../../../../components/dashboard/page-header";
 
 const AccountPage = (): ReactElement => (
     <DashboardPageHeader
-        icon={UserIcon}
+        icon={<UserIcon />}
         title="My Account"
         description="Manage your account settings"
     >

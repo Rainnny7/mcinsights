@@ -5,6 +5,7 @@ import { SlashIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
@@ -44,6 +45,11 @@ const organizationLinks: NavbarLink[] = [
         href: "/dashboard/<org>/players",
     },
     {
+        label: "Revenue",
+        tooltip: "View revenue for your organization",
+        href: "/dashboard/<org>/revenue",
+    },
+    {
         label: "Members",
         tooltip: "Manage members of your organization",
         href: "/dashboard/<org>/members",
@@ -59,6 +65,47 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const path: string = usePathname();
     const { activeOrganization } = useDashboard();
     const { scrolled } = useScrolled(20);
+
+    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
+
+    // Get all navigation links
+    const allLinks: NavbarLink[] = [
+        {
+            label: "Home",
+            tooltip: "Go to the dashboard",
+            href: "/dashboard",
+        },
+        ...(activeOrganization ? organizationLinks : links),
+    ];
+
+    // Find the active link index
+    const activeIndex: number = allLinks.findIndex(
+        (link: NavbarLink) =>
+            path === link.href.replace("<org>", activeOrganization?.slug || "")
+    );
+
+    // Update underline position when active tab changes
+    useEffect(() => {
+        if (activeIndex >= 0 && tabRefs.current[activeIndex]) {
+            const activeTab: HTMLButtonElement | null =
+                tabRefs.current[activeIndex];
+            const container: HTMLElement | null | undefined =
+                activeTab?.parentElement?.parentElement;
+
+            if (activeTab && container) {
+                const tabRect: DOMRect = activeTab.getBoundingClientRect();
+                const containerRect: DOMRect =
+                    container.getBoundingClientRect();
+
+                setUnderlineStyle({
+                    width: tabRect.width,
+                    left: tabRect.left - containerRect.left,
+                });
+            }
+        }
+    }, [activeIndex, path, activeOrganization]);
+
     return (
         <nav
             className={cn(
@@ -106,18 +153,11 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Bottom Links */}
                 <div
                     className={cn(
-                        "translate-y-1.5 text-sm transition-all duration-300 ease-in-out transform-gpu",
+                        "relative translate-y-1.5 text-sm transition-all duration-300 ease-in-out transform-gpu",
                         scrolled && "-translate-y-11 translate-x-13"
                     )}
                 >
-                    {[
-                        {
-                            label: "Home",
-                            tooltip: "Go to the dashboard",
-                            href: "/dashboard",
-                        },
-                        ...(activeOrganization ? organizationLinks : links),
-                    ].map((link: NavbarLink) => {
+                    {allLinks.map((link: NavbarLink, index: number) => {
                         const href: string = link.href.replace(
                             "<org>",
                             activeOrganization?.slug || ""
@@ -131,6 +171,9 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                             >
                                 <Link href={href} draggable={false}>
                                     <Button
+                                        ref={(el) => {
+                                            tabRefs.current[index] = el;
+                                        }}
                                         className={cn(
                                             "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
                                             active && "text-primary-foreground"
@@ -139,19 +182,20 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                                         size="sm"
                                     >
                                         <span>{link.label}</span>
-
-                                        {/* Underline */}
-                                        <div
-                                            className={cn(
-                                                "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
-                                                active && "opacity-100"
-                                            )}
-                                        />
                                     </Button>
                                 </Link>
                             </SimpleTooltip>
                         );
                     })}
+
+                    {/* Active tab underline */}
+                    <div
+                        className="absolute -bottom-2 h-0.5 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu"
+                        style={{
+                            width: `${underlineStyle.width}px`,
+                            left: `${underlineStyle.left}px`,
+                        }}
+                    />
                 </div>
             </div>
         </nav>

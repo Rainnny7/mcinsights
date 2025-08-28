@@ -3,12 +3,14 @@
 import {
     BookOpenIcon,
     ExternalLinkIcon,
+    FileDownIcon,
     FolderIcon,
     type LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
+import { appConfig } from "../../../app/config";
 import SimpleTooltip from "../../simple-tooltip";
 import { Button } from "../../ui/button";
 import {
@@ -30,6 +32,11 @@ const links: HelpLink[] = [
         icon: "/media/logo/discord.png",
         label: "Join our Discord",
         href: "https://discord.rainnny.club",
+    },
+    {
+        icon: FileDownIcon,
+        label: "Plugin Download",
+        href: `https://github.com/${appConfig.githubUrl}/releases`,
     },
     {
         icon: FolderIcon,

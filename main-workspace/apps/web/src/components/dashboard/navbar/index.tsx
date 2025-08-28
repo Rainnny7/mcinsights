@@ -12,19 +12,30 @@ import HelpDropdown from "./help-dropdown";
 import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
 
+type NavbarLink = {
+    label: string;
+    tooltip: string;
+    href: string;
+};
+
+const links: NavbarLink[] = [];
+
 const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const { scrolled } = useScrolled(20);
     return (
         <nav
             className={cn(
                 "fixed inset-x-0 top-0 px-5 py-4 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
-                scrolled && "h-13"
+                scrolled && "py-2.5 h-12.5"
             )}
         >
             <div className="relative mx-auto max-w-screen-3xl">
                 {/* Logo */}
                 <Link
-                    className="absolute left-0 -top-1 hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                    className={cn(
+                        "absolute left-0 -top-0.5 hover:opacity-75 transition-opacity duration-300 transform-gpu",
+                        scrolled && "-top-1"
+                    )}
                     href="/dashboard"
                     draggable={false}
                 >
@@ -57,7 +68,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 <div
                     className={cn(
                         "mt-2.5 transition-all duration-300 ease-in-out transform-gpu",
-                        scrolled && "-translate-y-9 translate-x-12"
+                        scrolled && "-translate-y-10.5 translate-x-13"
                     )}
                 >
                     sdfds

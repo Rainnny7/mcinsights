@@ -6,5 +6,6 @@ export type SessionResponse = {
 };
 
 export type User = BetterAuthUser & {
+    selectedOrganizationId: string | null;
     onboarded: boolean;
 };

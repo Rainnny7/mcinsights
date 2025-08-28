@@ -13,7 +13,13 @@ const DashboardPage = (): ReactElement => {
             title="Dashboard"
             description={`Welcome, ${user.name}! Select an organization to get started.`}
         >
-            dash
+            <span>dash</span>
+            <div className="h-96" />
+            <div className="h-96" />
+            <div className="h-96" />
+            <div className="h-96" />
+            <div className="h-96" />
+            <div className="h-96" />
         </DashboardPageHeader>
     );
 };

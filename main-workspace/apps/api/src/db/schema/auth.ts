@@ -8,6 +8,8 @@ export const user = pgTable("user", {
         .$defaultFn(() => false)
         .notNull(),
     image: text("image"),
+    selectedOrganizationId: text("selected_organization_id")
+        .references(() => organization.id, { onDelete: "set null" }),
     onboarded: boolean("onboarded")
         .$defaultFn(() => false)
         .notNull(),

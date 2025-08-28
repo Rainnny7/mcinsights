@@ -26,11 +26,6 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
-        label: "Home",
-        tooltip: "Go to the dashboard",
-        href: "/dashboard",
-    },
-    {
         label: "Account",
         tooltip: "Manage your account",
         href: "/dashboard/account",
@@ -39,14 +34,14 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
-        label: "Home",
-        tooltip: "Go to the dashboard",
-        href: "/dashboard",
-    },
-    {
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
+    },
+    {
+        label: "Players",
+        tooltip: "View players that have played on your server",
+        href: "/dashboard/<org>/players",
     },
     {
         label: "Members",
@@ -115,40 +110,48 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                         scrolled && "-translate-y-11 translate-x-13"
                     )}
                 >
-                    {(activeOrganization ? organizationLinks : links).map(
-                        (link: NavbarLink) => {
-                            const active: boolean = path === link.href;
-                            return (
-                                <SimpleTooltip
-                                    key={link.label}
-                                    content={active ? undefined : link.tooltip}
-                                    side="bottom"
-                                >
-                                    <Link href={link.href} draggable={false}>
-                                        <Button
-                                            className={cn(
-                                                "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
-                                                active &&
-                                                    "text-primary-foreground"
-                                            )}
-                                            variant="ghost"
-                                            size="sm"
-                                        >
-                                            <span>{link.label}</span>
+                    {[
+                        {
+                            label: "Home",
+                            tooltip: "Go to the dashboard",
+                            href: "/dashboard",
+                        },
+                        ...(activeOrganization ? organizationLinks : links),
+                    ].map((link: NavbarLink) => {
+                        const href: string = link.href.replace(
+                            "<org>",
+                            activeOrganization?.slug || ""
+                        );
+                        const active: boolean = path === href;
+                        return (
+                            <SimpleTooltip
+                                key={link.label}
+                                content={active ? undefined : link.tooltip}
+                                side="bottom"
+                            >
+                                <Link href={href} draggable={false}>
+                                    <Button
+                                        className={cn(
+                                            "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
+                                            active && "text-primary-foreground"
+                                        )}
+                                        variant="ghost"
+                                        size="sm"
+                                    >
+                                        <span>{link.label}</span>
 
-                                            {/* Underline */}
-                                            <div
-                                                className={cn(
-                                                    "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
-                                                    active && "opacity-100"
-                                                )}
-                                            />
-                                        </Button>
-                                    </Link>
-                                </SimpleTooltip>
-                            );
-                        }
-                    )}
+                                        {/* Underline */}
+                                        <div
+                                            className={cn(
+                                                "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
+                                                active && "opacity-100"
+                                            )}
+                                        />
+                                    </Button>
+                                </Link>
+                            </SimpleTooltip>
+                        );
+                    })}
                 </div>
             </div>
         </nav>

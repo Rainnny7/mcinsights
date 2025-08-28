@@ -17,6 +17,7 @@ import {
     ChevronsUpDownIcon,
     Plus,
 } from "lucide-react";
+import Link from "next/link";
 import type { ReactElement } from "react";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import OrganizationAvatar from "../organization-avatar";
@@ -60,25 +61,28 @@ const OrganizationSwitcher = (): ReactElement => {
 
                 {/* Organizations */}
                 {organizations.map((organization: Organization) => (
-                    <DropdownMenuItem
+                    <Link
                         key={organization.id}
-                        className="group gap-2 p-2"
+                        href={`/dashboard/${organization.slug}`}
+                        draggable={false}
                     >
-                        <OrganizationAvatar
-                            organization={organization}
-                            className="size-6"
-                        />
-                        {organization.name}
+                        <DropdownMenuItem className="group gap-2 p-2">
+                            <OrganizationAvatar
+                                organization={organization}
+                                className="size-6"
+                            />
+                            {organization.name}
 
-                        {/* Indicator */}
-                        <span className="ml-auto">
-                            {activeOrganization?.id === organization.id ? (
-                                <CheckIcon className="size-4 text-primary" />
-                            ) : (
-                                <ChevronRightIcon className="opacity-0 size-4 text-muted-foreground group-hover:opacity-100 transition-opacity duration-300 transform-gpu" />
-                            )}
-                        </span>
-                    </DropdownMenuItem>
+                            {/* Indicator */}
+                            <span className="ml-auto">
+                                {activeOrganization?.id === organization.id ? (
+                                    <CheckIcon className="size-4 text-primary" />
+                                ) : (
+                                    <ChevronRightIcon className="opacity-0 size-4 text-muted-foreground group-hover:opacity-100 transition-opacity duration-300 transform-gpu" />
+                                )}
+                            </span>
+                        </DropdownMenuItem>
+                    </Link>
                 ))}
 
                 {/* Create Organization */}

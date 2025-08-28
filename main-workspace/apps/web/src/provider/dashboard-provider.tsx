@@ -2,7 +2,8 @@
 
 import type { Organization } from "better-auth/plugins/organization";
 import { AnimatePresence } from "motion/react";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import DashboardLoadingOverlay from "../components/dashboard/loading-overlay";
 import { authClient } from "../lib/auth-client";
 import type { User } from "../types/auth";
@@ -31,7 +32,7 @@ type DashboardContextType = {
     /**
      * Updates the currently active organization.
      */
-    updateActiveOrganization: (organization: Organization) => void;
+    updateActiveOrganization: (organization: Organization | undefined) => void;
 };
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -47,6 +48,7 @@ export const DashboardProvider = ({
     user,
     children,
 }: DashboardProviderProps) => {
+    const path: string = usePathname();
     const [activeOrganization, setActiveOrganization] = useState<
         Organization | undefined
     >(undefined);
@@ -58,6 +60,16 @@ export const DashboardProvider = ({
     // Whether the dashboard is loading
     const isLoading: boolean = isLoadingOrganizations;
 
+    // Set the active organization based on the path
+    useEffect(() => {
+        const currentPathSlug: string = path.split("/").pop() ?? "";
+        const organization: Organization | undefined = organizations?.find(
+            (organization: Organization) =>
+                organization.slug === currentPathSlug
+        );
+        setActiveOrganization(organization);
+    }, [path, organizations]);
+
     return (
         <DashboardContext.Provider
             value={{
@@ -65,7 +77,9 @@ export const DashboardProvider = ({
                 user,
                 organizations: organizations ?? [],
                 activeOrganization,
-                updateActiveOrganization: (organization: Organization) => {
+                updateActiveOrganization: (
+                    organization: Organization | undefined
+                ) => {
                     setActiveOrganization(organization);
                 },
             }}

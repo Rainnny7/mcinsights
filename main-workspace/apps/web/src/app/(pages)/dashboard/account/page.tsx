@@ -8,7 +8,9 @@ const AccountPage = (): ReactElement => (
         title="My Account"
         description="Manage your account settings"
     >
-        <span>My account settings...</span>
+        <span className="text-destructive">
+            Account settings coming soon...
+        </span>
     </DashboardPageHeader>
 );
 export default AccountPage;

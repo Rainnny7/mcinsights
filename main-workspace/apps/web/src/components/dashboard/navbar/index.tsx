@@ -9,8 +9,10 @@ import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import AppLogo from "../../app-logo";
+import SimpleTooltip from "../../simple-tooltip";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
 import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator";
 import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import OrganizationSwitcher from "./organization-switcher";
@@ -101,7 +103,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                         <GitHubButton />
                         <HelpDropdown />
                         <AnimatedThemeToggler />
-                        {/* separator? */}
+                        <Separator orientation="vertical" className="!h-6.5" />
                         <UserDropdown user={user} />
                     </div>
                 </div>
@@ -117,30 +119,33 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                         (link: NavbarLink) => {
                             const active: boolean = path === link.href;
                             return (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    draggable={false}
+                                <SimpleTooltip
+                                    key={link.label}
+                                    content={active ? undefined : link.tooltip}
+                                    side="bottom"
                                 >
-                                    <Button
-                                        className={cn(
-                                            "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
-                                            active && "text-primary-foreground"
-                                        )}
-                                        variant="ghost"
-                                        size="sm"
-                                    >
-                                        <span>{link.label}</span>
-
-                                        {/* Underline */}
-                                        <div
+                                    <Link href={link.href} draggable={false}>
+                                        <Button
                                             className={cn(
-                                                "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
-                                                active && "opacity-100"
+                                                "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
+                                                active &&
+                                                    "text-primary-foreground"
                                             )}
-                                        />
-                                    </Button>
-                                </Link>
+                                            variant="ghost"
+                                            size="sm"
+                                        >
+                                            <span>{link.label}</span>
+
+                                            {/* Underline */}
+                                            <div
+                                                className={cn(
+                                                    "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
+                                                    active && "opacity-100"
+                                                )}
+                                            />
+                                        </Button>
+                                    </Link>
+                                </SimpleTooltip>
                             );
                         }
                     )}

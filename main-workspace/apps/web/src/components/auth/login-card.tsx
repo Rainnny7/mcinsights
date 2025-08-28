@@ -54,7 +54,7 @@ const DiscordOAuthButton = () => {
     return (
         <SimpleTooltip content="Login with Discord" side="bottom">
             <Button
-                className="w-full flex items-center !bg-[#5865F2] font-medium hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                className="w-full flex items-center !bg-[#5865F2] text-white font-medium hover:opacity-75 transition-opacity duration-300 transform-gpu"
                 onClick={handleLogin}
             >
                 <div className="size-4 flex justify-center items-center">

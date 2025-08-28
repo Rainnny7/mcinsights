@@ -11,7 +11,7 @@ const Background = (): ReactElement => (
         transition={{ duration: 0.4, ease: "easeInOut" }}
         style={{
             background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 170, 0, 0.25), transparent 70%), #000000",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 170, 0, 0.25), transparent 70%), var(--background)",
         }}
     />
 );

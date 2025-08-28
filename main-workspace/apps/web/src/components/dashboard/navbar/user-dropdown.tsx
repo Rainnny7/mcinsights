@@ -63,7 +63,7 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
                     </ShimmerButton>
 
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate text-white font-medium">
+                        <span className="truncate text-accent-foreground font-medium">
                             {user.name}
                         </span>
                         <span className="truncate text-xs blur-[2.5px] hover:blur-none transition-all duration-300 transform-gpu">

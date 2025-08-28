@@ -7,13 +7,14 @@ import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
+import { useDashboard } from "../../../provider/dashboard-provider";
 import AppLogo from "../../app-logo";
+import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
 import { Button } from "../../ui/button";
 import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
-import { useDashboard } from "../../../provider/dashboard-provider";
 
 type NavbarLink = {
     label: string;
@@ -94,6 +95,8 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     <div className="flex gap-2.5 items-center">
                         <GitHubButton />
                         <HelpDropdown />
+                        <AnimatedThemeToggler />
+                        {/* separator? */}
                         <UserDropdown user={user} />
                     </div>
                 </div>
@@ -105,35 +108,37 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                         scrolled && "-translate-y-11 translate-x-13"
                     )}
                 >
-                    {(activeOrganization ? organizationLinks : links).map((link: NavbarLink) => {
-                        const active: boolean = path.startsWith(link.href);
-                        return (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                draggable={false}
-                            >
-                                <Button
-                                    className={cn(
-                                        "relative text-muted-foreground",
-                                        active && "text-white"
-                                    )}
-                                    variant="ghost"
-                                    size="sm"
+                    {(activeOrganization ? organizationLinks : links).map(
+                        (link: NavbarLink) => {
+                            const active: boolean = path === link.href;
+                            return (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    draggable={false}
                                 >
-                                    <span>{link.label}</span>
-
-                                    {/* Underline */}
-                                    <div
+                                    <Button
                                         className={cn(
-                                            "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
-                                            active && "opacity-100"
+                                            "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
+                                            active && "text-primary-foreground"
                                         )}
-                                    />
-                                </Button>
-                            </Link>
-                        );
-                    })}
+                                        variant="ghost"
+                                        size="sm"
+                                    >
+                                        <span>{link.label}</span>
+
+                                        {/* Underline */}
+                                        <div
+                                            className={cn(
+                                                "absolute -bottom-2 inset-x-0 h-0.5 opacity-0 bg-primary rounded-full transition-all duration-300 ease-in-out transform-gpu",
+                                                active && "opacity-100"
+                                            )}
+                                        />
+                                    </Button>
+                                </Link>
+                            );
+                        }
+                    )}
                 </div>
             </div>
         </nav>

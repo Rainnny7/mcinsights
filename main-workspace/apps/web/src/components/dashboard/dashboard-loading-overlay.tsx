@@ -13,11 +13,12 @@ const loadingMessages = [
 ];
 
 const DashboardLoadingOverlay = (): ReactElement => {
-    const [currentMessageIndex, setCurrentMessageIndex] = useState<number>(
-        Math.floor(Math.random() * loadingMessages.length)
-    );
+    const [currentMessageIndex, setCurrentMessageIndex] = useState<number>(0);
 
     useEffect(() => {
+        setCurrentMessageIndex(
+            Math.floor(Math.random() * loadingMessages.length)
+        );
         const interval = setInterval(() => {
             setCurrentMessageIndex(
                 (prevIndex) => (prevIndex + 1) % loadingMessages.length

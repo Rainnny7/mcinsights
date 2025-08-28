@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -5,49 +7,88 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Plus, User, Users } from "lucide-react";
+import type { Organization } from "better-auth/plugins";
+import {
+    BuildingIcon,
+    CheckIcon,
+    ChevronRightIcon,
+    ChevronsUpDownIcon,
+    Plus,
+} from "lucide-react";
 import type { ReactElement } from "react";
+import { useDashboard } from "../../../provider/dashboard-provider";
+import OrganizationAvatar from "../organization-avatar";
 
 const OrganizationSwitcher = (): ReactElement => {
+    const { activeOrganization, organizations } = useDashboard();
     return (
         <DropdownMenu>
+            {/* Trigger */}
             <DropdownMenuTrigger asChild>
-                <Button className="w-fit px-1.5">
-                    <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-5 items-center justify-center rounded-md">
-                        <User className="size-3" />
-                    </div>
-                    <span className="truncate font-medium">Trigger</span>
-                    <ChevronDown className="opacity-50" />
+                <Button className="w-fit h-7 !px-1.5" variant="ghost">
+                    {activeOrganization ? (
+                        <OrganizationAvatar
+                            organization={activeOrganization}
+                            className="size-4"
+                        />
+                    ) : (
+                        <BuildingIcon className="size-4.5 text-muted-foreground" />
+                    )}
+
+                    <span className="truncate font-medium">
+                        {activeOrganization
+                            ? activeOrganization.name
+                            : "Select organization"}
+                    </span>
+                    <ChevronsUpDownIcon className="size-4 opacity-50" />
                 </Button>
             </DropdownMenuTrigger>
+
+            {/* Organizations */}
             <DropdownMenuContent
                 className="w-64 rounded-lg"
                 align="start"
                 side="bottom"
-                sideOffset={4}
+                sideOffset={8}
             >
-                <DropdownMenuLabel className="text-muted-foreground text-xs">
-                    Teams
+                <DropdownMenuLabel className="mb-1 flex gap-1.5 items-center text-muted-foreground text-xs">
+                    <BuildingIcon className="size-4" />
+                    <span>Organizations</span>
                 </DropdownMenuLabel>
 
-                <DropdownMenuItem className="gap-2 p-2">
-                    <div className="flex size-6 items-center justify-center rounded-xs border">
-                        <Users className="size-4 shrink-0" />
-                    </div>
-                    Dropdown Team
-                    <DropdownMenuShortcut>⌘0</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                {/* Organizations */}
+                {organizations.map((organization: Organization) => (
+                    <DropdownMenuItem
+                        key={organization.id}
+                        className="group gap-2 p-2"
+                    >
+                        <OrganizationAvatar
+                            organization={organization}
+                            className="size-6"
+                        />
+                        {organization.name}
 
+                        {/* Indicator */}
+                        <span className="ml-auto">
+                            {activeOrganization?.id === organization.id ? (
+                                <CheckIcon className="size-4 text-primary" />
+                            ) : (
+                                <ChevronRightIcon className="opacity-0 size-4 text-muted-foreground group-hover:opacity-100 transition-opacity duration-300 transform-gpu" />
+                            )}
+                        </span>
+                    </DropdownMenuItem>
+                ))}
+
+                {/* Create Organization */}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="gap-2 p-2">
-                    <div className="bg-background flex size-6 items-center justify-center rounded-md border">
+                    <div className="flex size-6 items-center justify-center bg-muted-foreground/25 backdrop-blur-sm rounded-full border border-dotted border-muted-foreground/50">
                         <Plus className="size-4" />
                     </div>
                     <div className="text-muted-foreground font-medium">
-                        Add team
+                        New Organization
                     </div>
                 </DropdownMenuItem>
             </DropdownMenuContent>

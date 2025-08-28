@@ -20,10 +20,18 @@ const DashboardLayout = async ({
         redirect("/onboarding");
     }
     return (
-        <main className="mx-auto max-w-screen-2xl">
+        <main
+            className="min-h-screen"
+            style={{
+                background:
+                    "linear-gradient(to top, var(--dashboard-alternative-background), var(--background))",
+            }}
+        >
             <DashboardProvider initialUser={user}>
                 <DashboardNavbar user={user} />
-                <div className="pt-32">{children}</div>
+                <div className="mx-auto max-w-screen-xl px-5 pt-36">
+                    {children}
+                </div>
             </DashboardProvider>
         </main>
     );

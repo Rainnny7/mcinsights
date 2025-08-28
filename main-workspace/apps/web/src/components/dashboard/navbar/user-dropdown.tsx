@@ -1,10 +1,9 @@
 "use client";
 
 import type { User } from "better-auth";
-import { GithubIcon, LogOutIcon } from "lucide-react";
+import { HomeIcon, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactElement } from "react";
-import { appConfig } from "../../../app/config";
 import { logoutUser } from "../../../lib/user";
 import { Button } from "../../ui/button";
 import {
@@ -16,18 +15,23 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
+import ShimmerButton from "../../ui/shimmer";
 import UserAvatar from "../user-avatar";
 
 const UserDropdown = ({ user }: { user: User }): ReactElement => (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button
-                className="size-fit rounded-full"
-                variant="ghost"
-                size="icon"
-            >
-                <UserAvatar user={user} className="size-7" />
-            </Button>
+            <div>
+                <ShimmerButton className="size-fit rounded-full">
+                    <Button
+                        className="size-fit rounded-full"
+                        variant="ghost"
+                        size="icon"
+                    >
+                        <UserAvatar user={user} className="size-8" />
+                    </Button>
+                </ShimmerButton>
+            </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
             className="w-52 rounded-lg"
@@ -38,7 +42,10 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
             {/* User Info */}
             <DropdownMenuLabel className="mb-2 p-0">
                 <div className="px-1 py-1.5 flex gap-2.5 items-center text-left text-sm">
-                    <UserAvatar user={user} />
+                    <ShimmerButton className="size-fit rounded-full">
+                        <UserAvatar user={user} />
+                    </ShimmerButton>
+
                     <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate text-white font-medium">
                             {user.name}
@@ -53,15 +60,11 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
 
             {/* Items */}
             <DropdownMenuGroup>
-                {/* GitHub */}
-                <Link
-                    href={`https://github.com/${appConfig.githubUrl}`}
-                    target="_blank"
-                    draggable={false}
-                >
+                {/* View Organizations */}
+                <Link href="/dashboard" draggable={false}>
                     <DropdownMenuItem>
-                        <GithubIcon className="size-4" />
-                        <span>View on GitHub</span>
+                        <HomeIcon className="size-4" />
+                        <span>Dashboard</span>
                     </DropdownMenuItem>
                 </Link>
             </DropdownMenuGroup>

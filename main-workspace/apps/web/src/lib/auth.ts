@@ -1,7 +1,7 @@
 "use server";
 
 import { authClient } from "@/lib/auth-client";
-import type { SessionResponse } from "@/types/auth";
+import type { SessionResponse, User } from "@/types/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -33,6 +33,6 @@ export const getSession = async (): Promise<SessionResponse | undefined> => {
     // Return the session and user
     return {
         session: data.session,
-        user: data.user,
+        user: data.user as User,
     };
 };

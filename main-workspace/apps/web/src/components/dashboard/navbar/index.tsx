@@ -7,6 +7,8 @@ import type { ReactElement } from "react";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import AppLogo from "../../app-logo";
+import GitHubButton from "./github-button";
+import HelpDropdown from "./help-dropdown";
 import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
 
@@ -15,14 +17,14 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     return (
         <nav
             className={cn(
-                "fixed inset-x-0 top-0 px-5 py-2 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
+                "fixed inset-x-0 top-0 px-5 py-4 bg-muted/40 backdrop-blur-sm border-b border-border transition-all duration-300 ease-in-out transform-gpu z-50",
                 scrolled && "h-13"
             )}
         >
             <div className="relative mx-auto max-w-screen-3xl">
                 {/* Logo */}
                 <Link
-                    className="absolute left-0 top-0 hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                    className="absolute left-0 -top-1 hover:opacity-75 transition-opacity duration-300 transform-gpu"
                     href="/dashboard"
                     draggable={false}
                 >
@@ -38,13 +40,15 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     }`}
                 >
                     {/* Left */}
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-2.5 items-center">
                         <SlashIcon className="size-4 text-muted-foreground/35" />
                         <OrganizationSwitcher />
                     </div>
 
                     {/* Right */}
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-2.5 items-center">
+                        <GitHubButton />
+                        <HelpDropdown />
                         <UserDropdown user={user} />
                     </div>
                 </div>
@@ -53,7 +57,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 <div
                     className={cn(
                         "mt-2.5 transition-all duration-300 ease-in-out transform-gpu",
-                        scrolled && "-translate-y-10 translate-x-12"
+                        scrolled && "-translate-y-9 translate-x-12"
                     )}
                 >
                     sdfds

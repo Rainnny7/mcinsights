@@ -24,8 +24,8 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
-        label: "Overview",
-        tooltip: "Get an overview of your account",
+        label: "Home",
+        tooltip: "Go to the dashboard",
         href: "/dashboard",
     },
     {
@@ -36,6 +36,11 @@ const links: NavbarLink[] = [
 ];
 
 const organizationLinks: NavbarLink[] = [
+    {
+        label: "Home",
+        tooltip: "Go to the dashboard",
+        href: "/dashboard",
+    },
     {
         label: "Overview",
         tooltip: "Get an overview of your organization",

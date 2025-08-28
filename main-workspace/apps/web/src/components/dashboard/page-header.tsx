@@ -17,6 +17,7 @@ const DashboardPageHeader = ({
     children,
 }: DashboardPageHeaderProps): ReactElement => (
     <main className="flex flex-col gap-4">
+        {/* Header */}
         <div className="flex flex-col gap-2">
             <FadeInAnimation>
                 <h1 className="flex gap-2.5 items-center text-3xl font-bold">
@@ -31,6 +32,8 @@ const DashboardPageHeader = ({
         <FadeInAnimation delay={0.4}>
             <Separator className="my-2" />
         </FadeInAnimation>
+
+        {/* Content */}
         <FadeInAnimation delay={0.5}>{children}</FadeInAnimation>
     </main>
 );

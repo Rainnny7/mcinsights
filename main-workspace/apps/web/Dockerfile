@@ -31,9 +31,9 @@ WORKDIR /app
 COPY --from=depends /app/node_modules ./node_modules
 
 # Copy the built files
-COPY --from=depends /app/projects/www/public ./public
-COPY --from=depends /app/projects/www/.next/standalone/projects/www/ ./
-COPY --from=depends /app/projects/www/.next/static ./.next/static
+COPY --from=depends /apps/web/public ./public
+COPY --from=depends /apps/web/.next/standalone/apps/web/ ./
+COPY --from=depends /apps/web/.next/static ./.next/static
 
 # Verify the build output
 RUN ls -la

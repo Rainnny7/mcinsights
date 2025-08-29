@@ -15,6 +15,9 @@ const DashboardPage = (): ReactElement => {
             description={`Welcome, ${user.name}! Select an organization to get started.`}
         >
             <OrganizationList />
+            <div className="h-96" />
+            <div className="h-96" />
+            <div className="h-96" />
         </DashboardPageHeader>
     );
 };

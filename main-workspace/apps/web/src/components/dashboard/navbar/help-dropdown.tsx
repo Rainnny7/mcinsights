@@ -31,7 +31,7 @@ const links: HelpLink[] = [
     {
         icon: "/media/logo/discord.png",
         label: "Join our Discord",
-        href: "https://discord.rainnny.club",
+        href: "https://discord.mcmetrics.xyz",
     },
     {
         icon: FileDownIcon,
@@ -41,7 +41,7 @@ const links: HelpLink[] = [
     {
         icon: FolderIcon,
         label: "Documentation",
-        href: "/docs",
+        href: "https://docs.mcmetrics.xyz",
     },
 ];
 

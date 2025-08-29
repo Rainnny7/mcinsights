@@ -1,7 +1,15 @@
 "use client";
 
 import type { User } from "better-auth";
-import { SlashIcon } from "lucide-react";
+import {
+    DollarSignIcon,
+    HomeIcon,
+    SettingsIcon,
+    SlashIcon,
+    UserIcon,
+    UsersIcon,
+    type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
@@ -21,6 +29,7 @@ import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
 
 type NavbarLink = {
+    icon: LucideIcon;
     label: string;
     tooltip: string;
     href: string;
@@ -28,6 +37,7 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
+        icon: UserIcon,
         label: "Account",
         tooltip: "Manage your account",
         href: "/dashboard/account",
@@ -36,26 +46,31 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
+        icon: HomeIcon,
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
     },
     {
+        icon: UsersIcon,
         label: "Players",
         tooltip: "View players that have played on your server",
         href: "/dashboard/<org>/players",
     },
     {
+        icon: DollarSignIcon,
         label: "Revenue",
         tooltip: "View revenue for your organization",
         href: "/dashboard/<org>/revenue",
     },
     {
+        icon: UsersIcon,
         label: "Members",
         tooltip: "Manage members of your organization",
         href: "/dashboard/<org>/members",
     },
     {
+        icon: SettingsIcon,
         label: "Settings",
         tooltip: "Manage settings for your organization",
         href: "/dashboard/<org>/settings",
@@ -74,6 +89,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     // Get all navigation links
     const allLinks: NavbarLink[] = [
         {
+            icon: HomeIcon,
             label: "Home",
             tooltip: "Go to the dashboard",
             href: "/dashboard",
@@ -192,6 +208,12 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                                         variant="ghost"
                                         size="sm"
                                     >
+                                        <link.icon
+                                            className={cn(
+                                                "size-4",
+                                                active && "text-primary"
+                                            )}
+                                        />
                                         <span>{link.label}</span>
                                     </Button>
                                 </Link>

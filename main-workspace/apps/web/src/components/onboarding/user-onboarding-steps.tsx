@@ -26,6 +26,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import { authClient } from "../../lib/auth-client";
+import { env } from "../../lib/env";
 import { trpc } from "../../lib/trpc";
 import { cn } from "../../lib/utils";
 import type { User } from "../../types/auth";
@@ -51,6 +52,7 @@ type BaseField = {
 
 type TextField = BaseField & {
     type: "text" | "email" | "password";
+    placeholderPrefix?: string;
     placeholder: string;
 };
 
@@ -98,6 +100,9 @@ const steps: OnboardingStep[] = [
             {
                 name: "orgSlug",
                 label: "Organization Slug",
+                placeholderPrefix: `${
+                    new URL(env.NEXT_PUBLIC_BASE_URL).hostname
+                }/dashboard/`,
                 placeholder: "my-cool-org",
                 type: "text",
                 required: true,
@@ -293,7 +298,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                 serverPlatform: formData.serverPlatform,
             });
             if (response.success) {
-                toast.success("Welcome to the dashboard!");
+                toast.success(`Welcome to Minecraft Metrics, ${user.name}!`);
                 router.push("/dashboard");
             }
         } catch (error) {
@@ -367,18 +372,36 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
             case "email":
             case "password":
                 return (
-                    <Input
-                        {...commonProps}
-                        type={field.type}
-                        placeholder={field.placeholder.replace(
-                            "{user}",
-                            user.name
+                    <div className="relative">
+                        {field.placeholderPrefix && (
+                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm text-muted-foreground/85">
+                                {field.placeholderPrefix}
+                            </span>
                         )}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            handleInputChange(field.name, event.target.value)
-                        }
-                        required={field.required}
-                    />
+
+                        <Input
+                            {...commonProps}
+                            type={field.type}
+                            placeholder={field.placeholder.replace(
+                                "{user}",
+                                user.name
+                            )}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                handleInputChange(
+                                    field.name,
+                                    event.target.value
+                                )
+                            }
+                            required={field.required}
+                            style={{
+                                paddingLeft: field.placeholderPrefix
+                                    ? `${
+                                          field.placeholderPrefix.length * 7.5
+                                      }px`
+                                    : undefined,
+                            }}
+                        />
+                    </div>
                 );
 
             // Dropdown type

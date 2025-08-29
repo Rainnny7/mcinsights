@@ -5,10 +5,12 @@ import "ldrs/react/Cardio.css";
 import { motion } from "motion/react";
 import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
+import AppLogo from "../app-logo";
 
 const loadingMessages = [
-    "Loading...",
     "Loading the dashboard...",
+    "Getting ready...",
+    "Collecting data...",
     "Loading the best experience...",
 ];
 
@@ -35,15 +37,16 @@ const DashboardLoadingOverlay = (): ReactElement => {
             transition={{ duration: 0.5 }}
         >
             <div className="flex flex-col gap-6 items-center animate-pulse">
+                <AppLogo size={96} />
+                <span className="text-muted-foreground/75">
+                    {loadingMessages[currentMessageIndex]}
+                </span>
                 <Cardio
-                    size="64"
+                    size="44"
                     stroke="4"
                     speed="2"
                     color="var(--color-primary)"
                 />
-                <span className="text-muted-foreground/75">
-                    {loadingMessages[currentMessageIndex]}
-                </span>
             </div>
         </motion.div>
     );

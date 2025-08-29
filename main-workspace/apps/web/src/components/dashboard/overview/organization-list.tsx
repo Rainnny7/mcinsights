@@ -12,6 +12,7 @@ import { EllipsisIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
+import { env } from "../../../lib/env";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import SimpleTooltip from "../../simple-tooltip";
 import { Button } from "../../ui/button";
@@ -71,7 +72,10 @@ const OrganizationCard = ({
                         <CardTitle className="text-base">
                             {organization.name}
                         </CardTitle>
-                        <CardDescription>{organization.slug}</CardDescription>
+                        <CardDescription>
+                            {new URL(env.NEXT_PUBLIC_BASE_URL).hostname}
+                            /dashboard/{organization.slug}
+                        </CardDescription>
                     </div>
 
                     {/* More Options */}

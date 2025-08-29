@@ -3,7 +3,13 @@
 import type { Organization } from "better-auth/plugins/organization";
 import { AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    type ReactNode,
+} from "react";
 import DashboardLoadingOverlay from "../components/dashboard/loading-overlay";
 import { authClient } from "../lib/auth-client";
 import type { User } from "../types/auth";

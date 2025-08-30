@@ -23,7 +23,6 @@ const SettingsPage = (): ReactElement => (
             <MembersSettings />
         </FadeInAnimation>
         <FadeInAnimation delay={0.8}>
-            {" "}
             <DangerZone />
         </FadeInAnimation>
     </DashboardPageHeader>

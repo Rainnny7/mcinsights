@@ -2,20 +2,17 @@
 
 import {
     Card,
-    CardAction,
     CardDescription,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import type { Organization } from "better-auth/plugins/organization";
-import { EllipsisIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { env } from "../../../lib/env";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import SimpleTooltip from "../../simple-tooltip";
-import { Button } from "../../ui/button";
 import OrganizationAvatar from "../organization-avatar";
 
 const OrganizationList = (): ReactElement => {
@@ -77,13 +74,6 @@ const OrganizationCard = ({
                             /dashboard/{organization.slug}
                         </CardDescription>
                     </div>
-
-                    {/* More Options */}
-                    <CardAction className="ml-auto">
-                        <Button variant="ghost" size="icon">
-                            <EllipsisIcon className="size-4" />
-                        </Button>
-                    </CardAction>
                 </CardHeader>
             </Card>
         </Link>

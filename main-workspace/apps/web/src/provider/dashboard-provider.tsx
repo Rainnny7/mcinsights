@@ -68,7 +68,7 @@ export const DashboardProvider = ({
 
     // Set the active organization based on the path
     useEffect(() => {
-        const currentPathSlug: string = path.split("/").pop() ?? "";
+        const currentPathSlug: string = path.split("/")[2] ?? "";
         const organization: Organization | undefined = organizations?.find(
             (organization: Organization) =>
                 organization.slug === currentPathSlug

@@ -1,14 +1,8 @@
 import DashboardNavbar from "@/components/dashboard/navbar";
 import { checkAndGetSession } from "@/lib/auth";
-import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import type { ReactElement, ReactNode } from "react";
 import { DashboardProvider } from "../../../provider/dashboard-provider";
-
-export const metadata: Metadata = {
-    title: "Dashboard",
-    description: "Manage metrics for your Minecraft server",
-};
 
 const DashboardLayout = async ({
     children,
@@ -29,7 +23,7 @@ const DashboardLayout = async ({
         >
             <DashboardProvider user={user}>
                 <DashboardNavbar user={user} />
-                <div className="mx-auto max-w-screen-xl px-5 pt-36">
+                <div className="mx-auto max-w-screen-xl px-5 pt-36 pb-5">
                     {children}
                 </div>
             </DashboardProvider>

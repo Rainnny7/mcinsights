@@ -1,9 +1,10 @@
 import type { ReactElement, ReactNode } from "react";
+import { cn } from "../../lib/utils";
 import FadeInAnimation from "../animation/fade-in-animation";
 import { Separator } from "../ui/separator";
-import { cn } from "../../lib/utils";
 
 type DashboardPageHeaderProps = {
+    className?: string | undefined;
     icon: ReactNode;
     title: string;
     description: string;
@@ -12,6 +13,7 @@ type DashboardPageHeaderProps = {
 };
 
 const DashboardPageHeader = ({
+    className,
     icon,
     title,
     description,
@@ -23,7 +25,12 @@ const DashboardPageHeader = ({
         <div className="flex flex-col gap-2">
             <FadeInAnimation>
                 <h1 className="flex gap-2.5 items-center text-3xl font-bold">
-                    <div className={cn(withIconClasses && "size-9 p-1.5 bg-muted text-muted-foreground rounded-lg")}>
+                    <div
+                        className={cn(
+                            withIconClasses &&
+                                "size-9 p-1.5 bg-muted text-muted-foreground rounded-lg"
+                        )}
+                    >
                         {icon}
                     </div>
                     <span>{title}</span>
@@ -38,7 +45,12 @@ const DashboardPageHeader = ({
         </FadeInAnimation>
 
         {/* Content */}
-        <FadeInAnimation delay={0.5}>{children}</FadeInAnimation>
+        <FadeInAnimation
+            className={cn("flex flex-col gap-6", className)}
+            delay={0.5}
+        >
+            {children}
+        </FadeInAnimation>
     </main>
 );
 export default DashboardPageHeader;

@@ -12,10 +12,7 @@ const OrganizationPage = async ({
     params: Promise<{ slug: string }>;
 }): Promise<ReactElement> => {
     const { slug } = await params;
-    const organization: Organization | undefined = await getFullOrganization(
-        slug
-    );
-    if (!organization) notFound();
+    const organization: Organization = (await getFullOrganization(slug))!;
 
     return (
         <DashboardPageHeader
@@ -39,12 +36,9 @@ export const generateMetadata = async ({
         slug
     );
     if (!organization) notFound();
-    const { logo } = organization;
 
     return {
         title: organization.name,
-        description: "Here's an overview of your organization",
-        icons: logo ? { icon: logo, apple: logo } : {},
     };
 };
 

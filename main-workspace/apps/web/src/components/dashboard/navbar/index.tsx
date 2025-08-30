@@ -2,14 +2,16 @@
 
 import type { User } from "better-auth";
 import {
+    ArrowUpIcon,
+    BuildingIcon,
     DollarSignIcon,
     HomeIcon,
     SettingsIcon,
-    SlashIcon,
     UserIcon,
     UsersIcon,
     type LucideIcon,
 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactElement } from "react";
@@ -46,7 +48,7 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
-        icon: HomeIcon,
+        icon: BuildingIcon,
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
@@ -62,12 +64,6 @@ const organizationLinks: NavbarLink[] = [
         label: "Revenue",
         tooltip: "View revenue for your organization",
         href: "/dashboard/<org>/revenue",
-    },
-    {
-        icon: UsersIcon,
-        label: "Members",
-        tooltip: "Manage members of your organization",
-        href: "/dashboard/<org>/members",
     },
     {
         icon: SettingsIcon,
@@ -102,6 +98,13 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
         (link: NavbarLink) =>
             path === link.href.replace("<org>", activeOrganization?.slug || "")
     );
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     // Update underline position when active tab changes
     useEffect(() => {
@@ -157,18 +160,20 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 >
                     {/* Left */}
                     <div className="flex gap-2.5 items-center">
-                        <SlashIcon
+                        <span
                             className={cn(
-                                "hidden size-4 text-muted-foreground/35",
+                                "hidden text-2xl text-muted-foreground/35",
                                 !isMobile && "block"
                             )}
-                        />
+                        >
+                            /
+                        </span>
                         <OrganizationSwitcher />
                     </div>
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
-                        <GitHubButton />
+                        {!isMobile && <GitHubButton />}
                         <HelpDropdown />
                         <AnimatedThemeToggler />
                         <Separator orientation="vertical" className="!h-6.5" />
@@ -230,6 +235,33 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                         }}
                     />
                 </div>
+
+                {/* Scroll to top indicator */}
+                <AnimatePresence>
+                    {scrolled && (
+                        <motion.div
+                            className="absolute -top-0.5 -right-0.5"
+                            initial={{ opacity: 0, y: -10, scale: 0.5 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.5 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                        >
+                            <SimpleTooltip
+                                content="Bring me to the top"
+                                side="bottom"
+                            >
+                                <Button
+                                    className="size-8.5 border border-border rounded-full"
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={scrollToTop}
+                                >
+                                    <ArrowUpIcon className="size-4.5" />
+                                </Button>
+                            </SimpleTooltip>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </nav>
     );

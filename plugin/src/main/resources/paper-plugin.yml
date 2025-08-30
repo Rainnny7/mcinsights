@@ -1,0 +1,7 @@
+name: Minecraft-Metrics
+version: ${project.version}
+main: me.braydon.metrics.paper.MinecraftMetricsPaper
+author: Braydon (Rainnny)
+website: https://mcmetrics.xyz
+description: Minecraft Metrics is a tool that allows you to track your Minecraft server metrics.
+api-version: 1.20

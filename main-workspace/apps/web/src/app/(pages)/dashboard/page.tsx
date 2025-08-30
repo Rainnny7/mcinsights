@@ -1,13 +1,16 @@
-"use client";
-
+import { checkAndGetSession } from "@/lib/auth";
 import { HomeIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { type ReactElement } from "react";
 import OrganizationList from "../../../components/dashboard/overview/organization-list";
 import DashboardPageHeader from "../../../components/dashboard/page-header";
-import { useDashboard } from "../../../provider/dashboard-provider";
 
-const DashboardPage = (): ReactElement => {
-    const { user } = useDashboard();
+export const metadata: Metadata = {
+    title: "Dashboard",
+};
+
+const DashboardPage = async (): Promise<ReactElement> => {
+    const { user } = await checkAndGetSession();
     return (
         <DashboardPageHeader
             icon={<HomeIcon />}

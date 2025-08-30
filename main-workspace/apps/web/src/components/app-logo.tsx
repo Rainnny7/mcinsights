@@ -14,6 +14,7 @@ const AppLogo = ({ size = 128, className }: AppLogoProps) => (
         width={size}
         height={size}
         unoptimized
+        priority
         draggable={false}
     />
 );

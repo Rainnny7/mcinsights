@@ -1,3 +1,4 @@
+import FadeInAnimation from "@/components/animation/fade-in-animation";
 import { SettingsIcon } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
@@ -18,8 +19,13 @@ const SettingsPage = (): ReactElement => (
         withIconClasses={false}
     >
         <GeneralSettings />
-        <MembersSettings />
-        <DangerZone />
+        <FadeInAnimation delay={0.6}>
+            <MembersSettings />
+        </FadeInAnimation>
+        <FadeInAnimation delay={0.8}>
+            {" "}
+            <DangerZone />
+        </FadeInAnimation>
     </DashboardPageHeader>
 );
 

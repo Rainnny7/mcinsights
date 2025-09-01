@@ -14,12 +14,14 @@ export const env = createEnv({
         // App
         NEXT_PUBLIC_BASE_URL: z.string(),
         NEXT_PUBLIC_SERVER_URL: z.string(),
+        NEXT_PUBLIC_CLOUD: z.boolean().default(false),
     },
 
     runtimeEnv: {
         // App
         NODE_ENV: process.env.NODE_ENV,
         PORT: parseInt(process.env.PORT ?? "3000"),
+        NEXT_PUBLIC_CLOUD: process.env.NEXT_PUBLIC_CLOUD === "true",
         NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
         NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     },
@@ -38,3 +40,4 @@ export const env = createEnv({
 });
 
 export const isProd = env.NODE_ENV === "production";
+export const isCloud = env.NEXT_PUBLIC_CLOUD;

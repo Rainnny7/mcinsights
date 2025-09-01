@@ -3,12 +3,12 @@
 import type { User } from "better-auth";
 import {
     ArrowUpIcon,
-    BuildingIcon,
     DollarSignIcon,
+    EyeIcon,
     HomeIcon,
     SettingsIcon,
     UserIcon,
-    UsersIcon,
+    UsersRoundIcon,
     type LucideIcon,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -48,13 +48,13 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
-        icon: BuildingIcon,
+        icon: EyeIcon,
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
     },
     {
-        icon: UsersIcon,
+        icon: UsersRoundIcon,
         label: "Players",
         tooltip: "View players that have played on your server",
         href: "/dashboard/<org>/players",

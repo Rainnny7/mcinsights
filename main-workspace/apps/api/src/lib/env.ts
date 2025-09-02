@@ -20,6 +20,9 @@ export const env = createEnv({
         BETTER_AUTH_SECRET: z.string(),
         DISCORD_CLIENT_ID: z.string(),
         DISCORD_CLIENT_SECRET: z.string(),
+
+        // Encryption
+        ENCRYPTION_KEY: z.string(),
     },
 
     client: {},
@@ -40,6 +43,9 @@ export const env = createEnv({
         BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
         DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
         DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+
+        // Encryption
+        ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
     },
 
     /**

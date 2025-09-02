@@ -5,7 +5,10 @@ import { cors } from "@elysiajs/cors";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import "dotenv/config";
 import { Elysia } from "elysia";
+import { decorators } from "elysia-decorators";
+import MetricsController from "./controller/metrics-controller";
 import { env } from "./lib/env";
+import MetricService from "./service/metric-service";
 
 new Elysia()
     .use(
@@ -32,6 +35,12 @@ new Elysia()
             createContext: () => createContext({ context }),
         });
     })
+    .use(
+        decorators({
+            controllers: [MetricsController],
+        })
+    )
     .listen(env.PORT, () => {
+        new MetricService();
         console.log(`Server is running on http://localhost:${env.PORT}`);
     });

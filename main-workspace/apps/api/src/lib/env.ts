@@ -8,6 +8,7 @@ export const env = createEnv({
             .enum(["development", "test", "production"])
             .default("development"),
         PORT: z.number(),
+        LOG_LEVEL: z.enum(["DEBUG", "INFO", "WARN", "ERROR"]).default("INFO"),
 
         // Drizzle
         DRIZZLE_DATABASE_URL: z.string(),
@@ -23,6 +24,12 @@ export const env = createEnv({
 
         // Encryption
         ENCRYPTION_KEY: z.string(),
+
+        // Influx
+        INFLUXDB_URL: z.string(),
+        INFLUXDB_TOKEN: z.string(),
+        INFLUXDB_ORG: z.string(),
+        INFLUXDB_BUCKET: z.string(),
     },
 
     client: {},
@@ -31,6 +38,7 @@ export const env = createEnv({
         // App
         NODE_ENV: process.env.NODE_ENV,
         PORT: parseInt(process.env.PORT ?? "3000"),
+        LOG_LEVEL: process.env.LOG_LEVEL,
 
         // Drizzle
         DRIZZLE_DATABASE_URL: process.env.DRIZZLE_DATABASE_URL,
@@ -46,6 +54,12 @@ export const env = createEnv({
 
         // Encryption
         ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+
+        // Influx
+        INFLUXDB_URL: process.env.INFLUXDB_URL,
+        INFLUXDB_TOKEN: process.env.INFLUXDB_TOKEN,
+        INFLUXDB_ORG: process.env.INFLUXDB_ORG,
+        INFLUXDB_BUCKET: process.env.INFLUXDB_BUCKET,
     },
 
     /**

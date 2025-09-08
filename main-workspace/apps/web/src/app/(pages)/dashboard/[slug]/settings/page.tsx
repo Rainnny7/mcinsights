@@ -19,9 +19,12 @@ const SettingsPage = (): ReactElement => (
     >
         <GeneralSettings />
         <FadeInAnimation delay={0.6}>
-            <MembersSettings />
+            <ServerSettings />
         </FadeInAnimation>
         <FadeInAnimation delay={0.8}>
+            <MembersSettings />
+        </FadeInAnimation>
+        <FadeInAnimation delay={1}>
             <DangerZone />
         </FadeInAnimation>
     </DashboardPageHeader>
@@ -32,8 +35,18 @@ const GeneralSettings = (): ReactElement => (
         <SettingOption
             title="Organization"
             description="Manage your organization's details."
+        >
+            <span>This will be for the pfp, name, and slug</span>
+        </SettingOption>
+    </SettingsGroup>
+);
+
+const ServerSettings = (): ReactElement => (
+    <SettingsGroup title="Servers">
+        <SettingOption
+            title="Server"
+            description="Manage your organization's server."
         />
-        <span>This will be for the pfp, name, and slug</span>
     </SettingsGroup>
 );
 

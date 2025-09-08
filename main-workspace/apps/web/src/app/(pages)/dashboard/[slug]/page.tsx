@@ -2,6 +2,9 @@ import type { Organization } from "better-auth/plugins/organization";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactElement } from "react";
+import { UsersIcon } from "../../../../components/animate-ui/icons/users";
+import FadeInAnimation from "../../../../components/animation/fade-in-animation";
+import StatCard from "../../../../components/dashboard/metric/stat-card";
 import OrganizationAvatar from "../../../../components/dashboard/organization-avatar";
 import DashboardPageHeader from "../../../../components/dashboard/page-header";
 import { getFullOrganization } from "../../../../lib/organization";
@@ -19,7 +22,19 @@ const OrganizationPage = async ({
             description="Here's an overview of your organization"
             withIconClasses={false}
         >
-            {organization.name} overview page
+            {/* Stat Cards */}
+            <div className="mx-auto flex flex-wrap gap-4 items-center">
+                {Array.from({ length: 6 }).map((_, index) => (
+                    <FadeInAnimation key={index} delay={index * 0.15}>
+                        <StatCard
+                            title="Unique Players"
+                            description="The number of unique players that have played on your server"
+                            icon={<UsersIcon />}
+                            value={Math.floor(Math.random() * 1000)}
+                        />
+                    </FadeInAnimation>
+                ))}
+            </div>
         </DashboardPageHeader>
     );
 };

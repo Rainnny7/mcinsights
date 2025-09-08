@@ -11,7 +11,7 @@ const SettingOption = ({
     description,
     children,
 }: SettingOptionProps): ReactElement => (
-    <div className="flex gap-24 justify-between">
+    <div className="flex gap-24 justify-between items-center">
         {/* Name / Description */}
         <div className="flex flex-col">
             <h3 className="font-medium">{title}</h3>

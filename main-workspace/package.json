@@ -31,7 +31,7 @@
     "dependencies": {},
     "devDependencies": {
         "turbo": "^2.5.6",
-        "@biomejs/biome": "^2.2.2"
+        "@biomejs/biome": "^2.2.3"
     },
     "packageManager": "bun@1.2.18"
 }

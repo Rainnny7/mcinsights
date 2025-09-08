@@ -23,7 +23,7 @@ const OrganizationPage = async ({
             withIconClasses={false}
         >
             {/* Stat Cards */}
-            <div className="mx-auto flex flex-wrap gap-4 items-center">
+            <div className="mx-auto flex flex-wrap gap-3 items-center">
                 {Array.from({ length: 6 }).map((_, index) => (
                     <FadeInAnimation key={index} delay={index * 0.15}>
                         <StatCard

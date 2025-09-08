@@ -10,8 +10,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useMemo, type ReactElement } from "react";
+import { Fragment, useMemo, type ReactElement, type ReactNode } from "react";
 import { env } from "../../lib/env";
+import { ChevronUpDownIcon } from "../animate-ui/icons/chevron-up-down";
+import { Button } from "../ui/button";
+import OrganizationSwitcher from "./navbar/organization-switcher";
 
 type BreadcrumbSegment = {
     label: string;
@@ -37,8 +40,8 @@ const DashboardBreadcrumb = (): ReactElement => {
         <Breadcrumb>
             <BreadcrumbList>
                 {breadcrumbs.map(
-                    (breadcrumb: BreadcrumbSegment, index: number) => (
-                        <Fragment key={index}>
+                    (breadcrumb: BreadcrumbSegment, index: number) => {
+                        const item: ReactNode = (
                             <BreadcrumbItem className="h-9">
                                 {breadcrumb.isLast ? (
                                     <BreadcrumbPage>
@@ -55,15 +58,31 @@ const DashboardBreadcrumb = (): ReactElement => {
                                     </BreadcrumbLink>
                                 )}
                             </BreadcrumbItem>
-                            {(index === 0 || !breadcrumb.isLast) && (
-                                <BreadcrumbSeparator>
-                                    <span className="text-2xl text-muted-foreground/35">
-                                        /
-                                    </span>
-                                </BreadcrumbSeparator>
-                            )}
-                        </Fragment>
-                    )
+                        );
+                        return (
+                            <Fragment key={index}>
+                                {item}
+                                {index === 1 && (
+                                    <OrganizationSwitcher>
+                                        <Button
+                                            className="w-5.5"
+                                            variant="ghost"
+                                            size="icon"
+                                        >
+                                            <ChevronUpDownIcon />
+                                        </Button>
+                                    </OrganizationSwitcher>
+                                )}
+                                {(index === 0 || !breadcrumb.isLast) && (
+                                    <BreadcrumbSeparator>
+                                        <span className="text-2xl text-muted-foreground/35">
+                                            /
+                                        </span>
+                                    </BreadcrumbSeparator>
+                                )}
+                            </Fragment>
+                        );
+                    }
                 )}
             </BreadcrumbList>
         </Breadcrumb>

@@ -12,37 +12,45 @@ import {
 import type { Organization } from "better-auth/plugins";
 import { BuildingIcon, CheckIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import { ChevronUpDownIcon } from "../../animate-ui/icons/chevron-up-down";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
 import { PlusIcon } from "../../animate-ui/icons/plus";
 import OrganizationAvatar from "../organization-avatar";
 
-const OrganizationSwitcher = (): ReactElement => {
+type OrganizationSwitcherProps = {
+    children?: ReactNode | undefined;
+};
+
+const OrganizationSwitcher = ({
+    children,
+}: OrganizationSwitcherProps): ReactElement => {
     const { activeOrganization, organizations } = useDashboard();
     return (
         <DropdownMenu>
             {/* Trigger */}
             <AnimateIcon animateOnHover>
                 <DropdownMenuTrigger asChild>
-                    <Button className="w-fit h-7 !px-1.5" variant="ghost">
-                        {activeOrganization ? (
-                            <OrganizationAvatar
-                                organization={activeOrganization}
-                                className="size-5.5"
-                            />
-                        ) : (
-                            <BuildingIcon className="size-4.5 text-muted-foreground" />
-                        )}
+                    {children ?? (
+                        <Button className="w-fit h-7 !px-1.5" variant="ghost">
+                            {activeOrganization ? (
+                                <OrganizationAvatar
+                                    organization={activeOrganization}
+                                    className="size-5.5"
+                                />
+                            ) : (
+                                <BuildingIcon className="size-4.5 text-muted-foreground" />
+                            )}
 
-                        <span className="truncate font-medium">
-                            {activeOrganization
-                                ? activeOrganization.name
-                                : "Select organization"}
-                        </span>
-                        <ChevronUpDownIcon className="size-4 opacity-50" />
-                    </Button>
+                            <span className="truncate font-medium">
+                                {activeOrganization
+                                    ? activeOrganization.name
+                                    : "Select organization"}
+                            </span>
+                            <ChevronUpDownIcon className="size-4 opacity-50" />
+                        </Button>
+                    )}
                 </DropdownMenuTrigger>
             </AnimateIcon>
 

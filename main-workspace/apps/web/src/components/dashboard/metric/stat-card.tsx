@@ -28,7 +28,7 @@ const StatCard = ({
     return (
         <SimpleTooltip content={description} side="bottom">
             <AnimateIcon animateOnHover>
-                <Card className="relative w-48 px-0.5 py-2.5 gap-2.5 bg-muted/45 backdrop-blur-sm hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden">
+                <Card className="relative w-49 px-0.5 py-2.5 gap-2.5 bg-muted/45 backdrop-blur-sm hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden">
                     {/* Bottom Gradient */}
                     <div className="absolute inset-x-0 -bottom-10 w-full h-16 bg-radial-[at_center] from-primary/80 to-transparent blur-md rounded-full opacity-10 -z-10" />
 

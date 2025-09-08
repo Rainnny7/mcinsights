@@ -299,7 +299,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
             });
             if (response.success) {
                 toast.success(`Welcome to Minecraft Metrics, ${user.name}!`);
-                router.push("/dashboard");
+                router.push(`/dashboard/${formData.orgSlug}`);
             }
         } catch (error) {
             setIsOnboarding(false);

@@ -69,11 +69,15 @@ export default class MetricService {
 
         // Queue the metrics
         for (const metric of metrics) {
-            MetricService.queuedPoints.add(
-                new Point(metric.id)
-                    .tag("server", serverId)
-                    .intField("value", metric.value)
-            );
+            const point: Point = new Point(metric.id)
+                .tag("server", serverId)
+                .intField("value", metric.value);
+            if (metric.tags) {
+                for (const tag of Object.keys(metric.tags)) {
+                    point.tag(tag, metric.tags[tag]);
+                }
+            }
+            MetricService.queuedPoints.add(point);
         }
         Logger.debug(
             `[INFLUX QUEUE] Queued ${metrics.length} point(s) for server ${serverId}.`
@@ -92,7 +96,9 @@ export default class MetricService {
         const before: number = Date.now();
 
         // Write the points
-        Logger.debug(`[INFLUX QUEUE] Writing ${points.length} point(s) to Influx...`);
+        Logger.debug(
+            `[INFLUX QUEUE] Writing ${points.length} point(s) to Influx...`
+        );
         writeApi.writePoints(points);
         await writeApi.flush();
 

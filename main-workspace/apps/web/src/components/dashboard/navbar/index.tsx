@@ -11,8 +11,8 @@ import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
-import { ActivityIcon } from "../../animate-ui/icons/activity";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { LayoutDashboardIcon } from "../../animate-ui/icons/layout-dashboard";
 import { SettingsIcon } from "../../animate-ui/icons/settings";
 import { UserIcon } from "../../animate-ui/icons/user";
 import { UsersIcon } from "../../animate-ui/icons/users";
@@ -44,7 +44,7 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
-        icon: <ActivityIcon />,
+        icon: <LayoutDashboardIcon />,
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
@@ -170,7 +170,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
-                        {!isSuperDuperSmall && <GitHubButton />}
+                        <GitHubButton />
                         <HelpDropdown />
                         <AnimatedThemeToggler />
                         <Separator orientation="vertical" className="!h-6.5" />

@@ -48,7 +48,7 @@ const StatCard = ({
                         </div>
 
                         {/* Icon */}
-                        <div className="*:size-10 text-muted-foreground">
+                        <div className="*:size-9 text-muted-foreground">
                             {icon}
                         </div>
                     </CardContent>

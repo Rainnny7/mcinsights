@@ -10,16 +10,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Organization } from "better-auth/plugins";
-import {
-    BuildingIcon,
-    CheckIcon,
-    ChevronRightIcon,
-    ChevronsUpDownIcon,
-    Plus,
-} from "lucide-react";
+import { BuildingIcon, CheckIcon, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import { ChevronUpDownIcon } from "../../animate-ui/icons/chevron-up-down";
+import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { PlusIcon } from "../../animate-ui/icons/plus";
 import OrganizationAvatar from "../organization-avatar";
 
 const OrganizationSwitcher = (): ReactElement => {
@@ -27,25 +24,27 @@ const OrganizationSwitcher = (): ReactElement => {
     return (
         <DropdownMenu>
             {/* Trigger */}
-            <DropdownMenuTrigger asChild>
-                <Button className="w-fit h-7 !px-1.5" variant="ghost">
-                    {activeOrganization ? (
-                        <OrganizationAvatar
-                            organization={activeOrganization}
-                            className="size-5.5"
-                        />
-                    ) : (
-                        <BuildingIcon className="size-4.5 text-muted-foreground" />
-                    )}
+            <AnimateIcon animateOnHover>
+                <DropdownMenuTrigger asChild>
+                    <Button className="w-fit h-7 !px-1.5" variant="ghost">
+                        {activeOrganization ? (
+                            <OrganizationAvatar
+                                organization={activeOrganization}
+                                className="size-5.5"
+                            />
+                        ) : (
+                            <BuildingIcon className="size-4.5 text-muted-foreground" />
+                        )}
 
-                    <span className="truncate font-medium">
-                        {activeOrganization
-                            ? activeOrganization.name
-                            : "Select organization"}
-                    </span>
-                    <ChevronsUpDownIcon className="size-4 opacity-50" />
-                </Button>
-            </DropdownMenuTrigger>
+                        <span className="truncate font-medium">
+                            {activeOrganization
+                                ? activeOrganization.name
+                                : "Select organization"}
+                        </span>
+                        <ChevronUpDownIcon className="size-4 opacity-50" />
+                    </Button>
+                </DropdownMenuTrigger>
+            </AnimateIcon>
 
             {/* Organizations */}
             <DropdownMenuContent
@@ -87,14 +86,16 @@ const OrganizationSwitcher = (): ReactElement => {
 
                 {/* Create Organization */}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 p-2">
-                    <div className="flex size-6 items-center justify-center bg-muted-foreground/25 backdrop-blur-sm rounded-full border border-dotted border-muted-foreground/50">
-                        <Plus className="size-4" />
-                    </div>
-                    <div className="text-muted-foreground font-medium">
-                        New Organization
-                    </div>
-                </DropdownMenuItem>
+                <AnimateIcon animateOnHover>
+                    <DropdownMenuItem className="gap-2 p-2">
+                        <div className="flex size-6 items-center justify-center bg-muted-foreground/25 backdrop-blur-sm rounded-full border border-dotted border-muted-foreground/50">
+                            <PlusIcon className="size-4" />
+                        </div>
+                        <div className="text-muted-foreground font-medium">
+                            New Organization
+                        </div>
+                    </DropdownMenuItem>
+                </AnimateIcon>
             </DropdownMenuContent>
         </DropdownMenu>
     );

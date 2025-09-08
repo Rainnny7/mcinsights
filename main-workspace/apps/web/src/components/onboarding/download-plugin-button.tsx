@@ -1,10 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { DownloadIcon, InfoIcon } from "lucide-react";
+import { InfoIcon } from "lucide-react";
 import { useState, type ReactElement } from "react";
 import { appConfig } from "../../app/config";
 import request from "../../lib/request";
+import { DownloadIcon } from "../animate-ui/icons/download";
+import { AnimateIcon } from "../animate-ui/icons/icon";
 import SimpleTooltip from "../simple-tooltip";
 import Spinner from "../spinner";
 import { Button } from "../ui/button";
@@ -48,26 +50,28 @@ const DownloadPluginButton = (): ReactElement => {
         <div className="flex flex-col gap-2">
             {/* Download */}
             <SimpleTooltip content="Download the latest plugin" side="bottom">
-                <Button
-                    className="w-fit gap-1"
-                    variant="secondary"
-                    disabled={isLoading || isDownloading}
-                    onClick={handleDownload}
-                >
-                    {isDownloading ? (
-                        <Spinner />
-                    ) : (
-                        <DownloadIcon className="size-4" />
-                    )}
-                    Download{" "}
-                    <span>
-                        {isLoading ? (
-                            <Skeleton className="w-20 h-4" />
+                <AnimateIcon animateOnHover>
+                    <Button
+                        className="w-fit gap-1"
+                        variant="secondary"
+                        disabled={isLoading || isDownloading}
+                        onClick={handleDownload}
+                    >
+                        {isDownloading ? (
+                            <Spinner />
                         ) : (
-                            downloadName
+                            <DownloadIcon className="size-4" />
                         )}
-                    </span>
-                </Button>
+                        Download{" "}
+                        <span>
+                            {isLoading ? (
+                                <Skeleton className="w-20 h-4" />
+                            ) : (
+                                downloadName
+                            )}
+                        </span>
+                    </Button>
+                </AnimateIcon>
             </SimpleTooltip>
 
             {/* Setup Guide */}

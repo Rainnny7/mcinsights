@@ -108,7 +108,8 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => {
                                         </span>
                                         <span
                                             className={cn(
-                                                active && "text-white"
+                                                active &&
+                                                    "text-primary-foreground"
                                             )}
                                         >
                                             {item.label}

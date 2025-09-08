@@ -71,7 +71,8 @@ const organizationLinks: NavbarLink[] = [
 
 const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const path: string = usePathname();
-    const isMobile: boolean = useIsScreenSize(ScreenSize.ExtraSmall);
+    const isSuperDuperSmall: boolean = useIsScreenSize(ScreenSize.ExtraSmall);
+    const isMobile: boolean = useIsScreenSize(ScreenSize.Small);
     const { activeOrganization } = useDashboard();
     const { scrolled } = useScrolled(20);
 
@@ -169,7 +170,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
-                        {!isMobile && <GitHubButton />}
+                        {!isSuperDuperSmall && <GitHubButton />}
                         <HelpDropdown />
                         <AnimatedThemeToggler />
                         <Separator orientation="vertical" className="!h-6.5" />

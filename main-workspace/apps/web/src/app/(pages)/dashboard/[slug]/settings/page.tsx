@@ -1,7 +1,7 @@
 import FadeInAnimation from "@/components/animation/fade-in-animation";
-import { SettingsIcon } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
+import { SettingsIcon } from "../../../../../components/animate-ui/icons/settings";
 import DashboardPageHeader from "../../../../../components/dashboard/page-header";
 import SettingOption from "../../../../../components/setting/setting-option";
 import SettingsGroup from "../../../../../components/setting/settings-group";
@@ -13,10 +13,9 @@ export const metadata: Metadata = {
 
 const SettingsPage = (): ReactElement => (
     <DashboardPageHeader
-        icon={<SettingsIcon />}
+        icon={<SettingsIcon className="size-6" />}
         title="Settings"
         description="Manage settings for your organization."
-        withIconClasses={false}
     >
         <GeneralSettings />
         <FadeInAnimation delay={0.6}>

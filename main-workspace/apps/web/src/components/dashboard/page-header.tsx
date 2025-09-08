@@ -1,5 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { cn } from "../../lib/utils";
+import { AnimateIcon } from "../animate-ui/icons/icon";
 import FadeInAnimation from "../animation/fade-in-animation";
 import { Separator } from "../ui/separator";
 
@@ -25,14 +26,16 @@ const DashboardPageHeader = ({
         <div className="flex flex-col gap-2">
             <FadeInAnimation>
                 <h1 className="flex gap-2.5 items-center text-3xl font-bold">
-                    <div
-                        className={cn(
-                            withIconClasses &&
-                                "size-9 p-1.5 bg-muted text-muted-foreground rounded-lg"
-                        )}
-                    >
-                        {icon}
-                    </div>
+                    <AnimateIcon animateOnHover>
+                        <span
+                            className={cn(
+                                withIconClasses &&
+                                    "size-9 p-1.5 bg-muted text-muted-foreground rounded-lg"
+                            )}
+                        >
+                            {icon}
+                        </span>
+                    </AnimateIcon>
                     <span>{title}</span>
                 </h1>
             </FadeInAnimation>

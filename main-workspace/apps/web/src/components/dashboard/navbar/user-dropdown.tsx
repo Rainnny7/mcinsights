@@ -1,15 +1,13 @@
 "use client";
 
 import type { User } from "better-auth";
-import {
-    BuildingIcon,
-    LogOutIcon,
-    UserIcon,
-    type LucideIcon,
-} from "lucide-react";
+import { BuildingIcon } from "lucide-react";
 import Link from "next/link";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { logoutUser } from "../../../lib/user";
+import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { LogOutIcon } from "../../animate-ui/icons/log-out";
+import { UserIcon } from "../../animate-ui/icons/user";
 import { Button } from "../../ui/button";
 import {
     DropdownMenu,
@@ -24,14 +22,18 @@ import ShimmerButton from "../../ui/shimmer";
 import UserAvatar from "../user-avatar";
 
 type DropdownItem = {
-    icon: LucideIcon;
+    icon: ReactNode;
     label: string;
     href: string;
 };
 
 const items: DropdownItem[] = [
-    { icon: UserIcon, label: "Account Settings", href: "/dashboard/account" },
-    { icon: BuildingIcon, label: "My Organizations", href: "/dashboard" },
+    {
+        icon: <UserIcon />,
+        label: "Account Settings",
+        href: "/dashboard/account",
+    },
+    { icon: <BuildingIcon />, label: "My Organizations", href: "/dashboard" },
 ];
 
 const UserDropdown = ({ user }: { user: User }): ReactElement => (
@@ -78,20 +80,24 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => (
             <DropdownMenuGroup>
                 {items.map((item: DropdownItem) => (
                     <Link key={item.label} href={item.href} draggable={false}>
-                        <DropdownMenuItem>
-                            <item.icon className="size-4" />
-                            <span>{item.label}</span>
-                        </DropdownMenuItem>
+                        <AnimateIcon animateOnHover>
+                            <DropdownMenuItem>
+                                <span className="size-4">{item.icon}</span>
+                                <span>{item.label}</span>
+                            </DropdownMenuItem>
+                        </AnimateIcon>
                     </Link>
                 ))}
             </DropdownMenuGroup>
 
             {/* Logout */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive" onClick={logoutUser}>
-                <LogOutIcon className="rotate-180 size-4" />
-                <span>Logout</span>
-            </DropdownMenuItem>
+            <AnimateIcon animateOnHover>
+                <DropdownMenuItem variant="destructive" onClick={logoutUser}>
+                    <LogOutIcon className="rotate-180 size-4" />
+                    <span>Logout</span>
+                </DropdownMenuItem>
+            </AnimateIcon>
         </DropdownMenuContent>
     </DropdownMenu>
 );

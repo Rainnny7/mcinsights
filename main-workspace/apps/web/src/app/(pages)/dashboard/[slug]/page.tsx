@@ -8,9 +8,7 @@ import { getFullOrganization } from "../../../../lib/organization";
 
 const OrganizationPage = async ({
     params,
-}: {
-    params: Promise<{ slug: string }>;
-}): Promise<ReactElement> => {
+}: PageProps<"/dashboard/[slug]">): Promise<ReactElement> => {
     const { slug } = await params;
     const organization: Organization = (await getFullOrganization(slug))!;
 
@@ -28,9 +26,7 @@ const OrganizationPage = async ({
 
 export const generateMetadata = async ({
     params,
-}: {
-    params: Promise<{ slug: string }>;
-}): Promise<Metadata> => {
+}: PageProps<"/dashboard/[slug]">): Promise<Metadata> => {
     const { slug } = await params;
     const organization: Organization | undefined = await getFullOrganization(
         slug

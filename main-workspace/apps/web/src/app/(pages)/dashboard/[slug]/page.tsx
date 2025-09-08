@@ -2,6 +2,7 @@ import type { Organization } from "better-auth/plugins/organization";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactElement } from "react";
+import { PickaxeIcon } from "../../../../components/animate-ui/icons/pickaxe";
 import { UsersIcon } from "../../../../components/animate-ui/icons/users";
 import FadeInAnimation from "../../../../components/animation/fade-in-animation";
 import StatCard from "../../../../components/dashboard/metric/stat-card";
@@ -24,7 +25,13 @@ const OrganizationPage = async ({
         >
             {/* Stat Cards */}
             <div className="mx-auto flex flex-wrap gap-3 items-center">
-                {Array.from({ length: 6 }).map((_, index) => (
+                <StatCard
+                    title="Online Players"
+                    description="The number of players that are currently online"
+                    icon={<PickaxeIcon />}
+                    value={7}
+                />
+                {Array.from({ length: 5 }).map((_, index) => (
                     <FadeInAnimation key={index} delay={index * 0.15}>
                         <StatCard
                             title="Unique Players"

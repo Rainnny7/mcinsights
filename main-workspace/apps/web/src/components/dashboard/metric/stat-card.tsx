@@ -28,7 +28,7 @@ const StatCard = ({
 }: StatCardProps): ReactElement => {
     return (
         <SimpleTooltip content={description}>
-            <div>
+            <div className="relative">
                 <AnimateIcon animateOnHover>
                     <Card className="relative w-49 px-0.5 py-2.5 gap-2.5 bg-muted/45 backdrop-blur-sm hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden">
                         {/* Bottom Gradient */}

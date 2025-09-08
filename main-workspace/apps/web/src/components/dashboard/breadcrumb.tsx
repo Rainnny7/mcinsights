@@ -12,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useMemo, type ReactElement, type ReactNode } from "react";
 import { env } from "../../lib/env";
+import { useDashboard } from "../../provider/dashboard-provider";
 import { ChevronUpDownIcon } from "../animate-ui/icons/chevron-up-down";
 import { Button } from "../ui/button";
 import OrganizationSwitcher from "./navbar/organization-switcher";
@@ -24,6 +25,7 @@ type BreadcrumbSegment = {
 
 const DashboardBreadcrumb = (): ReactElement => {
     const path: string = usePathname();
+    const { activeOrganization } = useDashboard();
 
     const breadcrumbs: BreadcrumbSegment[] = useMemo(() => {
         const segments = path.split("/").slice(1);
@@ -62,7 +64,7 @@ const DashboardBreadcrumb = (): ReactElement => {
                         return (
                             <Fragment key={index}>
                                 {item}
-                                {index === 1 && (
+                                {index === 1 && activeOrganization && (
                                     <OrganizationSwitcher>
                                         <Button
                                             className="w-5.5"

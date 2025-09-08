@@ -1,25 +1,21 @@
 "use client";
 
 import type { User } from "better-auth";
-import {
-    ArrowUpIcon,
-    DollarSignIcon,
-    EyeIcon,
-    HomeIcon,
-    SettingsIcon,
-    UserIcon,
-    UsersRoundIcon,
-    type LucideIcon,
-} from "lucide-react";
+import { ArrowUpIcon, DollarSignIcon, HomeIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import { ActivityIcon } from "../../animate-ui/icons/activity";
+import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { SettingsIcon } from "../../animate-ui/icons/settings";
+import { UserIcon } from "../../animate-ui/icons/user";
+import { UsersIcon } from "../../animate-ui/icons/users";
 import AppLogo from "../../app-logo";
 import SimpleTooltip from "../../simple-tooltip";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
@@ -31,7 +27,7 @@ import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
 
 type NavbarLink = {
-    icon: LucideIcon;
+    icon: ReactNode;
     label: string;
     tooltip: string;
     href: string;
@@ -39,7 +35,7 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
-        icon: UserIcon,
+        icon: <UserIcon />,
         label: "Account",
         tooltip: "Manage your account",
         href: "/dashboard/account",
@@ -48,25 +44,25 @@ const links: NavbarLink[] = [
 
 const organizationLinks: NavbarLink[] = [
     {
-        icon: EyeIcon,
+        icon: <ActivityIcon />,
         label: "Overview",
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
     },
     {
-        icon: UsersRoundIcon,
+        icon: <UsersIcon />,
         label: "Players",
         tooltip: "View players that have played on your server",
         href: "/dashboard/<org>/players",
     },
     {
-        icon: DollarSignIcon,
+        icon: <DollarSignIcon />,
         label: "Revenue",
         tooltip: "View revenue for your organization",
         href: "/dashboard/<org>/revenue",
     },
     {
-        icon: SettingsIcon,
+        icon: <SettingsIcon />,
         label: "Settings",
         tooltip: "Manage settings for your organization",
         href: "/dashboard/<org>/settings",
@@ -85,7 +81,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     // Get all navigation links
     const allLinks: NavbarLink[] = [
         {
-            icon: HomeIcon,
+            icon: <HomeIcon />,
             label: "Home",
             tooltip: "Go to the dashboard",
             href: "/dashboard",
@@ -202,25 +198,30 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                                 side="bottom"
                             >
                                 <Link href={href} draggable={false}>
-                                    <Button
-                                        ref={(el) => {
-                                            tabRefs.current[index] = el;
-                                        }}
-                                        className={cn(
-                                            "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
-                                            active && "text-primary-foreground"
-                                        )}
-                                        variant="ghost"
-                                        size="sm"
-                                    >
-                                        <link.icon
+                                    <AnimateIcon animateOnHover>
+                                        <Button
+                                            ref={(el) => {
+                                                tabRefs.current[index] = el;
+                                            }}
                                             className={cn(
-                                                "size-4",
-                                                active && "text-primary"
+                                                "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
+                                                active &&
+                                                    "text-primary-foreground"
                                             )}
-                                        />
-                                        <span>{link.label}</span>
-                                    </Button>
+                                            variant="ghost"
+                                            size="sm"
+                                        >
+                                            <span
+                                                className={cn(
+                                                    "size-4",
+                                                    active && "text-primary"
+                                                )}
+                                            >
+                                                {link.icon}
+                                            </span>
+                                            <span>{link.label}</span>
+                                        </Button>
+                                    </AnimateIcon>
                                 </Link>
                             </SimpleTooltip>
                         );
@@ -251,12 +252,12 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                                 side="bottom"
                             >
                                 <Button
-                                    className="size-8.5 border border-border rounded-full"
+                                    className="size-7.5 border border-border rounded-full"
                                     variant="ghost"
                                     size="icon"
                                     onClick={scrollToTop}
                                 >
-                                    <ArrowUpIcon className="size-4.5" />
+                                    <ArrowUpIcon className="size-4" />
                                 </Button>
                             </SimpleTooltip>
                         </motion.div>

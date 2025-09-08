@@ -2,6 +2,8 @@ import DashboardNavbar from "@/components/dashboard/navbar";
 import { checkAndGetSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import type { ReactElement, ReactNode } from "react";
+import FadeInAnimation from "../../../components/animation/fade-in-animation";
+import DashboardBreadcrumb from "../../../components/dashboard/breadcrumb";
 import DashboardFooter from "../../../components/dashboard/footer";
 import { DashboardProvider } from "../../../provider/dashboard-provider";
 
@@ -23,7 +25,10 @@ const DashboardLayout = async ({
         >
             <DashboardProvider user={user}>
                 <DashboardNavbar user={user} />
-                <div className="min-h-screen mx-auto max-w-screen-xl px-5 pt-36 pb-5">
+                <div className="min-h-screen mx-auto max-w-screen-xl px-5 pt-36 pb-5 space-y-5">
+                    <FadeInAnimation delay={0}>
+                        <DashboardBreadcrumb />
+                    </FadeInAnimation>
                     {children}
                 </div>
                 <DashboardFooter />

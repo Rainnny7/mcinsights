@@ -35,7 +35,7 @@
         "zod": "^4.0.2"
     },
     "devDependencies": {
-        "tsdown": "^0.14.2",
+        "tsdown": "^0.15.0",
         "typescript": "^5.8.2",
         "@types/bun": "^1.2.6",
         "drizzle-kit": "^0.31.2",

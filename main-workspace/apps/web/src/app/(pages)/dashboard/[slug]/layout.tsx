@@ -10,9 +10,8 @@ const OrganizationLayout = async ({
 }: LayoutProps<"/dashboard/[slug]">): Promise<ReactElement> => {
     // Ensure the organization with the given slug exists
     const { slug } = await params;
-    const organization: Organization | undefined = await getFullOrganization(
-        slug
-    );
+    const organization: Organization | undefined =
+        await getFullOrganization(slug);
     if (!organization) notFound();
 
     return <main>{children}</main>;
@@ -22,9 +21,8 @@ export const generateMetadata = async ({
     params,
 }: LayoutProps<"/dashboard/[slug]">): Promise<Metadata> => {
     const { slug } = await params;
-    const organization: Organization | undefined = await getFullOrganization(
-        slug
-    );
+    const organization: Organization | undefined =
+        await getFullOrganization(slug);
     if (!organization) notFound();
     const { logo } = organization;
 

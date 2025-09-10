@@ -449,7 +449,7 @@ function IconWrapper<T extends string>({
 
 function getVariants<
     V extends { default: T; [key: string]: T },
-    T extends Record<string, Variants>
+    T extends Record<string, Variants>,
 >(animations: V): T {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {

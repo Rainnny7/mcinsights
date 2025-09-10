@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import type { Organization } from "better-auth/plugins/organization";
+import { ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactElement } from "react";
@@ -58,7 +59,7 @@ const OrganizationCard = ({
 }): ReactElement => (
     <SimpleTooltip content={`View ${organization.name}`} side="bottom">
         <Link href={`/dashboard/${organization.slug}`} draggable={false}>
-            <Card className="p-2 w-90 hover:bg-card transition-all duration-300 ease-in-out transform-gpu">
+            <Card className="group relative p-2 w-90 hover:bg-card transition-all duration-300 ease-in-out transform-gpu">
                 {/* Header */}
                 <CardHeader className="p-2 flex gap-3 items-center">
                     <OrganizationAvatar
@@ -75,6 +76,9 @@ const OrganizationCard = ({
                         </CardDescription>
                     </div>
                 </CardHeader>
+
+                {/* Arrow */}
+                <ChevronRightIcon className="opacity-0 absolute top-4 right-4 size-4 group-hover:opacity-100 transition-opacity duration-300 transform-gpu" />
             </Card>
         </Link>
     </SimpleTooltip>

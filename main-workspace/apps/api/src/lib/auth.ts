@@ -45,7 +45,8 @@ export const auth: any = betterAuth({
                 before: async (account: Account) => encryptAccountData(account),
             },
             update: {
-                before: async (account: Partial<Account>) => encryptAccountData(account),
+                before: async (account: Partial<Account>) =>
+                    encryptAccountData(account),
             },
         },
     },

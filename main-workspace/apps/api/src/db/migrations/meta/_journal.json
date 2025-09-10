@@ -1,48 +1,48 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1756036295363,
-      "tag": "0000_light_joshua_kane",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1756048086324,
-      "tag": "0001_bright_killer_shrike",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1756192581857,
-      "tag": "0002_shiny_vivisector",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1756334093844,
-      "tag": "0003_medical_patch",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1756334222468,
-      "tag": "0004_omniscient_quasimodo",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1756345691835,
-      "tag": "0005_needy_fat_cobra",
-      "breakpoints": true
-    }
-  ]
+    "version": "7",
+    "dialect": "postgresql",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "7",
+            "when": 1756036295363,
+            "tag": "0000_light_joshua_kane",
+            "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "7",
+            "when": 1756048086324,
+            "tag": "0001_bright_killer_shrike",
+            "breakpoints": true
+        },
+        {
+            "idx": 2,
+            "version": "7",
+            "when": 1756192581857,
+            "tag": "0002_shiny_vivisector",
+            "breakpoints": true
+        },
+        {
+            "idx": 3,
+            "version": "7",
+            "when": 1756334093844,
+            "tag": "0003_medical_patch",
+            "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "7",
+            "when": 1756334222468,
+            "tag": "0004_omniscient_quasimodo",
+            "breakpoints": true
+        },
+        {
+            "idx": 5,
+            "version": "7",
+            "when": 1756345691835,
+            "tag": "0005_needy_fat_cobra",
+            "breakpoints": true
+        }
+    ]
 }

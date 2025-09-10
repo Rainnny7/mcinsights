@@ -30,6 +30,12 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
             )}
         >
             <div className="relative mx-auto max-w-screen-3xl flex flex-col gap-2.5">
+                {/* Top Left Radial Gradient */}
+                <div className="absolute -top-36 -left-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-15 -z-10" />
+
+                {/* Bottom Right Radial Gradient */}
+                <div className="absolute -bottom-36 -right-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-7 -z-10" />
+
                 {/* Logo */}
                 <Link
                     className={cn(
@@ -79,7 +85,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Bottom */}
                 <div
                     className={cn(
-                        "translate-y-1.5 flex justify-between items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
+                        "translate-y-1.5 flex justify-between gap-4 items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
                         scrolled && "-translate-y-11.5",
                         scrolled && !isMobile && "ml-10"
                     )}

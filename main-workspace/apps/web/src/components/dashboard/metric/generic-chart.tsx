@@ -15,6 +15,7 @@ import { type ReactElement, type ReactNode } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { type ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { DATE_FORMATS, formatDate } from "../../../../../api/src/lib/date";
+import { AnimateIcon } from "../../animate-ui/icons/icon";
 
 export type GenericChartProps = {
     /**
@@ -96,53 +97,57 @@ const GenericChart = ({
     responseTime,
     valueFormatter,
 }: GenericChartProps): ReactElement => (
-    <div
-        className={cn(
-            "p-4.5 flex flex-col gap-2 bg-muted/45 backdrop-blur-sm border border-muted-foreground/10 rounded-xl shadow-sm overflow-hidden",
-            isLoading && "animate-pulse"
-        )}
-    >
-        {/* Top Left Radial Gradient */}
-        <div className="hidden sm:block absolute -top-36 -left-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/80 via-transparent to-transparent blur-md rounded-full opacity-15 -z-10" />
+    <AnimateIcon animateOnHover>
+        <div
+            className={cn(
+                "p-4.5 flex flex-col gap-2 bg-muted/45 backdrop-blur-sm border border-muted-foreground/10 rounded-xl shadow-sm overflow-hidden",
+                isLoading && "animate-pulse"
+            )}
+        >
+            {/* Top Left Radial Gradient */}
+            <div className="absolute -top-36 -left-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/80 via-transparent to-transparent blur-md rounded-full opacity-15 -z-10" />
 
-        {/* Bottom Right Radial Gradient */}
-        <div className="hidden sm:block absolute -bottom-36 -right-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/80 via-transparent to-transparent blur-md rounded-full opacity-7 z-10" />
+            {/* Bottom Right Radial Gradient */}
+            <div className="absolute -bottom-36 -right-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/80 via-transparent to-transparent blur-md rounded-full opacity-7 -z-10" />
 
-        {/* Header */}
-        <div className="relative flex gap-2.5 items-center">
-            {/* Icon */}
-            <div className="p-1.5 *:size-6 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg">
-                {icon}
+            {/* Header */}
+            <div className="relative flex gap-2.5 items-center">
+                {/* Icon */}
+                <div className="p-1.5 *:size-6 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg">
+                    {icon}
+                </div>
+
+                <div className="py-0.5 flex flex-col gap-0.5">
+                    <h3 className="font-bold leading-none">{title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                        {description}
+                    </p>
+                </div>
+
+                {/* Loading & Response Time */}
+                <div className="absolute top-0 right-0 flex gap-1 items-center text-sm text-muted-foreground/65">
+                    {isLoading ? (
+                        <Loader2 className="size-3.5 animate-spin" />
+                    ) : (
+                        <Clock className="size-3.5" />
+                    )}
+                    <span>
+                        {isLoading ? "Loading data..." : `${responseTime}ms`}
+                    </span>
+                </div>
             </div>
+            <Separator className="my-2.5 bg-muted-foreground/20" />
 
-            <div className="py-0.5 flex flex-col gap-0.5">
-                <h3 className="font-bold leading-none">{title}</h3>
-                <p className="text-sm text-muted-foreground">{description}</p>
-            </div>
-
-            {/* Loading & Response Time */}
-            <div className="absolute top-0 right-0 flex gap-1 items-center text-sm text-muted-foreground/65">
-                {isLoading ? (
-                    <Loader2 className="size-3.5 animate-spin" />
-                ) : (
-                    <Clock className="size-3.5" />
-                )}
-                <span>
-                    {isLoading ? "Loading data..." : `${responseTime}ms`}
-                </span>
-            </div>
+            {/* Chart */}
+            <GenericAreaChart
+                className={cn(className, isLoading && "opacity-50")}
+                isLoading={isLoading}
+                data={data}
+                fields={fields}
+                valueFormatter={valueFormatter}
+            />
         </div>
-        <Separator className="my-2.5 bg-muted-foreground/20" />
-
-        {/* Chart */}
-        <GenericAreaChart
-            className={cn(className, isLoading && "opacity-50")}
-            isLoading={isLoading}
-            data={data}
-            fields={fields}
-            valueFormatter={valueFormatter}
-        />
-    </div>
+    </AnimateIcon>
 );
 
 const GenericAreaChart = ({

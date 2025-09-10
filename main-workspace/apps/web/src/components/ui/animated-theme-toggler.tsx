@@ -1,13 +1,13 @@
 "use client";
 
+import { MoonStarIcon, SunIcon } from "lucide-react";
+import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useRef } from "react";
 import { flushSync } from "react-dom";
 import { cn } from "../../lib/utils";
 import SimpleTooltip from "../simple-tooltip";
 import { Button } from "./button";
-import { motion } from "motion/react";
-import { MoonStarIcon, SunIcon } from "lucide-react";
 
 type props = {
     className?: string;
@@ -52,7 +52,10 @@ export const AnimatedThemeToggler = ({ className }: props) => {
         );
     };
     return (
-        <SimpleTooltip content="Switch themes" side="bottom">
+        <SimpleTooltip
+            content={isDark ? "Burn my eyes" : "Back to the dark side"}
+            side="bottom"
+        >
             <Button
                 ref={buttonRef}
                 className={cn(

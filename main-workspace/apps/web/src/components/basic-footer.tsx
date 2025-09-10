@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactElement } from "react";
+import { GradientText } from "./animate-ui/primitives/texts/gradient";
 import FadeInAnimation from "./animation/fade-in-animation";
 import SimpleTooltip from "./simple-tooltip";
 
@@ -17,7 +18,7 @@ const BasicFooter = (): ReactElement => (
                 target="_blank"
                 draggable={false}
             >
-                Rainnny
+                <GradientText text="Rainnny" />
             </Link>
         </SimpleTooltip>
     </FadeInAnimation>

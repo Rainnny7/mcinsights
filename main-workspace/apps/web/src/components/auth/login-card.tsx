@@ -52,7 +52,7 @@ const DiscordOAuthButton = () => {
     };
 
     return (
-        <SimpleTooltip content="Login with Discord" side="bottom">
+        <SimpleTooltip content="Continue with Discord" side="bottom">
             <Button
                 className="w-full flex items-center !bg-[#5865F2] text-white font-medium hover:opacity-75 transition-opacity duration-300 transform-gpu"
                 onClick={handleLogin}
@@ -71,7 +71,7 @@ const DiscordOAuthButton = () => {
                     )}
                 </div>
                 <span>
-                    {loggingIn ? "Logging in..." : "Login with Discord"}
+                    {loggingIn ? "Logging in..." : "Continue with Discord"}
                 </span>
             </Button>
         </SimpleTooltip>

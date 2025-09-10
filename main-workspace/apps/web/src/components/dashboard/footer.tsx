@@ -6,6 +6,7 @@ import { appConfig } from "../../app/config";
 import { GradientText } from "../animate-ui/primitives/texts/gradient";
 import AppLogo from "../app-logo";
 import SimpleTooltip from "../simple-tooltip";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 type FooterLink = {
     label: string;
@@ -20,7 +21,7 @@ const links: FooterLink[] = [
         href: "/dashboard",
     },
     {
-        label: "Source Code",
+        label: "Source",
         tooltip: "View the source code on GitHub",
         href: `https://github.com/${appConfig.githubUrl}`,
     },
@@ -37,8 +38,14 @@ const links: FooterLink[] = [
 ];
 
 const DashboardFooter = (): ReactElement => (
-    <footer className="mt-auto px-5 py-4 sm:py-3.5 bg-muted/40 text-sm text-muted-foreground/75 font-medium backdrop-blur-sm border-t border-border">
-        <div className="max-w-screen-xl mx-auto w-full flex flex-col sm:flex-row gap-4 sm:gap-3 justify-between items-center">
+    <footer className="relative mt-auto px-5 py-4 sm:py-3.5 bg-muted/40 text-sm text-muted-foreground/75 font-medium backdrop-blur-sm border-t border-border overflow-hidden">
+        {/* Top Left Radial Gradient */}
+        <div className="absolute -top-36 -left-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-15 -z-10" />
+
+        {/* Bottom Right Radial Gradient */}
+        <div className="absolute -bottom-36 -right-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-7 -z-10" />
+
+        <div className="px-5 mx-auto max-w-screen-2xl w-full flex flex-col sm:flex-row gap-4 sm:gap-3 justify-between items-center">
             {/* Branding */}
             <div className="flex gap-3 items-center">
                 <Link
@@ -71,7 +78,7 @@ const DashboardFooter = (): ReactElement => (
             </div>
 
             {/* Links */}
-            <div className="flex gap-6 items-center">
+            <div className="flex flex-wrap gap-6 justify-center items-center">
                 {links.map((link: FooterLink) => (
                     <SimpleTooltip
                         key={link.label}
@@ -92,6 +99,7 @@ const DashboardFooter = (): ReactElement => (
                         </Link>
                     </SimpleTooltip>
                 ))}
+                <AnimatedThemeToggler />
             </div>
         </div>
     </footer>

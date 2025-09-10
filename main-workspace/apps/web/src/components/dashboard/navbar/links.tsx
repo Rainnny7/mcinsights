@@ -6,12 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
-import SimpleTooltip from "../../simple-tooltip";
-import { Button } from "../../ui/button";
 import { LayoutDashboardIcon } from "../../animate-ui/icons/layout-dashboard";
-import { UsersIcon } from "../../animate-ui/icons/users";
 import { SettingsIcon } from "../../animate-ui/icons/settings";
 import { UserIcon } from "../../animate-ui/icons/user";
+import { UsersIcon } from "../../animate-ui/icons/users";
+import SimpleTooltip from "../../simple-tooltip";
+import { Button } from "../../ui/button";
 
 type NavbarLink = {
     icon: ReactNode;

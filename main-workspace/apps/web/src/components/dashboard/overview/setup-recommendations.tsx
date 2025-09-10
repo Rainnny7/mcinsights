@@ -39,15 +39,38 @@ const SetupRecommendations = (): ReactElement => {
         <AnimatePresence>
             {!hideRecommendations && (
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.35, ease: "easeInOut" }}
                 >
                     <Alert className="relative gap-3">
                         <AlertTitle className="flex items-center gap-2 text-lg">
                             <InfoIcon className="p-1 size-7 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg" />
-                            <span>Setup Recommendations</span>
+                            <span className="flex gap-1 items-center">
+                                <span className="hidden xs:block">Setup</span>{" "}
+                                Recommendations
+                            </span>
+
+                            <SimpleTooltip
+                                content="I don't want to see this anymore"
+                                side="bottom"
+                            >
+                                <div className="ml-auto">
+                                    <AnimateIcon animateOnHover>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={dismissRecommendations}
+                                        >
+                                            <XIcon className="size-4" />
+                                            <span className="hidden xs:block">
+                                                Dismiss
+                                            </span>
+                                        </Button>
+                                    </AnimateIcon>
+                                </div>
+                            </SimpleTooltip>
                         </AlertTitle>
                         <AlertDescription className="flex flex-col gap-2">
                             {recommendations.map(
@@ -64,25 +87,6 @@ const SetupRecommendations = (): ReactElement => {
                                 )
                             )}
                         </AlertDescription>
-
-                        {/* Dismiss Button */}
-                        <SimpleTooltip
-                            content="I don't want to see this anymore"
-                            side="bottom"
-                        >
-                            <div className="absolute top-3 right-4">
-                                <AnimateIcon animateOnHover>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={dismissRecommendations}
-                                    >
-                                        <XIcon className="size-4" />
-                                        <span>Dismiss</span>
-                                    </Button>
-                                </AnimateIcon>
-                            </div>
-                        </SimpleTooltip>
                     </Alert>
                 </motion.div>
             )}

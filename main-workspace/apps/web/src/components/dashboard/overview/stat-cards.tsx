@@ -5,14 +5,14 @@ import FadeInAnimation from "../../animation/fade-in-animation";
 import StatCard from "../metric/stat-card";
 
 const StatCards = (): ReactElement => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 w-full">
+    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 w-full">
         <StatCard
             title="Online Players"
             description="The number of players that are currently online"
             icon={<PickaxeIcon />}
             value={0}
         />
-        {Array.from({ length: 4 }).map((_, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
             <FadeInAnimation key={index} delay={index * 0.3}>
                 <StatCard
                     title="Unique Players"

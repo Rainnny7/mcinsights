@@ -25,7 +25,7 @@ const DashboardLayout = async ({
         >
             <DashboardProvider user={user}>
                 <DashboardNavbar user={user} />
-                <div className="min-h-screen mx-auto max-w-screen-xl px-5 pt-34 pb-5 space-y-5">
+                <div className="min-h-screen mx-auto max-w-screen-xl px-5 pt-34 pb-10 space-y-5">
                     <FadeInAnimation delay={0}>
                         <DashboardBreadcrumb />
                     </FadeInAnimation>

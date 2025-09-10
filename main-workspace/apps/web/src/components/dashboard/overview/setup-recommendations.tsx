@@ -46,7 +46,7 @@ const SetupRecommendations = (): ReactElement => {
                 >
                     <Alert className="relative gap-3">
                         <AlertTitle className="flex items-center gap-2 text-lg">
-                            <InfoIcon className="p-1 size-7 bg-muted-foreground/10 text-primary/70 rounded-lg" />
+                            <InfoIcon className="p-1 size-7 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg" />
                             <span>Setup Recommendations</span>
                         </AlertTitle>
                         <AlertDescription className="flex flex-col gap-2">
@@ -70,7 +70,7 @@ const SetupRecommendations = (): ReactElement => {
                             content="I don't want to see this anymore"
                             side="bottom"
                         >
-                            <div className="absolute top-3 right-3">
+                            <div className="absolute top-3 right-4">
                                 <AnimateIcon animateOnHover>
                                     <Button
                                         variant="outline"
@@ -78,7 +78,7 @@ const SetupRecommendations = (): ReactElement => {
                                         onClick={dismissRecommendations}
                                     >
                                         <XIcon className="size-4" />
-                                        Dismiss
+                                        <span>Dismiss</span>
                                     </Button>
                                 </AnimateIcon>
                             </div>

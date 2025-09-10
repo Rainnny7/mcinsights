@@ -49,7 +49,7 @@ const DashboardPageHeader = ({
 
         {/* Content */}
         <FadeInAnimation
-            className={cn("flex flex-col gap-4", className)}
+            className={cn("flex flex-col gap-5", className)}
             delay={0.5}
         >
             {children}

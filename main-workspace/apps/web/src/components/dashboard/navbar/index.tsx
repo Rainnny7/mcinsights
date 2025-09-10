@@ -81,7 +81,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     className={cn(
                         "translate-y-1.5 flex justify-between items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
                         scrolled && "-translate-y-11.5",
-                        scrolled && !isMobile && "ml-13"
+                        scrolled && !isMobile && "ml-10"
                     )}
                 >
                     {/* Left - Links */}

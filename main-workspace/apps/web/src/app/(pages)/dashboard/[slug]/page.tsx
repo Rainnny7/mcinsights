@@ -13,11 +13,13 @@ const OrganizationPage = async ({
     params,
 }: PageProps<"/dashboard/[slug]">): Promise<ReactElement> => {
     const { slug } = await params;
-    const organization: Organization = (await getFullOrganization(slug))!;
+    const organization: Organization | undefined = await getFullOrganization(
+        slug
+    );
+    if (!organization) notFound();
 
     return (
         <DashboardPageHeader
-            className="gap-4"
             icon={<OrganizationAvatar organization={organization} />}
             title={organization.name}
             description="Here's an overview of your organization"

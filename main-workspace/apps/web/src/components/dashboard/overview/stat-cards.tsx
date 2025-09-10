@@ -10,7 +10,7 @@ const StatCards = (): ReactElement => (
             title="Online Players"
             description="The number of players that are currently online"
             icon={<PickaxeIcon />}
-            value={7}
+            value={0}
         />
         {Array.from({ length: 4 }).map((_, index) => (
             <FadeInAnimation key={index} delay={index * 0.3}>
@@ -18,7 +18,7 @@ const StatCards = (): ReactElement => (
                     title="Unique Players"
                     description="The number of unique players that have played on your server"
                     icon={<UsersIcon />}
-                    value={Math.floor(Math.random() * 1000)}
+                    value={0}
                 />
             </FadeInAnimation>
         ))}

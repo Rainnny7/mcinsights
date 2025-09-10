@@ -30,7 +30,7 @@ const DashboardPageHeader = ({
                         <span
                             className={cn(
                                 withIconClasses &&
-                                    "size-9 p-1.5 bg-muted text-muted-foreground rounded-lg"
+                                    "size-9 p-1.5 bg-muted text-primary/70 rounded-lg"
                             )}
                         >
                             {icon}
@@ -49,7 +49,7 @@ const DashboardPageHeader = ({
 
         {/* Content */}
         <FadeInAnimation
-            className={cn("flex flex-col gap-6", className)}
+            className={cn("flex flex-col gap-4", className)}
             delay={0.5}
         >
             {children}

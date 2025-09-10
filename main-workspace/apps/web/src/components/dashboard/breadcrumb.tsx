@@ -16,6 +16,7 @@ import { useDashboard } from "../../provider/dashboard-provider";
 import { ChevronUpDownIcon } from "../animate-ui/icons/chevron-up-down";
 import { Button } from "../ui/button";
 import OrganizationSwitcher from "./navbar/organization-switcher";
+import OrganizationAvatar from "./organization-avatar";
 
 type BreadcrumbSegment = {
     label: string;
@@ -43,6 +44,8 @@ const DashboardBreadcrumb = (): ReactElement => {
             <BreadcrumbList>
                 {breadcrumbs.map(
                     (breadcrumb: BreadcrumbSegment, index: number) => {
+                        const isOrgSegment: boolean =
+                            index === 1 && activeOrganization !== undefined;
                         const item: ReactNode = (
                             <BreadcrumbItem className="h-9">
                                 {breadcrumb.isLast ? (
@@ -63,8 +66,14 @@ const DashboardBreadcrumb = (): ReactElement => {
                         );
                         return (
                             <Fragment key={index}>
+                                {isOrgSegment && (
+                                    <OrganizationAvatar
+                                        className="size-5"
+                                        organization={activeOrganization!}
+                                    />
+                                )}
                                 {item}
-                                {index === 1 && activeOrganization && (
+                                {isOrgSegment && (
                                     <OrganizationSwitcher>
                                         <Button
                                             className="w-5.5"

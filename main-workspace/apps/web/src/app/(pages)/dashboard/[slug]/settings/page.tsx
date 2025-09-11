@@ -25,13 +25,16 @@ const SettingsPage = (): ReactElement => (
             <MembersSettings />
         </FadeInAnimation>
         <FadeInAnimation delay={1}>
+            <WebhooksSettings />
+        </FadeInAnimation>
+        <FadeInAnimation delay={1.2}>
             <DangerZone />
         </FadeInAnimation>
     </DashboardPageHeader>
 );
 
 const GeneralSettings = (): ReactElement => (
-    <SettingsGroup title="General Settings">
+    <SettingsGroup title="General">
         <SettingOption
             title="Organization"
             description="Manage your organization's details."
@@ -55,6 +58,15 @@ const MembersSettings = (): ReactElement => (
         <SettingOption
             title="Members"
             description="Manage your organization's members."
+        />
+    </SettingsGroup>
+);
+
+const WebhooksSettings = (): ReactElement => (
+    <SettingsGroup title="Webhooks">
+        <SettingOption
+            title="Webhooks"
+            description="Manage your organization's webhooks."
         />
     </SettingsGroup>
 );

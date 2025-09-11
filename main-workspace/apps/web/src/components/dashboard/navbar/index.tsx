@@ -10,6 +10,7 @@ import { cn } from "../../../lib/utils";
 import AppLogo from "../../app-logo";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
 import { Separator } from "../../ui/separator";
+import ChartControls from "./chart-controls";
 import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import Links from "./links";
@@ -41,7 +42,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     className={cn(
                         "hidden absolute left-0 -top-0.5 hover:opacity-75 transition-opacity duration-300 transform-gpu",
                         !isMobile && "block",
-                        scrolled && "-top-1.5"
+                        scrolled && "-top-1"
                     )}
                     href="/dashboard"
                     draggable={false}
@@ -95,6 +96,9 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                     {/* Right - Actions */}
                     <div className="flex gap-2.5 items-center">
+                        {/* Chart Controls */}
+                        <ChartControls />
+
                         {/* Scroll to top indicator */}
                         <AnimatePresence>
                             {scrolled && <ScrollToTopIndicator />}

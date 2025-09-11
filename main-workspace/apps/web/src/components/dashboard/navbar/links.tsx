@@ -1,4 +1,4 @@
-import { DollarSignIcon, HomeIcon } from "lucide-react";
+import { DollarSignIcon, GlobeIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactElement, ReactNode } from "react";
@@ -18,6 +18,7 @@ type NavbarLink = {
     label: string;
     tooltip: string;
     href: string;
+    disabled?: boolean;
 };
 
 const links: NavbarLink[] = [
@@ -36,17 +37,54 @@ const organizationLinks: NavbarLink[] = [
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
     },
+    // {
+    //     icon: <TerminalIcon />,
+    //     label: "Console",
+    //     tooltip: "View the console for a server",
+    //     href: "/dashboard/<org>/console",
+    //     disabled: true,
+    // },
+    // {
+    //     icon: <HammerIcon />,
+    //     label: "Config Editor",
+    //     tooltip: "View the config editor for a server",
+    //     href: "/dashboard/<org>/config",
+    //     disabled: true,
+    // },
     {
         icon: <UsersIcon />,
         label: "Players",
         tooltip: "View players that have played on your server",
         href: "/dashboard/<org>/players",
+        disabled: true,
     },
+    // {
+    //     icon: <MessageCircleIcon />,
+    //     label: "Chat",
+    //     tooltip: "View the chat for a server",
+    //     href: "/dashboard/<org>/chat",
+    //     disabled: true,
+    // },
+    // {
+    //     icon: <GavelIcon />,
+    //     label: "Punish",
+    //     tooltip: "Manage punishments for a player",
+    //     href: "/dashboard/<org>/punish",
+    //     disabled: true,
+    // },
     {
         icon: <DollarSignIcon />,
         label: "Revenue",
         tooltip: "View revenue for your organization",
         href: "/dashboard/<org>/revenue",
+        disabled: true,
+    },
+    {
+        icon: <GlobeIcon />,
+        label: "Domains",
+        tooltip: "View analytics for domains players have used",
+        href: "/dashboard/<org>/domains",
+        disabled: true,
     },
     {
         icon: <SettingsIcon />,
@@ -115,7 +153,13 @@ const Links = (): ReactElement => {
                         content={active ? undefined : link.tooltip}
                         side="bottom"
                     >
-                        <Link href={href} draggable={false}>
+                        <Link
+                            className={cn(
+                                link.disabled && "cursor-not-allowed"
+                            )}
+                            href={link.disabled ? "#" : href}
+                            draggable={false}
+                        >
                             <AnimateIcon animateOnHover>
                                 <Button
                                     ref={(el) => {
@@ -127,6 +171,7 @@ const Links = (): ReactElement => {
                                     )}
                                     variant="ghost"
                                     size="sm"
+                                    disabled={link.disabled}
                                 >
                                     <span
                                         className={cn(

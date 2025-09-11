@@ -12,10 +12,16 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Clock, Loader2 } from "lucide-react";
 import { type ReactElement, type ReactNode } from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+    Area,
+    CartesianGrid,
+    AreaChart as RechartsAreaChart,
+    XAxis,
+    YAxis,
+} from "recharts";
 import { type ValueType } from "recharts/types/component/DefaultTooltipContent";
-import { DATE_FORMATS, formatDate } from "../../../../../api/src/lib/date";
-import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { DATE_FORMATS, formatDate } from "../../../../api/src/lib/date";
+import { AnimateIcon } from "../animate-ui/icons/icon";
 
 export type GenericChartProps = {
     /**
@@ -86,7 +92,7 @@ export type GenericChartField = {
     togglable?: boolean;
 };
 
-const GenericChart = ({
+const GenericAreaChart = ({
     className,
     icon,
     title,
@@ -139,7 +145,7 @@ const GenericChart = ({
             <Separator className="my-2.5 bg-muted-foreground/20" />
 
             {/* Chart */}
-            <GenericAreaChart
+            <AreaChart
                 className={cn(className, isLoading && "opacity-50")}
                 isLoading={isLoading}
                 data={data}
@@ -150,7 +156,7 @@ const GenericChart = ({
     </AnimateIcon>
 );
 
-const GenericAreaChart = ({
+const AreaChart = ({
     className,
     isLoading,
     data,
@@ -181,10 +187,10 @@ const GenericAreaChart = ({
             config={chartConfig}
             className={cn("aspect-auto w-full h-[14rem]", className)}
         >
-            <AreaChart data={data}>
+            <RechartsAreaChart data={data}>
                 {/* Create a gradient effect for each field */}
                 <defs>
-                    {fields.map((field) => (
+                    {fields.map((field: GenericChartField) => (
                         <linearGradient
                             key={field.value}
                             id={`fill${field.value}`}
@@ -241,7 +247,6 @@ const GenericAreaChart = ({
                                     DATE_FORMATS.DATE_TIME
                                 );
                             }}
-                            // valueFormatter={valueFormatter}
                             formatter={valueFormatter}
                             indicator="line"
                         />
@@ -261,11 +266,11 @@ const GenericAreaChart = ({
 
                 {/* Legend */}
                 <ChartLegend content={<ChartLegendContent />} />
-            </AreaChart>
+            </RechartsAreaChart>
         </ChartContainer>
     );
 
     return isLoading ? <div>{chart}</div> : chart;
 };
 
-export default GenericChart;
+export default GenericAreaChart;

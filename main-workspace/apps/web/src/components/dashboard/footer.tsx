@@ -1,5 +1,6 @@
 "use client";
 
+import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 import { memo, useEffect, useState, type ReactElement } from "react";
 import { appConfig } from "../../app/config";
@@ -79,26 +80,28 @@ const DashboardFooter = (): ReactElement => (
 
             {/* Links */}
             <div className="flex flex-wrap gap-6 justify-center items-center">
-                {links.map((link: FooterLink) => (
-                    <SimpleTooltip
-                        key={link.label}
-                        content={link.tooltip}
-                        side="top"
-                    >
-                        <Link
-                            className="hover:opacity-75 transition-opacity duration-300 transform-gpu"
-                            href={link.href}
-                            target={
-                                link.href.startsWith("http")
-                                    ? "_blank"
-                                    : undefined
-                            }
-                            draggable={false}
+                {links.map((link: FooterLink) => {
+                    const isExternal: boolean = link.href.startsWith("http");
+                    return (
+                        <SimpleTooltip
+                            key={link.label}
+                            content={link.tooltip}
+                            side="top"
                         >
-                            {link.label}
-                        </Link>
-                    </SimpleTooltip>
-                ))}
+                            <Link
+                                className="group relative flex gap-1 items-center hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                                href={link.href}
+                                target={isExternal ? "_blank" : undefined}
+                                draggable={false}
+                            >
+                                <span>{link.label}</span>
+                                {isExternal && (
+                                    <ExternalLinkIcon className="opacity-0 absolute top-1/2 -translate-y-1/2 -right-4.5 size-3.5 text-muted-foreground group-hover:opacity-75 transition-opacity duration-300 transform-gpu" />
+                                )}
+                            </Link>
+                        </SimpleTooltip>
+                    );
+                })}
                 <AnimatedThemeToggler />
             </div>
         </div>

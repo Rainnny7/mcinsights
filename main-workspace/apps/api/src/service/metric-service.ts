@@ -5,6 +5,7 @@ import { StatusMap } from "elysia";
 import { db } from "../db";
 import { server as serverSchema } from "../db/schema/server";
 import { GenericError } from "../error/generic-error";
+import type { Context } from "../lib/context";
 import { executeWithBuilder, writeApi } from "../lib/influx";
 import { QueryBuilder } from "../lib/influx/query-builder";
 import Logger from "../lib/logger";
@@ -92,15 +93,10 @@ export default class MetricService {
      *
      * @param input the input
      */
-    static queryMetrics = async (input: QueryMetricsBody) => {
+    static queryMetrics = async (ctx: Context, input: QueryMetricsBody) => {
         const { organizationId, serverId, metric, timeRangeMin, timeRangeMax } =
             input;
-
-        // const organization = await auth.api.getOrganization({
-        //     params: {
-        //         organizationId,
-        //     },
-        // });
+        // TODO: validate the org id and user perms
 
         // Get the server and ensure it exists
         const server: MinecraftServer | undefined = serverId

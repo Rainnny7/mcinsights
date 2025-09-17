@@ -28,7 +28,7 @@ const SettingsPage = (): ReactElement => (
             <WebhooksSettings />
         </FadeInAnimation>
         <FadeInAnimation delay={1.2}>
-            <DangerZone />
+            <DangerZone />\
         </FadeInAnimation>
     </DashboardPageHeader>
 );

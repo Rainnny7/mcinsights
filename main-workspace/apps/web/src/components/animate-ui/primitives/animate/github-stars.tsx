@@ -12,13 +12,10 @@ import {
     ParticlesEffect,
     type ParticlesEffectProps,
 } from "@/components/animate-ui/primitives/effects/particles";
-import {
-    SlidingNumber,
-    type SlidingNumberProps,
-} from "@/components/animate-ui/primitives/texts/sliding-number";
 import { useIsInView, type UseIsInViewOptions } from "@/hooks/use-is-in-view";
 import { getStrictContext } from "@/lib/get-strict-context";
 import { cn } from "@/lib/utils";
+import CountUp from "react-countup";
 
 type GithubStarsContextType = {
     stars: number;
@@ -114,23 +111,10 @@ function GithubStars({
     );
 }
 
-type GithubStarsNumberProps = Omit<SlidingNumberProps, "number" | "fromNumber">;
-
-function GithubStarsNumber({
-    padStart = true,
-    ...props
-}: GithubStarsNumberProps) {
+function GithubStarsNumber() {
     const { stars, setCurrentStars } = useGithubStars();
 
-    return (
-        <SlidingNumber
-            number={stars}
-            fromNumber={0}
-            onNumberChange={setCurrentStars}
-            padStart={padStart}
-            {...props}
-        />
-    );
+    return <CountUp end={stars} onUpdate={() => setCurrentStars(stars)} />;
 }
 
 type GithubStarsIconProps<T extends React.ElementType> = {
@@ -228,7 +212,6 @@ export {
     type GithubStarsContextType,
     type GithubStarsIconProps,
     type GithubStarsLogoProps,
-    type GithubStarsNumberProps,
     type GithubStarsParticlesProps,
     type GithubStarsProps,
 };

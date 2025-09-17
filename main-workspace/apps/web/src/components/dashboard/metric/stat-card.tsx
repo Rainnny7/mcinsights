@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/card";
 import { InfoIcon, Loader2Icon } from "lucide-react";
 import { type ReactElement, type ReactNode } from "react";
+import CountUp from "react-countup";
 import { trpc } from "../../../lib/trpc";
+import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
-import { SlidingNumber } from "../../animate-ui/primitives/texts/sliding-number";
 import SimpleTooltip from "../../simple-tooltip";
 import { Skeleton } from "../../ui/skeleton";
 
@@ -49,7 +50,12 @@ const StatCard = ({
         <SimpleTooltip content={description}>
             <div className="relative">
                 <AnimateIcon animateOnHover>
-                    <Card className="relative w-full px-0.5 gap-2.5 hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden">
+                    <Card
+                        className={cn(
+                            "relative w-full px-0.5 gap-2.5 hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden",
+                            isLoading && "animate-pulse"
+                        )}
+                    >
                         {/* Bottom Gradient */}
                         <div className="absolute inset-x-0 -bottom-10 w-full h-16 bg-radial-[at_center] from-primary/80 to-transparent blur-md rounded-full opacity-10 -z-10" />
 
@@ -70,11 +76,7 @@ const StatCard = ({
                                 {isLoading ? (
                                     <Skeleton className="w-18 h-10" />
                                 ) : (
-                                    <SlidingNumber
-                                        number={value}
-                                        fromNumber={0}
-                                        padStart
-                                    />
+                                    <CountUp end={value} />
                                 )}
                             </div>
 

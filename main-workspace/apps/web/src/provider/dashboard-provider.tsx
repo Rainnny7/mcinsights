@@ -66,6 +66,9 @@ export const DashboardProvider = ({
     // Whether the dashboard is loading
     const isLoading: boolean = isLoadingOrganizations;
 
+    // Scroll to the top of the page when the path changes
+    useEffect(() => window.scrollTo(0, 0), [path]);
+
     // Set the active organization based on the path
     useEffect(() => {
         const currentPathSlug: string = path.split("/")[2] ?? "";

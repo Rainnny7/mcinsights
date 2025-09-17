@@ -6,7 +6,7 @@ type ScrolledResponse = {
     scrolled: boolean;
 };
 
-export const useScrolled = (threshold = 10): ScrolledResponse => {
+export const useScrolled = (threshold = 20): ScrolledResponse => {
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     const handleScroll = useCallback(() => {

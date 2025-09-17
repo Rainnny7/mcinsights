@@ -6,6 +6,7 @@ import FadeInAnimation from "../../../components/animation/fade-in-animation";
 import DashboardBreadcrumb from "../../../components/dashboard/breadcrumb";
 import DashboardFooter from "../../../components/dashboard/footer";
 import { DashboardProvider } from "../../../provider/dashboard-provider";
+import ScrollToTopIndicator from "../../../components/dashboard/navbar/scroll-to-top-indicator";
 
 const DashboardLayout = async ({
     children,
@@ -31,7 +32,10 @@ const DashboardLayout = async ({
                         <FadeInAnimation delay={0}>
                             <DashboardBreadcrumb />
                         </FadeInAnimation>
+
+                        {/* Content */}
                         {children}
+                        <ScrollToTopIndicator />
                     </div>
                     <DashboardFooter />
                 </div>

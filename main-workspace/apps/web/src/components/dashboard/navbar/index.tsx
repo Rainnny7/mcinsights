@@ -1,7 +1,6 @@
 "use client";
 
 import type { User } from "better-auth";
-import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
@@ -16,13 +15,12 @@ import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import Links from "./links";
 import OrganizationSwitcher from "./organization-switcher";
-import ScrollToTopIndicator from "./scroll-to-top-indicator";
 import UserDropdown from "./user-dropdown";
 
 const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const isSuperDuperSmall: boolean = useIsScreenSize(ScreenSize.ExtraSmall);
     const isMobile: boolean = useIsScreenSize(ScreenSize.Small);
-    const { scrolled } = useScrolled(20);
+    const { scrolled } = useScrolled();
     const { activeOrganization } = useDashboard();
 
     return (
@@ -100,11 +98,6 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     <div className="flex gap-2.5 items-center">
                         {/* Chart Controls */}
                         {activeOrganization && <ChartControls />}
-
-                        {/* Scroll to top indicator */}
-                        <AnimatePresence>
-                            {scrolled && <ScrollToTopIndicator />}
-                        </AnimatePresence>
                     </div>
                 </div>
             </div>

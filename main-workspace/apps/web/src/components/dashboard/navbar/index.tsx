@@ -80,7 +80,11 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
-                        {!isSuperDuperSmall && <GitHubButton />}
+                        {!isSuperDuperSmall && (
+                            <ScaleInAnimation delay={0.3}>
+                                <GitHubButton />
+                            </ScaleInAnimation>
+                        )}
                         <ScaleInAnimation delay={0.4}>
                             <HelpDropdown />
                         </ScaleInAnimation>

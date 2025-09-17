@@ -1,11 +1,11 @@
-import FadeInAnimation from "@/components/animation/fade-in-animation";
 import LoginCard from "@/components/auth/login-card";
 import Background from "@/components/background";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import type { ReactElement } from "react";
+import ScaleInAnimation from "../../components/animation/scale-in-animation";
 import BasicFooter from "../../components/basic-footer";
 import { getSession } from "../../lib/auth";
-import type { ReactElement } from "react";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Login",
@@ -21,9 +21,9 @@ const LoginPage = async (): Promise<ReactElement> => {
         <div className="min-h-screen flex justify-center items-center">
             <Background />
             <div className="relative z-10">
-                <FadeInAnimation>
+                <ScaleInAnimation delay={0.6}>
                     <LoginCard />
-                </FadeInAnimation>
+                </ScaleInAnimation>
             </div>
             <BasicFooter />
         </div>

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import NextTopLoader from "nextjs-toploader";
 import type { ReactElement, ReactNode } from "react";
 import ScaleInAnimation from "../../../components/animation/scale-in-animation";
+import DiagonalLinesBackground from "../../../components/background/diagonal-lines-background";
 import DashboardBreadcrumb from "../../../components/dashboard/breadcrumb";
 import DashboardFooter from "../../../components/dashboard/footer";
 import ScrollToTopIndicator from "../../../components/dashboard/navbar/scroll-to-top-indicator";
@@ -28,7 +29,7 @@ const DashboardLayout = async ({
         >
             <DashboardProvider user={user}>
                 <NextTopLoader color="var(--color-dashboard-toploader-color)" />
-                <div className="dark:bg-[url('/media/diagonal-lines.svg')] -z-10">
+                <DiagonalLinesBackground>
                     <DashboardNavbar user={user} />
                     <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5 z-10">
                         <div className="w-fit">
@@ -42,7 +43,7 @@ const DashboardLayout = async ({
                         <ScrollToTopIndicator />
                     </div>
                     <DashboardFooter />
-                </div>
+                </DiagonalLinesBackground>
             </DashboardProvider>
         </main>
     );

@@ -1,7 +1,11 @@
 import FadeInAnimation from "@/components/animation/fade-in-animation";
+import { ServerIcon } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
+import { BellIcon } from "../../../../../components/animate-ui/icons/bell";
 import { SettingsIcon } from "../../../../../components/animate-ui/icons/settings";
+import { Trash2Icon } from "../../../../../components/animate-ui/icons/trash-2";
+import { UsersIcon } from "../../../../../components/animate-ui/icons/users";
 import DashboardPageHeader from "../../../../../components/dashboard/page-header";
 import SettingOption from "../../../../../components/setting/setting-option";
 import SettingsGroup from "../../../../../components/setting/settings-group";
@@ -34,7 +38,7 @@ const SettingsPage = (): ReactElement => (
 );
 
 const GeneralSettings = (): ReactElement => (
-    <SettingsGroup title="General">
+    <SettingsGroup icon={<SettingsIcon />} title="General">
         <SettingOption
             title="Organization"
             description="Manage your organization's details."
@@ -45,7 +49,7 @@ const GeneralSettings = (): ReactElement => (
 );
 
 const ServerSettings = (): ReactElement => (
-    <SettingsGroup title="Servers">
+    <SettingsGroup icon={<ServerIcon />} title="Servers">
         <SettingOption
             title="Server"
             description="Manage your organization's server."
@@ -54,7 +58,7 @@ const ServerSettings = (): ReactElement => (
 );
 
 const MembersSettings = (): ReactElement => (
-    <SettingsGroup title="Members">
+    <SettingsGroup icon={<UsersIcon />} title="Members">
         <SettingOption
             title="Members"
             description="Manage your organization's members."
@@ -63,7 +67,7 @@ const MembersSettings = (): ReactElement => (
 );
 
 const WebhooksSettings = (): ReactElement => (
-    <SettingsGroup title="Webhooks">
+    <SettingsGroup icon={<BellIcon />} title="Webhooks">
         <SettingOption
             title="Webhooks"
             description="Manage your organization's webhooks."
@@ -72,7 +76,11 @@ const WebhooksSettings = (): ReactElement => (
 );
 
 const DangerZone = (): ReactElement => (
-    <SettingsGroup title="Danger Zone" variant="destructive">
+    <SettingsGroup
+        icon={<Trash2Icon />}
+        title="Danger Zone"
+        variant="destructive"
+    >
         <SettingOption
             title="Delete Organization"
             description="Delete your organization."

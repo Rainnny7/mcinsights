@@ -24,36 +24,11 @@ const timeRanges: PresetTimeRange[] = [
 
 const ChartControls = (): ReactElement => {
     const { timeRangeMin, timeRangeMax, updateTimeRange } = useDashboard();
-    const utils = trpc.useContext();
-    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
-    const handleRefresh = async () => {
-        setIsRefreshing(true);
-        await utils.metrics.queryMetrics.invalidate();
-        setIsRefreshing(false);
-        toast.info("Stats refreshed");
-    };
 
     return (
-        <div className="flex gap-2 items-center">
-            {/* Refresh Button */}
-            <SimpleTooltip content="Refresh all stats" side="bottom">
-                <div>
-                    <AnimateIcon animateOnHover animate={isRefreshing}>
-                        <Button
-                            className="h-8"
-                            variant="outline"
-                            onClick={handleRefresh}
-                            disabled={isRefreshing}
-                        >
-                            <RefreshCwIcon className="size-3.5" />
-                            <span>Refresh</span>
-                        </Button>
-                    </AnimateIcon>
-                </div>
-            </SimpleTooltip>
+        <div className="flex gap-2.5 items-center">
+            <RefreshButton />
 
-            {/* Time Range Selector */}
             <ChartTimeRangeSelector
                 timeRanges={timeRanges}
                 timeRangeMin={timeRangeMin}
@@ -63,4 +38,39 @@ const ChartControls = (): ReactElement => {
         </div>
     );
 };
+
+const RefreshButton = (): ReactElement => {
+    const utils = trpc.useContext();
+    const [status, setStatus] = useState<"idle" | "refreshing" | "cooldown">(
+        "idle"
+    );
+
+    const performRefresh = async () => {
+        if (status !== "idle") return;
+        setStatus("refreshing");
+        await utils.metrics.queryMetrics.invalidate();
+        setStatus("cooldown");
+        setTimeout(() => setStatus("idle"), 1000);
+        toast.success("Refreshed all metrics");
+    };
+
+    return (
+        <SimpleTooltip content="Refresh all stats" side="bottom">
+            <div>
+                <AnimateIcon animateOnHover animate={status === "refreshing"}>
+                    <Button
+                        className="h-8"
+                        variant="outline"
+                        onClick={performRefresh}
+                        disabled={status === "refreshing"}
+                    >
+                        <RefreshCwIcon className="size-3.5" />
+                        <span>Refresh</span>
+                    </Button>
+                </AnimateIcon>
+            </div>
+        </SimpleTooltip>
+    );
+};
+
 export default ChartControls;

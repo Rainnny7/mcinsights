@@ -1,12 +1,12 @@
 "use client";
 
-import type { User } from "better-auth";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import type { User } from "../../../types/auth";
 import ScaleInAnimation from "../../animation/scale-in-animation";
 import AppLogo from "../../app-logo";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";

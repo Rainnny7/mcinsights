@@ -47,7 +47,13 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => {
     const dropdownLinks: DropdownItem[] = [
         ...items,
         ...(user.role === "admin"
-            ? [{ icon: <LockKeyholeIcon />, label: "Admin", href: "/admin" }]
+            ? [
+                  {
+                      icon: <LockKeyholeIcon />,
+                      label: "Admin",
+                      href: "/dashboard/admin",
+                  },
+              ]
             : []),
     ];
 

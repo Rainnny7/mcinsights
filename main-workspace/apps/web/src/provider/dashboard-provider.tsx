@@ -76,10 +76,21 @@ export const DashboardProvider = ({
     const [activeOrganization, setActiveOrganization] = useState<
         Organization | undefined
     >(undefined);
-    const [timeRangeMin, setTimeRangeMin] = useState<string>("30d");
-    const [timeRangeMax, setTimeRangeMax] = useState<string | undefined>(
-        undefined
-    );
+
+    // Load time range from localStorage or use defaults
+    const [timeRangeMin, setTimeRangeMin] = useState<string>(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("timeRangeMin") ?? "30d";
+        }
+        return "30d";
+    });
+    const [timeRangeMax, setTimeRangeMax] = useState<string | undefined>(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem("timeRangeMax");
+            return stored === "null" ? undefined : stored ?? undefined;
+        }
+        return undefined;
+    });
 
     // Get the user's organizations
     const { isPending: isLoadingOrganizations, data: organizations } =
@@ -101,6 +112,20 @@ export const DashboardProvider = ({
         setActiveOrganization(organization);
     }, [path, organizations]);
 
+    const updateTimeRange = (
+        timeRangeMin: string,
+        timeRangeMax: string | undefined
+    ) => {
+        setTimeRangeMin(timeRangeMin);
+        setTimeRangeMax(timeRangeMax);
+
+        // Persist to localStorage
+        if (typeof window !== "undefined") {
+            localStorage.setItem("timeRangeMin", timeRangeMin);
+            localStorage.setItem("timeRangeMax", timeRangeMax ?? "null");
+        }
+    };
+
     return (
         <DashboardContext.Provider
             value={{
@@ -115,13 +140,7 @@ export const DashboardProvider = ({
                 },
                 timeRangeMin,
                 timeRangeMax,
-                updateTimeRange: (
-                    timeRangeMin: string,
-                    timeRangeMax: string | undefined
-                ) => {
-                    setTimeRangeMin(timeRangeMin);
-                    setTimeRangeMax(timeRangeMax);
-                },
+                updateTimeRange,
             }}
         >
             {children}

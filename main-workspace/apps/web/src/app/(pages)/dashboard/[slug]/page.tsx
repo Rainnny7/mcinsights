@@ -97,8 +97,8 @@ const OrganizationPage = async ({
             description="Here's an overview of your organization"
             withIconClasses={false}
         >
-            {/* <NoServerDataAlert /> */}
-            {/* <SetupRecommendations /> */}
+            {/* <NoServerDataAlert />
+            <SetupRecommendations /> */}
             <StatCards />
             <FadeInAnimation delay={1}>
                 <GenericAreaChart

@@ -90,10 +90,10 @@ export const DashboardProvider = ({
                 },
             }}
         >
+            {children}
             <AnimatePresence mode="wait">
                 {isLoading && <DashboardLoadingOverlay key="loading" />}
             </AnimatePresence>
-            {!isLoading && children}
         </DashboardContext.Provider>
     );
 };

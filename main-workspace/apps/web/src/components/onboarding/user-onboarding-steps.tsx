@@ -83,7 +83,7 @@ const steps: OnboardingStep[] = [
     {
         id: 1,
         icon: "/media/waving-hand.gif",
-        title: "Welcome {user}, let's get you started!",
+        title: "Welcome {user}, let's get started!",
         description: "Let's start by setting up your organization.",
         fields: [
             {
@@ -451,22 +451,28 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
     };
 
     return (
-        <Card className="w-screen min-w-80 max-w-[40rem]">
-            <form onSubmit={handleSubmit}>
+        <Card className="p-0 flex-row shadow-lg divide-x divide-border">
+            {/* Form */}
+            <form
+                className="w-screen p-6 min-w-80 max-w-[35rem]"
+                onSubmit={handleSubmit}
+            >
                 {/* Header */}
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">
-                            Step {currentStep} of {steps.length}
-                        </span>
-                    </CardTitle>
+                <CardHeader className="p-0 gap-1.5">
+                    {/* Current Step */}
+                    <span className="text-sm text-muted-foreground/75">
+                        Step {currentStep} of {steps.length}
+                    </span>
+
                     <CardTitle>
+                        {/* Title */}
                         {typeof currentStepData.icon === "string" ? (
                             <Image
                                 src={currentStepData.icon}
                                 alt={currentStepData.title}
                                 width={24}
                                 height={24}
+                                unoptimized
                                 draggable={false}
                             />
                         ) : (
@@ -482,7 +488,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                 </CardHeader>
 
                 {/* Content */}
-                <CardContent className="my-5 space-y-4">
+                <CardContent className="p-0 my-5 space-y-4">
                     {currentStepData.fields.map((field: OnboardingField) => (
                         <div key={field.name} className="flex flex-col gap-2">
                             <label
@@ -569,7 +575,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                     ))}
                 </CardContent>
 
-                <CardFooter className="flex justify-between">
+                <CardFooter className="p-0 flex justify-between">
                     {/* Previous */}
                     <SimpleTooltip content="Go back" side="bottom">
                         <Button
@@ -618,6 +624,16 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                     </div>
                 </CardFooter>
             </form>
+
+            {/* Dashboard Preview */}
+            <Image
+                className="w-[28rem] mt-4.5 object-left object-cover rounded-tl-xl rounded-br-xl"
+                src="/media/dashboard-preview.png"
+                alt="Dashboard Preview"
+                width={1000}
+                height={1000}
+                draggable={false}
+            />
         </Card>
     );
 };

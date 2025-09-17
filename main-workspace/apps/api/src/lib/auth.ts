@@ -1,6 +1,6 @@
 import { betterAuth, type Account } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { organization } from "better-auth/plugins";
+import { admin, organization } from "better-auth/plugins";
 import { db } from "../db";
 import * as schema from "../db/schema/auth";
 import { encrypt } from "./crypto";
@@ -36,7 +36,6 @@ export const auth: any = betterAuth({
             httpOnly: true,
         },
     },
-    plugins: [organization()],
     databaseHooks: {
         // When signing up or signing in with OAuth, ensure the user's access
         // and refresh tokens are encrypted when stored in the database.
@@ -53,6 +52,7 @@ export const auth: any = betterAuth({
     telemetry: {
         enabled: false,
     },
+    plugins: [admin(), organization()],
 });
 
 /**

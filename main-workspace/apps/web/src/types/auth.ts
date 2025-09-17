@@ -7,4 +7,5 @@ export type SessionResponse = {
 
 export type User = BetterAuthUser & {
     onboarded: boolean;
+    role: string;
 };

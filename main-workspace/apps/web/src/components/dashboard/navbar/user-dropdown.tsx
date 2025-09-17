@@ -1,6 +1,5 @@
 "use client";
 
-import type { User } from "better-auth";
 import { BuildingIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,7 +7,9 @@ import type { ReactElement, ReactNode } from "react";
 import { logoutUser } from "../../../lib/user";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import type { User } from "../../../types/auth";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { LockKeyholeIcon } from "../../animate-ui/icons/lock-keyhole";
 import { LogOutIcon } from "../../animate-ui/icons/log-out";
 import { UserIcon } from "../../animate-ui/icons/user";
 import { Button } from "../../ui/button";
@@ -33,7 +34,7 @@ type DropdownItem = {
 const items: DropdownItem[] = [
     {
         icon: <UserIcon />,
-        label: "Account Settings",
+        label: "My Account",
         href: "/dashboard/account",
     },
     { icon: <BuildingIcon />, label: "My Organizations", href: "/dashboard" },
@@ -42,6 +43,14 @@ const items: DropdownItem[] = [
 const UserDropdown = ({ user }: { user: User }): ReactElement => {
     const path: string = usePathname();
     const { activeOrganization } = useDashboard();
+
+    const dropdownLinks: DropdownItem[] = [
+        ...items,
+        ...(user.role === "admin"
+            ? [{ icon: <LockKeyholeIcon />, label: "Admin", href: "/admin" }]
+            : []),
+    ];
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -84,7 +93,7 @@ const UserDropdown = ({ user }: { user: User }): ReactElement => {
 
                 {/* Items */}
                 <DropdownMenuGroup>
-                    {items.map((item: DropdownItem) => {
+                    {dropdownLinks.map((item: DropdownItem) => {
                         const href: string = item.href.replace(
                             "<org>",
                             activeOrganization?.slug || ""

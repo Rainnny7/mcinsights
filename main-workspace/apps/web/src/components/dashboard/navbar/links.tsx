@@ -10,6 +10,7 @@ import { LayoutDashboardIcon } from "../../animate-ui/icons/layout-dashboard";
 import { SettingsIcon } from "../../animate-ui/icons/settings";
 import { UserIcon } from "../../animate-ui/icons/user";
 import { UsersIcon } from "../../animate-ui/icons/users";
+import ScaleInAnimation from "../../animation/scale-in-animation";
 import SimpleTooltip from "../../simple-tooltip";
 import { Button } from "../../ui/button";
 
@@ -98,7 +99,7 @@ const Links = (): ReactElement => {
     const path: string = usePathname();
     const { activeOrganization } = useDashboard();
 
-    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
 
     // Get all navigation links
@@ -121,7 +122,7 @@ const Links = (): ReactElement => {
     // Update underline position when active tab changes
     useEffect(() => {
         if (activeIndex >= 0 && tabRefs.current[activeIndex]) {
-            const activeTab: HTMLButtonElement | null =
+            const activeTab: HTMLDivElement | null =
                 tabRefs.current[activeIndex];
             const container: HTMLElement | null | undefined =
                 activeTab?.parentElement?.parentElement;
@@ -148,44 +149,50 @@ const Links = (): ReactElement => {
                 );
                 const active: boolean = path === href;
                 return (
-                    <SimpleTooltip
+                    <div
                         key={link.label}
-                        content={active ? undefined : link.tooltip}
-                        side="bottom"
+                        ref={(el) => {
+                            tabRefs.current[index] = el;
+                        }}
                     >
-                        <Link
-                            className={cn(
-                                link.disabled && "cursor-not-allowed"
-                            )}
-                            href={link.disabled ? "#" : href}
-                            draggable={false}
-                        >
-                            <AnimateIcon animateOnHover>
-                                <Button
-                                    ref={(el) => {
-                                        tabRefs.current[index] = el;
-                                    }}
+                        <ScaleInAnimation delay={index * 0.1}>
+                            <SimpleTooltip
+                                content={active ? undefined : link.tooltip}
+                                side="bottom"
+                            >
+                                <Link
                                     className={cn(
-                                        "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
-                                        active && "text-primary-foreground"
+                                        link.disabled && "cursor-not-allowed"
                                     )}
-                                    variant="ghost"
-                                    size="sm"
-                                    disabled={link.disabled}
+                                    href={link.disabled ? "#" : href}
+                                    draggable={false}
                                 >
-                                    <span
-                                        className={cn(
-                                            "size-4",
-                                            active && "text-primary"
-                                        )}
-                                    >
-                                        {link.icon}
-                                    </span>
-                                    <span>{link.label}</span>
-                                </Button>
-                            </AnimateIcon>
-                        </Link>
-                    </SimpleTooltip>
+                                    <AnimateIcon animateOnHover>
+                                        <Button
+                                            className={cn(
+                                                "relative text-muted-foreground transition-all duration-300 ease-in-out transform-gpu",
+                                                active &&
+                                                    "text-primary-foreground"
+                                            )}
+                                            variant="ghost"
+                                            size="sm"
+                                            disabled={link.disabled}
+                                        >
+                                            <span
+                                                className={cn(
+                                                    "size-4",
+                                                    active && "text-primary"
+                                                )}
+                                            >
+                                                {link.icon}
+                                            </span>
+                                            <span>{link.label}</span>
+                                        </Button>
+                                    </AnimateIcon>
+                                </Link>
+                            </SimpleTooltip>
+                        </ScaleInAnimation>
+                    </div>
                 );
             })}
 

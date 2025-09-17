@@ -6,8 +6,6 @@ import { UsersIcon } from "../../../../components/animate-ui/icons/users";
 import FadeInAnimation from "../../../../components/animation/fade-in-animation";
 import GenericAreaChart from "../../../../components/chart/generic-area-chart";
 import OrganizationAvatar from "../../../../components/dashboard/organization-avatar";
-import NoServerDataAlert from "../../../../components/dashboard/overview/no-server-data-alert";
-import SetupRecommendations from "../../../../components/dashboard/overview/setup-recommendations";
 import StatCards from "../../../../components/dashboard/overview/stat-cards";
 import DashboardPageHeader from "../../../../components/dashboard/page-header";
 import { getFullOrganization } from "../../../../lib/organization";
@@ -99,12 +97,10 @@ const OrganizationPage = async ({
             description="Here's an overview of your organization"
             withIconClasses={false}
         >
-            <NoServerDataAlert />
-            <SetupRecommendations />
-            <FadeInAnimation delay={0.8}>
-                <StatCards />
-            </FadeInAnimation>
-            <FadeInAnimation delay={1.2}>
+            {/* <NoServerDataAlert /> */}
+            {/* <SetupRecommendations /> */}
+            <StatCards />
+            <FadeInAnimation delay={1}>
                 <GenericAreaChart
                     icon={<UsersIcon />}
                     title="Players"

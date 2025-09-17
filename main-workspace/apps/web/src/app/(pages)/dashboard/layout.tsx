@@ -5,8 +5,8 @@ import type { ReactElement, ReactNode } from "react";
 import FadeInAnimation from "../../../components/animation/fade-in-animation";
 import DashboardBreadcrumb from "../../../components/dashboard/breadcrumb";
 import DashboardFooter from "../../../components/dashboard/footer";
-import { DashboardProvider } from "../../../provider/dashboard-provider";
 import ScrollToTopIndicator from "../../../components/dashboard/navbar/scroll-to-top-indicator";
+import { DashboardProvider } from "../../../provider/dashboard-provider";
 
 const DashboardLayout = async ({
     children,
@@ -26,9 +26,9 @@ const DashboardLayout = async ({
             }}
         >
             <DashboardProvider user={user}>
-                <div className="bg-[url('/media/background/diagonal-lines.svg')] -z-10">
+                <div className="dark:bg-[url('/media/background/diagonal-lines.svg')] -z-10">
                     <DashboardNavbar user={user} />
-                    <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5">
+                    <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5 z-10">
                         <FadeInAnimation delay={0}>
                             <DashboardBreadcrumb />
                         </FadeInAnimation>

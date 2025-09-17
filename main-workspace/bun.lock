@@ -4,8 +4,8 @@
     "": {
       "name": "mcmetrics",
       "devDependencies": {
-        "@biomejs/biome": "latest",
-        "turbo": "latest",
+        "@biomejs/biome": "^2.2.4",
+        "turbo": "^2.5.6",
       },
     },
     "apps/api": {

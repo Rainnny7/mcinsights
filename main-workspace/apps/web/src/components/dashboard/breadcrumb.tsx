@@ -30,11 +30,13 @@ const DashboardBreadcrumb = (): ReactElement => {
 
     const breadcrumbs: BreadcrumbSegment[] = useMemo(() => {
         const segments = path.split("/").slice(1);
-        return segments.map((segment, index) => ({
+        return segments.map((segment: string, index: number) => ({
             label:
                 segment.charAt(0).toUpperCase() +
                 segment.slice(1).replace(/-/g, " "),
-            href: `/${segments.slice(0, index + 1).join("/")}`,
+            href: `${index === 0 ? "" : "/"}${segments
+                .slice(0, index + 1)
+                .join("/")}`,
             isLast: index === segments.length - 1,
         }));
     }, [path]);
@@ -84,6 +86,8 @@ const DashboardBreadcrumb = (): ReactElement => {
                                         </Button>
                                     </OrganizationSwitcher>
                                 )}
+
+                                {/* Trailing Separator */}
                                 {(index === 0 || !breadcrumb.isLast) && (
                                     <BreadcrumbSeparator>
                                         <span className="text-2xl text-muted-foreground/35">

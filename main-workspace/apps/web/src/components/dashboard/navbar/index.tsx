@@ -7,6 +7,7 @@ import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import ScaleInAnimation from "../../animation/scale-in-animation";
 import AppLogo from "../../app-logo";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
 import { Separator } from "../../ui/separator";
@@ -31,24 +32,24 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
             )}
         >
             <div className="relative mx-auto max-w-screen-3xl flex flex-col gap-2.5">
-                {/* Top Left Radial Gradient */}
-                <div className="absolute -top-36 -left-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-15 -z-10" />
-
-                {/* Bottom Right Radial Gradient */}
-                <div className="absolute -bottom-36 -right-36 w-[26rem] h-[20rem] bg-radial-[at_center] from-primary/30 via-transparent to-transparent blur-md rounded-full opacity-7 -z-10" />
-
                 {/* Logo */}
-                <Link
+                <ScaleInAnimation
                     className={cn(
-                        "hidden absolute left-0 -top-0.5 hover:opacity-75 transition-opacity duration-300 transform-gpu",
-                        !isMobile && "block",
+                        "absolute left-0 -top-0.5",
                         scrolled && "-top-1"
                     )}
-                    href="/dashboard"
-                    draggable={false}
                 >
-                    <AppLogo size={36} />
-                </Link>
+                    <Link
+                        className={cn(
+                            "hidden hover:opacity-75 transition-opacity duration-300 transform-gpu",
+                            !isMobile && "block"
+                        )}
+                        href="/dashboard"
+                        draggable={false}
+                    >
+                        <AppLogo size={36} />
+                    </Link>
+                </ScaleInAnimation>
 
                 {/* Top */}
                 <div
@@ -62,24 +63,39 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 >
                     {/* Left */}
                     <div className="flex gap-2.5 items-center">
-                        <span
-                            className={cn(
-                                "hidden text-2xl text-muted-foreground/35",
-                                !isMobile && "block"
-                            )}
-                        >
-                            /
-                        </span>
-                        <OrganizationSwitcher />
+                        <ScaleInAnimation delay={0.1}>
+                            <span
+                                className={cn(
+                                    "hidden text-2xl text-muted-foreground/35",
+                                    !isMobile && "block"
+                                )}
+                            >
+                                /
+                            </span>
+                        </ScaleInAnimation>
+                        <ScaleInAnimation delay={0.2}>
+                            <OrganizationSwitcher />
+                        </ScaleInAnimation>
                     </div>
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
                         {!isSuperDuperSmall && <GitHubButton />}
-                        <HelpDropdown />
-                        <AnimatedThemeToggler />
-                        <Separator orientation="vertical" className="!h-6.5" />
-                        <UserDropdown user={user} />
+                        <ScaleInAnimation delay={0.4}>
+                            <HelpDropdown />
+                        </ScaleInAnimation>
+                        <ScaleInAnimation delay={0.5}>
+                            <AnimatedThemeToggler />
+                        </ScaleInAnimation>
+                        <ScaleInAnimation delay={0.6}>
+                            <Separator
+                                orientation="vertical"
+                                className="!h-6.5"
+                            />
+                        </ScaleInAnimation>
+                        <ScaleInAnimation delay={0.7}>
+                            <UserDropdown user={user} />
+                        </ScaleInAnimation>
                     </div>
                 </div>
 
@@ -97,7 +113,11 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     {/* Right - Actions */}
                     <div className="flex gap-2.5 items-center">
                         {/* Chart Controls */}
-                        {activeOrganization && <ChartControls />}
+                        {activeOrganization && (
+                            <ScaleInAnimation delay={0.7}>
+                                <ChartControls />
+                            </ScaleInAnimation>
+                        )}
                     </div>
                 </div>
             </div>

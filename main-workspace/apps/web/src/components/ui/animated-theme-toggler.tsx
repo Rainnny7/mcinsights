@@ -56,39 +56,41 @@ export const AnimatedThemeToggler = ({ className }: props) => {
             content={isDark ? "Burn my eyes" : "Back to the dark side"}
             side="bottom"
         >
-            <Button
-                ref={buttonRef}
-                className={cn(
-                    "size-8.5 border border-border rounded-full",
-                    className
-                )}
-                variant="ghost"
-                size="icon"
-                onClick={changeTheme}
-            >
-                <motion.div
-                    initial={{ rotate: 0, scale: 1 }}
-                    animate={{
-                        rotate: !isDark ? 0 : -90,
-                        scale: !isDark ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute"
+            <div className="flex justify-center items-center">
+                <Button
+                    ref={buttonRef}
+                    className={cn(
+                        "size-8.5 border border-border rounded-full",
+                        className
+                    )}
+                    variant="ghost"
+                    size="icon"
+                    onClick={changeTheme}
                 >
-                    <SunIcon className="size-4.5" />
-                </motion.div>
-                <motion.div
-                    initial={{ rotate: 90, scale: 0 }}
-                    animate={{
-                        rotate: !isDark ? 90 : 0,
-                        scale: !isDark ? 0 : 1,
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute"
-                >
-                    <MoonStarIcon className="size-4.5" />
-                </motion.div>
-            </Button>
+                    <motion.div
+                        initial={{ rotate: 0, scale: 1 }}
+                        animate={{
+                            rotate: !isDark ? 0 : -90,
+                            scale: !isDark ? 1 : 0,
+                        }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute"
+                    >
+                        <SunIcon className="size-4.5" />
+                    </motion.div>
+                    <motion.div
+                        initial={{ rotate: 90, scale: 0 }}
+                        animate={{
+                            rotate: !isDark ? 90 : 0,
+                            scale: !isDark ? 0 : 1,
+                        }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute"
+                    >
+                        <MoonStarIcon className="size-4.5" />
+                    </motion.div>
+                </Button>
+            </div>
         </SimpleTooltip>
     );
 };

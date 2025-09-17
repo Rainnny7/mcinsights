@@ -13,7 +13,7 @@ const StatCards = (): ReactElement => (
             value={0}
         />
         {Array.from({ length: 5 }).map((_, index) => (
-            <FadeInAnimation key={index} delay={index * 0.3}>
+            <FadeInAnimation key={index} delay={index * 0.2}>
                 <StatCard
                     title="Unique Players"
                     description="The number of unique players that have played on your server"

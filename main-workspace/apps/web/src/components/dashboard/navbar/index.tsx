@@ -7,6 +7,7 @@ import type { ReactElement } from "react";
 import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
 import { useScrolled } from "../../../hooks/use-scrolled";
 import { cn } from "../../../lib/utils";
+import { useDashboard } from "../../../provider/dashboard-provider";
 import AppLogo from "../../app-logo";
 import { AnimatedThemeToggler } from "../../ui/animated-theme-toggler";
 import { Separator } from "../../ui/separator";
@@ -22,6 +23,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
     const isSuperDuperSmall: boolean = useIsScreenSize(ScreenSize.ExtraSmall);
     const isMobile: boolean = useIsScreenSize(ScreenSize.Small);
     const { scrolled } = useScrolled(20);
+    const { activeOrganization } = useDashboard();
 
     return (
         <nav
@@ -97,7 +99,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                     {/* Right - Actions */}
                     <div className="flex gap-2.5 items-center">
                         {/* Chart Controls */}
-                        <ChartControls />
+                        {activeOrganization && <ChartControls />}
 
                         {/* Scroll to top indicator */}
                         <AnimatePresence>

@@ -131,11 +131,15 @@ export default class MetricService {
             // Only use a range between two dates if both min
             // and max is present, and the dates aren't the same.
             if (!timeRangeMax || isSameRange) {
-                // Parse time range like "1d", "30d", etc.
-                timeRangeMs = timeRangeMin
-                    ? parseToMillis(timeRangeMin)
-                    : TimeUnit.toMillis(TimeUnit.Day, 1); // default to 1d
-                query.range(`-${timeRangeMin || "1d"}`);
+                if (isSameRange) {
+                    query.range(`-1d`);
+                } else {
+                    // Parse time range like "1d", "30d", etc.
+                    timeRangeMs = timeRangeMin
+                        ? parseToMillis(timeRangeMin)
+                        : TimeUnit.toMillis(TimeUnit.Day, 1); // default to 1d
+                    query.range(`-${timeRangeMin || "1d"}`);
+                }
             } else {
                 query.rangeWithMinMax(timeRangeMin, timeRangeMax);
             }
@@ -188,7 +192,9 @@ export default class MetricService {
         } catch (error) {
             Logger.error(
                 chalk.red(
-                    `Failed to fetch metric ${metric} for org ${organizationId} server ${serverId}:`
+                    `Failed to fetch metric ${metric} for org ${organizationId} server ${
+                        serverId ? serverId : "all"
+                    }:`
                 ),
                 error
             );

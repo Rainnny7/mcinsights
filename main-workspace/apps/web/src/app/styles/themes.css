@@ -1,6 +1,5 @@
 :root {
     --background: oklch(0.9911 0 0);
-    --dashboard-alternative-background: oklch(0.9461 0 0);
     --foreground: oklch(0.2046 0 0);
     --card: oklch(0.9911 0 0);
     --card-foreground: oklch(0.2046 0 0);
@@ -51,11 +50,14 @@
     --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
     --tracking-normal: 0.025em;
     --spacing: 0.25rem;
+
+    /* Dashboard */
+    --dashboard-alternative-background: oklch(0.9461 0 0);
+    --dashboard-toploader-color: oklch(0.6394 0.217588 142.4953 / 65%);
 }
 
 .dark {
     --background: oklch(0.1522 0 0);
-    --dashboard-alternative-background: oklch(0.1893 0 0);
     --foreground: oklch(0.9288 0.0126 255.5078);
     --card: oklch(0.2046 0 0);
     --card-foreground: oklch(0.9288 0.0126 255.5078);
@@ -104,4 +106,8 @@
     --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17),
         0px 8px 10px -1px hsl(0 0% 0% / 0.17);
     --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
+
+    /* Dashboard */
+    --dashboard-alternative-background: oklch(0.1893 0 0);
+    --dashboard-toploader-color: oklch(0.6394 0.217588 142.4953 / 65%);
 }

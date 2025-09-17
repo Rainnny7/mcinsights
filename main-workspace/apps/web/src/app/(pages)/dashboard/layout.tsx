@@ -1,6 +1,7 @@
 import DashboardNavbar from "@/components/dashboard/navbar";
 import { checkAndGetSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
 import type { ReactElement, ReactNode } from "react";
 import ScaleInAnimation from "../../../components/animation/scale-in-animation";
 import DashboardBreadcrumb from "../../../components/dashboard/breadcrumb";
@@ -26,6 +27,7 @@ const DashboardLayout = async ({
             }}
         >
             <DashboardProvider user={user}>
+                <NextTopLoader color="var(--color-dashboard-toploader-color)" />
                 <div className="dark:bg-[url('/media/background/diagonal-lines.svg')] -z-10">
                     <DashboardNavbar user={user} />
                     <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5 z-10">

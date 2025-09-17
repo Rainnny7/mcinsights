@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { PickaxeIcon } from "../../animate-ui/icons/pickaxe";
 import { UsersIcon } from "../../animate-ui/icons/users";
-import FadeInAnimation from "../../animation/fade-in-animation";
+import ScaleInAnimation from "../../animation/scale-in-animation";
 import StatCard from "../metric/stat-card";
 
 const StatCards = (): ReactElement => (
@@ -13,14 +13,14 @@ const StatCards = (): ReactElement => (
             value={0}
         />
         {Array.from({ length: 5 }).map((_, index) => (
-            <FadeInAnimation key={index} delay={index * 0.2}>
+            <ScaleInAnimation key={index} delay={index * 0.2}>
                 <StatCard
                     title="Unique Players"
                     description="The number of unique players that have played on your server"
                     icon={<UsersIcon />}
                     value={0}
                 />
-            </FadeInAnimation>
+            </ScaleInAnimation>
         ))}
     </div>
 );

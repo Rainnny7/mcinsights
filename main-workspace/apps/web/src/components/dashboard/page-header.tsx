@@ -2,6 +2,7 @@ import type { ReactElement, ReactNode } from "react";
 import { cn } from "../../lib/utils";
 import { AnimateIcon } from "../animate-ui/icons/icon";
 import FadeInAnimation from "../animation/fade-in-animation";
+import ScaleInAnimation from "../animation/scale-in-animation";
 import { Separator } from "../ui/separator";
 
 type DashboardPageHeaderProps = {
@@ -23,8 +24,8 @@ const DashboardPageHeader = ({
 }: DashboardPageHeaderProps): ReactElement => (
     <main className="flex flex-col gap-4">
         {/* Header */}
-        <div className="flex flex-col gap-2">
-            <FadeInAnimation>
+        <div className="w-fit flex flex-col gap-2">
+            <ScaleInAnimation delay={0.1}>
                 <h1 className="flex gap-2.5 items-center text-3xl font-bold">
                     <AnimateIcon animateOnHover>
                         <span
@@ -38,10 +39,10 @@ const DashboardPageHeader = ({
                     </AnimateIcon>
                     <span>{title}</span>
                 </h1>
-            </FadeInAnimation>
-            <FadeInAnimation delay={0.2}>
+            </ScaleInAnimation>
+            <ScaleInAnimation delay={0.2}>
                 <p className="text-muted-foreground">{description}</p>
-            </FadeInAnimation>
+            </ScaleInAnimation>
         </div>
         <FadeInAnimation delay={0.4}>
             <Separator className="my-2" />
@@ -50,7 +51,7 @@ const DashboardPageHeader = ({
         {/* Content */}
         <FadeInAnimation
             className={cn("flex flex-col gap-5", className)}
-            delay={0.5}
+            delay={0.6}
         >
             {children}
         </FadeInAnimation>

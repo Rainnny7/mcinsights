@@ -1,6 +1,13 @@
+"use client";
+
 import type { ReactElement } from "react";
+import { useDashboard } from "../../../provider/dashboard-provider";
+import { AnimateIcon } from "../../animate-ui/icons/icon";
+import { RefreshCwIcon } from "../../animate-ui/icons/refresh-cw";
 import type { PresetTimeRange } from "../../chart/time-range-selector";
 import ChartTimeRangeSelector from "../../chart/time-range-selector";
+import SimpleTooltip from "../../simple-tooltip";
+import { Button } from "../../ui/button";
 
 const timeRanges: PresetTimeRange[] = [
     { name: "Last Hour", min: "1h" },
@@ -14,13 +21,26 @@ const timeRanges: PresetTimeRange[] = [
 ];
 
 const ChartControls = (): ReactElement => {
+    const { timeRangeMin, timeRangeMax, updateTimeRange } = useDashboard();
     return (
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-2 items-center">
+            {/* Refresh Button */}
+            <SimpleTooltip content="Refresh all stats" side="bottom">
+                <div>
+                    <AnimateIcon animateOnHover>
+                        <Button className="h-8" variant="outline" size="icon">
+                            <RefreshCwIcon className="size-3.5" />
+                        </Button>
+                    </AnimateIcon>
+                </div>
+            </SimpleTooltip>
+
+            {/* Time Range Selector */}
             <ChartTimeRangeSelector
                 timeRanges={timeRanges}
-                timeRangeMin="1h"
-                timeRangeMax="12h"
-                setTimeRange={() => {}}
+                timeRangeMin={timeRangeMin}
+                timeRangeMax={timeRangeMax}
+                setTimeRange={updateTimeRange}
             />
         </div>
     );

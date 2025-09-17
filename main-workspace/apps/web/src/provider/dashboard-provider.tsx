@@ -36,9 +36,27 @@ type DashboardContextType = {
     activeOrganization: Organization | undefined;
 
     /**
+     * The minimum time range for the chart.
+     */
+    timeRangeMin: string;
+
+    /**
+     * The maximum time range for the chart.
+     */
+    timeRangeMax: string | undefined;
+
+    /**
      * Updates the currently active organization.
      */
     updateActiveOrganization: (organization: Organization | undefined) => void;
+
+    /**
+     * Updates the time range for the chart.
+     */
+    updateTimeRange: (
+        timeRangeMin: string,
+        timeRangeMax: string | undefined
+    ) => void;
 };
 
 const DashboardContext = createContext<DashboardContextType | undefined>(
@@ -58,6 +76,10 @@ export const DashboardProvider = ({
     const [activeOrganization, setActiveOrganization] = useState<
         Organization | undefined
     >(undefined);
+    const [timeRangeMin, setTimeRangeMin] = useState<string>("30d");
+    const [timeRangeMax, setTimeRangeMax] = useState<string | undefined>(
+        undefined
+    );
 
     // Get the user's organizations
     const { isPending: isLoadingOrganizations, data: organizations } =
@@ -90,6 +112,15 @@ export const DashboardProvider = ({
                     organization: Organization | undefined
                 ) => {
                     setActiveOrganization(organization);
+                },
+                timeRangeMin,
+                timeRangeMax,
+                updateTimeRange: (
+                    timeRangeMin: string,
+                    timeRangeMax: string | undefined
+                ) => {
+                    setTimeRangeMin(timeRangeMin);
+                    setTimeRangeMax(timeRangeMax);
                 },
             }}
         >

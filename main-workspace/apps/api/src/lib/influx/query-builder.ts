@@ -1,5 +1,3 @@
-import { env } from "../env";
-
 export type FunctionTypes = "mean" | "min" | "max" | "sum" | "count" | "last";
 
 export class QueryBuilder {
@@ -14,7 +12,7 @@ export class QueryBuilder {
     public queryGroupBy: string | undefined = undefined;
 
     constructor(query?: string) {
-        this.query = query?.trim() || `from(bucket: "rufus-${env.NODE_ENV}")\n`;
+        this.query = query?.trim() || `from(bucket: "mcmetrics")\n`;
     }
 
     /**
@@ -47,8 +45,8 @@ export class QueryBuilder {
      * @param value the value to filter by
      * @returns the builder
      */
-    public filterByTag(tag: string, value: string) {
-        return this.operation(`filter(fn: (r) => r["${tag}"] == "${value}")`);
+    public filterByTag(tag: string, value: string | undefined) {
+        return !value ? this : this.operation(`filter(fn: (r) => r["${tag}"] == "${value}")`);
     }
 
     /**

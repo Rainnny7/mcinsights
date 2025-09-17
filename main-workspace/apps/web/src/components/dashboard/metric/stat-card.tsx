@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Card,
     CardContent,
@@ -5,17 +7,20 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, Loader2Icon } from "lucide-react";
 import { type ReactElement, type ReactNode } from "react";
+import { trpc } from "../../../lib/trpc";
+import { useDashboard } from "../../../provider/dashboard-provider";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
 import { SlidingNumber } from "../../animate-ui/primitives/texts/sliding-number";
 import SimpleTooltip from "../../simple-tooltip";
+import { Skeleton } from "../../ui/skeleton";
 
 type StatCardProps = {
     title: string;
     icon: ReactNode;
     description: string;
-    value: number;
+    metric: string;
     footer?: ReactNode | undefined;
 };
 
@@ -23,9 +28,23 @@ const StatCard = ({
     title,
     icon,
     description,
-    value,
+    metric,
     footer,
 }: StatCardProps): ReactElement => {
+    const { activeOrganization, timeRangeMin, timeRangeMax } = useDashboard();
+    const { isLoading, data } = trpc.metrics.queryMetrics.useQuery(
+        {
+            organizationId: activeOrganization?.id!,
+            metric,
+            timeRangeMin,
+            timeRangeMax,
+        },
+        {
+            enabled: !!activeOrganization?.id,
+        }
+    );
+    const value: number = data?.metrics[data.latestDataPoint ?? ""]?.value ?? 0;
+
     return (
         <SimpleTooltip content={description}>
             <div className="relative">
@@ -38,16 +57,25 @@ const StatCard = ({
                             <CardTitle className="text-sm text-muted-foreground font-medium">
                                 {title}
                                 <InfoIcon className="size-3" />
+
+                                {/* Loading */}
+                                {isLoading && (
+                                    <Loader2Icon className="ml-auto size-4 animate-spin" />
+                                )}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="flex justify-between items-center">
                             {/* Value */}
                             <div className="text-3xl font-bold">
-                                <SlidingNumber
-                                    number={value}
-                                    fromNumber={0}
-                                    padStart
-                                />
+                                {isLoading ? (
+                                    <Skeleton className="w-18 h-10" />
+                                ) : (
+                                    <SlidingNumber
+                                        number={value}
+                                        fromNumber={0}
+                                        padStart
+                                    />
+                                )}
                             </div>
 
                             {/* Icon */}

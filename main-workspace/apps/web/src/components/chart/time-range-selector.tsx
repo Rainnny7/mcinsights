@@ -9,9 +9,11 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
 import type { ReactElement } from "react";
 import { DATE_FORMATS, formatDate } from "../../../../api/src/lib/date";
+import { ClockIcon } from "../animate-ui/icons/clock";
+import { AnimateIcon } from "../animate-ui/icons/icon";
+import SimpleTooltip from "../simple-tooltip";
 
 type ChartTimeRangeSelectorProps = {
     timeRanges: PresetTimeRange[];
@@ -57,10 +59,23 @@ const ChartTimeRangeSelector = ({
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className="min-w-32" variant="outline" size="sm">
-                    <CalendarIcon className="size-3.5" />
-                    {label}
-                </Button>
+                <div>
+                    <SimpleTooltip
+                        content="Change the time range"
+                        side="bottom"
+                    >
+                        <AnimateIcon animateOnHover>
+                            <Button
+                                className="min-w-32"
+                                variant="outline"
+                                size="sm"
+                            >
+                                <ClockIcon className="size-3.5" />
+                                {label}
+                            </Button>
+                        </AnimateIcon>
+                    </SimpleTooltip>
+                </div>
             </PopoverTrigger>
             <PopoverContent
                 className="w-fit mr-24 flex gap-6 justify-between"

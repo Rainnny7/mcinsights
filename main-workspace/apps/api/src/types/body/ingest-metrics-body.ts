@@ -34,17 +34,22 @@ export const ingestMetricsBody = {
     }),
 };
 
-export type QueryServerMetricsBody = z.infer<typeof queryServerMetricsBody>;
+export type QueryMetricsBody = z.infer<typeof queryMetricsBody>;
 
-export const queryServerMetricsBody = z.object({
+export const queryMetricsBody = z.object({
     organizationId: z.string(),
+
+    /**
+     * The id of the server to query metrics for, undefined if querying all servers.
+     */
     serverId: z
         .string()
         .regex(
             new RegExp(
                 "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
             )
-        ),
+        )
+        .optional(),
     metric: z.string(),
     timeRangeMin: z.string(),
     timeRangeMax: z.string().optional(),

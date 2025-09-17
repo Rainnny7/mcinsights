@@ -5,14 +5,11 @@ import { StatusMap } from "elysia";
 import { db } from "../db";
 import { server as serverSchema } from "../db/schema/server";
 import { GenericError } from "../error/generic-error";
-import { auth } from "../lib/auth";
-import type { Context } from "../lib/context";
-import { env } from "../lib/env";
 import { executeWithBuilder, writeApi } from "../lib/influx";
 import { QueryBuilder } from "../lib/influx/query-builder";
 import Logger from "../lib/logger";
 import { parseToMillis, TimeUnit } from "../lib/time";
-import type { QueryServerMetricsBody } from "../types/body/ingest-metrics-body";
+import type { QueryMetricsBody } from "../types/body/ingest-metrics-body";
 import type { InfluxQueryResult, InfluxQueryResultRow } from "../types/influx";
 import {
     METRIC_TYPES,
@@ -93,35 +90,33 @@ export default class MetricService {
     /**
      * Query metrics for an organization.
      *
-     * @param ctx the context
      * @param input the input
      */
-    static queryMetrics = async (
-        ctx: Context,
-        input: QueryServerMetricsBody
-    ) => {
+    static queryMetrics = async (input: QueryMetricsBody) => {
         const { organizationId, serverId, metric, timeRangeMin, timeRangeMax } =
             input;
 
-        await auth.api.getOrganization({
-            params: {
-                organizationId,
-            },
-        });
+        // const organization = await auth.api.getOrganization({
+        //     params: {
+        //         organizationId,
+        //     },
+        // });
 
         // Get the server and ensure it exists
-        const server: MinecraftServer | undefined = (
-            await db
-                .select()
-                .from(serverSchema)
-                .where(
-                    and(
-                        eq(serverSchema.id, serverId),
-                        eq(serverSchema.organizationId, organizationId)
-                    )
-                )
-        )?.[0];
-        if (!server) {
+        const server: MinecraftServer | undefined = serverId
+            ? (
+                  await db
+                      .select()
+                      .from(serverSchema)
+                      .where(
+                          and(
+                              eq(serverSchema.id, serverId),
+                              eq(serverSchema.organizationId, organizationId)
+                          )
+                      )
+              )?.[0]
+            : undefined;
+        if (serverId && !server) {
             throw new GenericError(
                 "Server not found",
                 StatusMap["Bad Request"]
@@ -150,7 +145,7 @@ export default class MetricService {
             }
 
             query
-                .filterByTag("environment", env.NODE_ENV)
+                .filterByTag("organization", organizationId)
                 .filterByTag("server", serverId)
                 .filterByField("measurement", metric)
                 .aggregateWindow(
@@ -188,13 +183,16 @@ export default class MetricService {
             // Return the result
             return {
                 metrics: transformed,
-                latestDataPoint: result.data[result.data.length - 1].timestamp,
+                latestDataPoint:
+                    result.data.length > 0
+                        ? result.data[result.data.length - 1].timestamp
+                        : undefined,
                 time: Date.now() - before,
             };
         } catch (error) {
             Logger.error(
                 chalk.red(
-                    `Failed to fetch metric ${metric} for server ${serverId}:`
+                    `Failed to fetch metric ${metric} for org ${organizationId} server ${serverId}:`
                 ),
                 error
             );

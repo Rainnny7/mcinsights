@@ -18,20 +18,23 @@ const DashboardLayout = async ({
     }
     return (
         <main
+            className="relative"
             style={{
                 background:
                     "linear-gradient(to top, var(--dashboard-alternative-background), var(--background))",
             }}
         >
             <DashboardProvider user={user}>
-                <DashboardNavbar user={user} />
-                <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5">
-                    <FadeInAnimation delay={0}>
-                        <DashboardBreadcrumb />
-                    </FadeInAnimation>
-                    {children}
+                <div className="bg-[url('/media/background/diagonal-lines.svg')] -z-10">
+                    <DashboardNavbar user={user} />
+                    <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5">
+                        <FadeInAnimation delay={0}>
+                            <DashboardBreadcrumb />
+                        </FadeInAnimation>
+                        {children}
+                    </div>
+                    <DashboardFooter />
                 </div>
-                <DashboardFooter />
             </DashboardProvider>
         </main>
     );

@@ -99,10 +99,7 @@ const ChartTimeRangeSelector = ({
                     setTimeRange={setTimeRange}
                 />
 
-                <Separator
-                    className="!h-74 bg-muted-foreground/35"
-                    orientation="vertical"
-                />
+                <Separator className="!h-74" orientation="vertical" />
 
                 {/* Preset Time Ranges */}
                 <PresetTimeRangeSelector
@@ -172,8 +169,7 @@ const PresetTimeRangeSelector = ({
                     key={timeRange.name}
                     className={cn(
                         "w-32 justify-start text-sm text-white/75",
-                        isSelected &&
-                            "!bg-primary/25 text-primary hover:text-primary"
+                        isSelected && "!bg-primary/60"
                     )}
                     variant="outline"
                     size="sm"

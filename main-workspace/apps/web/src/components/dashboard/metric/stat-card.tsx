@@ -23,6 +23,7 @@ type StatCardProps = {
     description: string;
     metric: string;
     footer?: ReactNode | undefined;
+    valueFormatter?: (value: number) => ReactNode;
 };
 
 const StatCard = ({
@@ -31,8 +32,11 @@ const StatCard = ({
     description,
     metric,
     footer,
+    valueFormatter = (value) => <CountUp end={value} />,
 }: StatCardProps): ReactElement => {
     const { activeOrganization, timeRangeMin, timeRangeMax } = useDashboard();
+
+    // Query the metric and get the value
     const { isLoading, data } = trpc.metrics.queryMetrics.useQuery(
         {
             organizationId: activeOrganization?.id!,
@@ -59,6 +63,7 @@ const StatCard = ({
                         {/* Bottom Gradient */}
                         <div className="absolute inset-x-0 -bottom-10 w-full h-16 bg-radial-[at_center] from-primary/80 to-transparent blur-md rounded-full opacity-10 -z-10" />
 
+                        {/* Header */}
                         <CardHeader>
                             <CardTitle className="text-sm text-muted-foreground font-medium">
                                 {title}
@@ -70,13 +75,15 @@ const StatCard = ({
                                 )}
                             </CardTitle>
                         </CardHeader>
+
+                        {/* Content */}
                         <CardContent className="flex justify-between items-center">
                             {/* Value */}
                             <div className="text-3xl font-bold">
                                 {isLoading ? (
                                     <Skeleton className="w-18 h-10" />
                                 ) : (
-                                    <CountUp end={value} />
+                                    valueFormatter(value)
                                 )}
                             </div>
 
@@ -85,6 +92,8 @@ const StatCard = ({
                                 {icon}
                             </div>
                         </CardContent>
+
+                        {/* Footer */}
                         {footer && <CardFooter>{footer}</CardFooter>}
                     </Card>
                 </AnimateIcon>

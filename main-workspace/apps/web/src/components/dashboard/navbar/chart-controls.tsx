@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
+import { toast } from "sonner";
 import { trpc } from "../../../lib/trpc";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
@@ -30,6 +31,7 @@ const ChartControls = (): ReactElement => {
         setIsRefreshing(true);
         await utils.metrics.queryMetrics.invalidate();
         setIsRefreshing(false);
+        toast.info("Stats refreshed");
     };
 
     return (

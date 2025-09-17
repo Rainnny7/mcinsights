@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { ReactElement } from "react";
+import { ChevronRightIcon } from "lucide-react";
+import { useState, type ReactElement } from "react";
 import { DATE_FORMATS, formatDate } from "../../../../api/src/lib/date";
 import { ClockIcon } from "../animate-ui/icons/clock";
 import { AnimateIcon } from "../animate-ui/icons/icon";
@@ -36,6 +37,7 @@ const ChartTimeRangeSelector = ({
     timeRangeMax,
     setTimeRange,
 }: ChartTimeRangeSelectorProps): ReactElement => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const selectedTimeRange: PresetTimeRange | undefined = timeRanges.find(
         (timeRange: PresetTimeRange) => timeRange.min === timeRangeMin
     );
@@ -57,7 +59,7 @@ const ChartTimeRangeSelector = ({
     }
 
     return (
-        <Popover>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
                 <div>
                     <SimpleTooltip
@@ -72,6 +74,15 @@ const ChartTimeRangeSelector = ({
                             >
                                 <ClockIcon className="size-3.5" />
                                 {label}
+
+                                <div className="p-1 bg-muted rounded-lg border border-muted-foreground/10">
+                                    <ChevronRightIcon
+                                        className={cn(
+                                            "size-3.5 transition-transform duration-300 transform-gpu",
+                                            isOpen && "rotate-90"
+                                        )}
+                                    />
+                                </div>
                             </Button>
                         </AnimateIcon>
                     </SimpleTooltip>

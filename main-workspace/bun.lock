@@ -40,6 +40,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@hookform/resolvers": "^5.2.1",
+        "@origin-space/image-cropper": "^0.1.9",
         "@radix-ui/react-avatar": "^1.1.10",
         "@radix-ui/react-dialog": "^1.1.15",
         "@radix-ui/react-dropdown-menu": "^2.1.16",
@@ -69,7 +70,7 @@
         "next": "15.5.3",
         "next-themes": "^0.4.6",
         "nextjs-toploader": "^3.9.17",
-        "radix-ui": "^1.4.2",
+        "radix-ui": "^1.4.3",
         "react": "^19.0.0",
         "react-countup": "^6.5.3",
         "react-day-picker": "^9.9.0",
@@ -300,6 +301,8 @@
     "@noble/ciphers": ["@noble/ciphers@0.6.0", "", {}, "sha512-mIbq/R9QXk5/cTfESb1OKtyFnk7oc1Om/8onA1158K9/OZUQFDEVy55jVTato+xmp3XX6F6Qh0zz0Nc1AxAlRQ=="],
 
     "@noble/hashes": ["@noble/hashes@1.8.0", "", {}, "sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A=="],
+
+    "@origin-space/image-cropper": ["@origin-space/image-cropper@0.1.9", "", { "peerDependencies": { "react": "^19.1.0", "react-dom": "^19.1.0" } }, "sha512-Ebl57I6beh7uKjSv8+r3VObEoOXIXhx4SicDUdxa9U7NVY18SzEGfqPDuhNyXuFIB5G/S8nYUToNlIRp9wwB9Q=="],
 
     "@oxc-project/runtime": ["@oxc-project/runtime@0.87.0", "", {}, "sha512-ky2Hqi2q/uGX36UfY79zxMbUqiNIl1RyKKVJfFenG70lbn+/fcaKBVTbhmUwn8a2wPyv2gNtDQxuDytbKX9giQ=="],
 

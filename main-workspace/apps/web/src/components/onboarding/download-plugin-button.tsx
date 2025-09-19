@@ -80,7 +80,7 @@ const DownloadPluginButton = (): ReactElement => {
                 <span>
                     To get started, download the latest plugin and place it in
                     your plugins folder. Once done, follow the instructions on
-                    the server page to begin monitoring!
+                    the server page!
                 </span>
             </div>
         </div>

@@ -8,15 +8,15 @@ import "./styles/globals.css";
 
 export const metadata: Metadata = {
     title: {
-        default: "Minecraft Metrics",
-        template: `%s • Minecraft Metrics`,
+        default: "MCInsights",
+        template: `%s • MCInsights`,
     },
     description:
-        "⛏️ Minecraft Metrics is a tool that allows you to track your Minecraft server metrics.",
+        "⛏️ MCInsights is a tool that allows you to track your Minecraft server metrics.",
     openGraph: {
         images: [
             {
-                url: "https://mc-metrics.rainnny.club/media/logo/app.png",
+                url: "https://mcinsights.rainnny.club/media/logo/app.png",
                 width: 128,
                 height: 128,
             },

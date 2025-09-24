@@ -5,8 +5,10 @@ import type { ReactElement, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
+import { BellRingIcon } from "../../animate-ui/icons/bell-ring";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
 import { LayoutDashboardIcon } from "../../animate-ui/icons/layout-dashboard";
+import { MessageCircleIcon } from "../../animate-ui/icons/message-circle";
 import { SettingsIcon } from "../../animate-ui/icons/settings";
 import { UserIcon } from "../../animate-ui/icons/user";
 import { UsersIcon } from "../../animate-ui/icons/users";
@@ -38,20 +40,6 @@ const organizationLinks: NavbarLink[] = [
         tooltip: "Get an overview of your organization",
         href: "/dashboard/<org>",
     },
-    // {
-    //     icon: <TerminalIcon />,
-    //     label: "Console",
-    //     tooltip: "View the console for a server",
-    //     href: "/dashboard/<org>/console",
-    //     disabled: true,
-    // },
-    // {
-    //     icon: <HammerIcon />,
-    //     label: "Config Editor",
-    //     tooltip: "View the config editor for a server",
-    //     href: "/dashboard/<org>/config",
-    //     disabled: true,
-    // },
     {
         icon: <UsersIcon />,
         label: "Players",
@@ -59,20 +47,13 @@ const organizationLinks: NavbarLink[] = [
         href: "/dashboard/<org>/players",
         disabled: true,
     },
-    // {
-    //     icon: <MessageCircleIcon />,
-    //     label: "Chat",
-    //     tooltip: "View the chat for a server",
-    //     href: "/dashboard/<org>/chat",
-    //     disabled: true,
-    // },
-    // {
-    //     icon: <GavelIcon />,
-    //     label: "Punish",
-    //     tooltip: "Manage punishments for a player",
-    //     href: "/dashboard/<org>/punish",
-    //     disabled: true,
-    // },
+    {
+        icon: <MessageCircleIcon />,
+        label: "Chat",
+        tooltip: "View the chat for a server",
+        href: "/dashboard/<org>/chat",
+        disabled: true,
+    },
     {
         icon: <DollarSignIcon />,
         label: "Revenue",
@@ -85,6 +66,13 @@ const organizationLinks: NavbarLink[] = [
         label: "Domains",
         tooltip: "View analytics for domains players have used",
         href: "/dashboard/<org>/domains",
+        disabled: true,
+    },
+    {
+        icon: <BellRingIcon />,
+        label: "Alerts",
+        tooltip: "Manage alerts for your organization",
+        href: "/dashboard/<org>/alerts",
         disabled: true,
     },
     {
@@ -151,13 +139,17 @@ const Links = (): ReactElement => {
                 return (
                     <div
                         key={link.label}
-                        ref={(el) => {
-                            tabRefs.current[index] = el;
+                        ref={(element) => {
+                            tabRefs.current[index] = element;
                         }}
                     >
                         <ScaleInAnimation delay={index * 0.1}>
                             <SimpleTooltip
-                                content={active ? undefined : link.tooltip}
+                                content={
+                                    active || link.disabled
+                                        ? undefined
+                                        : link.tooltip
+                                }
                                 side="bottom"
                             >
                                 <Link

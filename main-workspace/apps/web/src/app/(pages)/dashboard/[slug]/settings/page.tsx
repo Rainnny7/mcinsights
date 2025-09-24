@@ -2,7 +2,6 @@ import FadeInAnimation from "@/components/animation/fade-in-animation";
 import { ServerIcon } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
-import { BellIcon } from "../../../../../components/animate-ui/icons/bell";
 import { SettingsIcon } from "../../../../../components/animate-ui/icons/settings";
 import { Trash2Icon } from "../../../../../components/animate-ui/icons/trash-2";
 import { UsersIcon } from "../../../../../components/animate-ui/icons/users";
@@ -29,9 +28,6 @@ const SettingsPage = (): ReactElement => (
             <MembersSettings />
         </FadeInAnimation>
         <FadeInAnimation delay={1}>
-            <WebhooksSettings />
-        </FadeInAnimation>
-        <FadeInAnimation delay={1.2}>
             <DangerZone />
         </FadeInAnimation>
     </DashboardPageHeader>
@@ -62,15 +58,6 @@ const MembersSettings = (): ReactElement => (
         <SettingOption
             title="Members"
             description="Manage your organization's members."
-        />
-    </SettingsGroup>
-);
-
-const WebhooksSettings = (): ReactElement => (
-    <SettingsGroup icon={<BellIcon />} title="Webhooks">
-        <SettingOption
-            title="Webhooks"
-            description="Manage your organization's webhooks."
         />
     </SettingsGroup>
 );

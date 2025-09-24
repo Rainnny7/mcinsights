@@ -8,6 +8,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useMemo, type ReactElement, type ReactNode } from "react";
@@ -48,19 +49,26 @@ const DashboardBreadcrumb = (): ReactElement => {
                     (breadcrumb: BreadcrumbSegment, index: number) => {
                         const isOrgSegment: boolean =
                             index === 1 && activeOrganization !== undefined;
+                        const label: ReactNode = (
+                            <>
+                                {index === 0 ? (
+                                    <HomeIcon className="size-4" />
+                                ) : (
+                                    breadcrumb.label
+                                )}
+                            </>
+                        );
                         const item: ReactNode = (
                             <BreadcrumbItem className="h-9">
                                 {breadcrumb.isLast ? (
-                                    <BreadcrumbPage>
-                                        {breadcrumb.label}
-                                    </BreadcrumbPage>
+                                    <BreadcrumbPage>{label}</BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLink asChild>
                                         <Link
                                             href={`${env.NEXT_PUBLIC_BASE_URL}/${breadcrumb.href}`}
                                             draggable={false}
                                         >
-                                            {breadcrumb.label}
+                                            {label}
                                         </Link>
                                     </BreadcrumbLink>
                                 )}

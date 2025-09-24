@@ -32,6 +32,7 @@ const DashboardLayout = async ({
                 <DiagonalLinesBackground>
                     <DashboardNavbar user={user} />
                     <div className="min-h-screen mx-auto max-w-screen-2xl px-5 pt-34 pb-10 space-y-5 z-10">
+                        {/* Breadcrumb */}
                         <div className="w-fit">
                             <ScaleInAnimation>
                                 <DashboardBreadcrumb />

@@ -28,7 +28,7 @@ const StatCards = (): ReactElement => (
 
         {/* Today's Income */}
         <StatCard
-            title="Today's Income"
+            title="Income"
             description="The amount of money that has been earned today"
             icon={<DollarSignIcon />}
             metric="income_today"

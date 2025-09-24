@@ -15,6 +15,7 @@ import ChartControls from "./chart-controls";
 import GitHubButton from "./github-button";
 import HelpDropdown from "./help-dropdown";
 import Links from "./links";
+import NewDashboardButton from "./new-dashboard-button";
 import OrganizationSwitcher from "./organization-switcher";
 import UserDropdown from "./user-dropdown";
 
@@ -106,13 +107,20 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                 {/* Bottom */}
                 <div
                     className={cn(
-                        "translate-y-1.5 flex justify-between gap-4 items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
+                        "translate-y-1.5 flex justify-between gap-5 items-center text-sm transition-all duration-300 ease-in-out transform-gpu",
                         scrolled && "-translate-y-11.5",
                         scrolled && !isMobile && "ml-10"
                     )}
                 >
-                    {/* Left - Links */}
-                    <Links />
+                    {/* Left - Links & New Dashboard Button */}
+                    <div className="flex gap-2.5 items-center">
+                        <Links />
+                        {activeOrganization && (
+                            <ScaleInAnimation delay={0.8}>
+                                <NewDashboardButton />
+                            </ScaleInAnimation>
+                        )}
+                    </div>
 
                     {/* Right - Actions */}
                     <div className="flex gap-2.5 items-center">

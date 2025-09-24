@@ -428,6 +428,7 @@ const UserOnboardingSteps = ({ user }: { user: User }): ReactElement => {
                     width={496}
                     height={496}
                     draggable={false}
+                    unoptimized
                 />
             </FadeInAnimation>
         </Card>

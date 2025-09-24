@@ -177,6 +177,7 @@ function StepperTrigger({
             )}
             onClick={() => setActiveStep(step)}
             disabled={isDisabled}
+            type="button"
             {...props}
         >
             {children}

@@ -7,6 +7,26 @@ import { Toaster } from "../components/ui/sonner";
 import { ThemeProvider } from "./theme-provider";
 
 const AppProviders = ({ children }: { children: ReactNode }) => {
+    // Console banner
+    useEffect(() => {
+        console.log(
+            "\n\n",
+            "  __  __  _____    _____           _       _     _       \n",
+            " |  \\/  |/ ____|  |_   _|         (_)     | |   | |\n",
+            " | \\  / | |         | |  _ __  ___ _  __ _| |__ | |_ ___ \n",
+            " | |\\/| | |         | | | '_ \\/ __| |/ _` | '_ \\| __/ __|\n",
+            " | |  | | |____    _| |_| | | \\__ \\ | (_| | | | | |_\\__ \\\n",
+            " |_|  |_|\\_____|  |_____|_| |_|___/_|\\__, |_| |_|\\__|___/\n",
+            "                                      __/ |\n",
+            "                                     |___/\n",
+            "\n",
+            "Made with 💚 by Braydon (Rainnny)\n",
+            "\n",
+            "REACH OUT: braydonrainnny@gmail.com",
+            "\n\n"
+        );
+    });
+
     // Disable the default context menu
     useEffect(() => {
         const handleContextMenu = (event: MouseEvent) => {

@@ -9,7 +9,7 @@ type AppLogoProps = {
 const AppLogo = ({ size = 128, className }: AppLogoProps) => (
     <Image
         className={cn(className)}
-        src="/media/logo/app.png"
+        src="/media/logo/app.webp"
         alt="Minecraft Metrics"
         width={size}
         height={size}

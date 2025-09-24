@@ -6,11 +6,16 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import "dotenv/config";
 import { Elysia, ValidationError } from "elysia";
 import { decorators } from "elysia-decorators";
+import { BunAdapter } from "elysia/adapter/bun";
 import MetricsController from "./controller/metrics-controller";
 import { env } from "./lib/env";
 import MetricService from "./service/metric-service";
 
-new Elysia()
+new Elysia({
+    adapter: BunAdapter,
+    prefix: "/v1",
+    normalize: true,
+})
     .use(
         cors({
             origin: env.CORS_ORIGIN,
@@ -55,9 +60,10 @@ new Elysia()
             INVALID_COOKIE_SIGNATURE: 401,
         };
 
-        const status =
+        const status: number =
             "status" in error ? error.status : statusCodeMap[code] || 500;
-        const errorCode = code === "UNKNOWN" ? "INTERNAL_SERVER_ERROR" : code;
+        const errorCode: string =
+            code === "UNKNOWN" ? "INTERNAL_SERVER_ERROR" : code;
 
         return {
             statusCode: status,

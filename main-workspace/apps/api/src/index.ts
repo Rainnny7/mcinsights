@@ -4,7 +4,7 @@ import { appRouter } from "@/routers";
 import { cors } from "@elysiajs/cors";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import "dotenv/config";
-import { Elysia } from "elysia";
+import { Elysia, ValidationError } from "elysia";
 import { decorators } from "elysia-decorators";
 import MetricsController from "./controller/metrics-controller";
 import { env } from "./lib/env";
@@ -40,6 +40,32 @@ new Elysia()
             controllers: [MetricsController],
         })
     )
+    // Handle application errors
+    .onError({ as: "global" }, ({ code, error }) => {
+        // Handle validation errors
+        if (code === "VALIDATION") {
+            return (error as ValidationError).all;
+        }
+
+        // Map error codes to status codes
+        const statusCodeMap: Record<string, number> = {
+            INTERNAL_SERVER_ERROR: 500,
+            NOT_FOUND: 404,
+            PARSE: 400,
+            INVALID_COOKIE_SIGNATURE: 401,
+        };
+
+        const status =
+            "status" in error ? error.status : statusCodeMap[code] || 500;
+        const errorCode = code === "UNKNOWN" ? "INTERNAL_SERVER_ERROR" : code;
+
+        return {
+            statusCode: status,
+            ...(error instanceof Error &&
+                error.message !== errorCode && { message: error.message }),
+            timestamp: new Date().toISOString(),
+        };
+    })
     .listen(env.PORT, () => {
         new MetricService();
         console.log(`Server is running on http://localhost:${env.PORT}`);

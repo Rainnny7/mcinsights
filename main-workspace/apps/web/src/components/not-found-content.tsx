@@ -9,13 +9,12 @@ import { SearchIcon } from "../components/animate-ui/icons/search";
 import ScaleInAnimation from "../components/animation/scale-in-animation";
 import Background from "../components/background";
 import { Button } from "../components/ui/button";
-import BasicFooter from "../components/basic-footer";
 
 const NotFoundContent = (): ReactElement => {
     const router: AppRouterInstance = useRouter();
     const path: string = usePathname();
     return (
-        <main className="min-h-screen flex justify-center items-center">
+        <>
             <Background />
             <ScaleInAnimation delay={0.6}>
                 <div className="relative flex flex-col gap-7 items-center z-10">
@@ -51,8 +50,7 @@ const NotFoundContent = (): ReactElement => {
                     </AnimateIcon>
                 </div>
             </ScaleInAnimation>
-            <BasicFooter />
-        </main>
+        </>
     );
 };
 export default NotFoundContent;

@@ -46,7 +46,9 @@ export class QueryBuilder {
      * @returns the builder
      */
     public filterByTag(tag: string, value: string | undefined) {
-        return !value ? this : this.operation(`filter(fn: (r) => r["${tag}"] == "${value}")`);
+        return !value
+            ? this
+            : this.operation(`filter(fn: (r) => r["${tag}"] == "${value}")`);
     }
 
     /**

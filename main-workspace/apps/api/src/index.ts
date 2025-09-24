@@ -11,9 +11,11 @@ import MetricsController from "./controller/metrics-controller";
 import { env } from "./lib/env";
 import MetricService from "./service/metric-service";
 
+const apiVersion: string = "/v1";
+
 new Elysia({
     adapter: BunAdapter,
-    prefix: "/v1",
+    prefix: apiVersion,
     normalize: true,
 })
     .use(
@@ -34,7 +36,7 @@ new Elysia({
     .all("/trpc/*", async (context) => {
         const { request } = context;
         return fetchRequestHandler({
-            endpoint: "/trpc",
+            endpoint: `${apiVersion}/trpc`,
             router: appRouter,
             req: request,
             createContext: () => createContext({ context }),

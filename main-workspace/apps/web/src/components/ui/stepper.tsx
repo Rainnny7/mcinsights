@@ -119,8 +119,8 @@ function StepperItem({
         completed || step < activeStep
             ? "completed"
             : activeStep === step
-            ? "active"
-            : "inactive";
+              ? "active"
+              : "inactive";
 
     const isLoading = loading && step === activeStep;
 

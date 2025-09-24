@@ -3,6 +3,7 @@
 import type { Organization } from "better-auth/plugins/organization";
 import { AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
 import {
     createContext,
     useContext,
@@ -143,6 +144,10 @@ export const DashboardProvider = ({
                 updateTimeRange,
             }}
         >
+            <NextTopLoader
+                color="var(--color-dashboard-toploader-color)"
+                showSpinner={false}
+            />
             {children}
             <AnimatePresence mode="wait">
                 {isLoading && <DashboardLoadingOverlay key="loading" />}

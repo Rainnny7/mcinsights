@@ -8,7 +8,8 @@ export const metricsRouter = router({
      */
     queryMetrics: protectedProcedure
         .input(queryMetricsBody)
-        .query(async ({ ctx, input }) =>
-            await MetricService.queryMetrics(ctx, input)
+        .query(
+            async ({ ctx, input }) =>
+                await MetricService.queryMetrics(ctx, input)
         ),
 });

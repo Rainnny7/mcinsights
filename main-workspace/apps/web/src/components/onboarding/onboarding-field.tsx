@@ -86,10 +86,12 @@ const OnboardingField = ({
                         {...commonProps}
                         type={field.type}
                         placeholderPrefix={field.placeholderPrefix}
-                        placeholder={field.placeholder.replace(
-                            "{user}",
-                            user.name
-                        ).replace("{userLowercase}", user.name.toLowerCase())}
+                        placeholder={field.placeholder
+                            .replace("{user}", user.name)
+                            .replace(
+                                "{userLowercase}",
+                                user.name.toLowerCase()
+                            )}
                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
                             onChange(event.target.value)
                         }

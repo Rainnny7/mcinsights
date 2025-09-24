@@ -27,6 +27,7 @@ export const auth: any = betterAuth({
             clientId: env.DISCORD_CLIENT_ID,
             clientSecret: env.DISCORD_CLIENT_SECRET,
             prompt: "consent",
+            redirectURI: `${env.BETTER_AUTH_URL}/v1/api/auth/callback/discord`,
         },
     },
     advanced: {

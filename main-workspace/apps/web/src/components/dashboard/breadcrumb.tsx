@@ -52,9 +52,9 @@ const DashboardBreadcrumb = (): ReactElement => {
                         const label: ReactNode = (
                             <>
                                 {index === 0 ? (
-                                    <HomeIcon className="size-4" />
+                                    <HomeIcon className="size-4.5" />
                                 ) : (
-                                    breadcrumb.label
+                                    isOrgSegment ? activeOrganization?.name : breadcrumb.label
                                 )}
                             </>
                         );

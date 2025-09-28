@@ -1,4 +1,5 @@
-import LoginCard from "@/components/auth/login-card";
+import AppLogo from "@/components/app-logo";
+import LoginForm from "@/components/auth/login-card";
 import Background from "@/components/background";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -20,11 +21,13 @@ const LoginPage = async (): Promise<ReactElement> => {
     return (
         <div className="min-h-screen flex justify-center items-center">
             <Background />
-            <div className="relative z-10">
-                <ScaleInAnimation delay={0.6}>
-                    <LoginCard />
-                </ScaleInAnimation>
-            </div>
+            <ScaleInAnimation
+                className="relative min-w-60 flex flex-col gap-5 justify-center items-center z-10"
+                delay={0.6}
+            >
+                <AppLogo size={116} />
+                <LoginForm />
+            </ScaleInAnimation>
             <BasicFooter />
         </div>
     );

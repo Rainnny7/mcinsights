@@ -53,8 +53,10 @@ const DashboardBreadcrumb = (): ReactElement => {
                             <>
                                 {index === 0 ? (
                                     <HomeIcon className="size-4.5" />
+                                ) : isOrgSegment ? (
+                                    activeOrganization?.name
                                 ) : (
-                                    isOrgSegment ? activeOrganization?.name : breadcrumb.label
+                                    breadcrumb.label
                                 )}
                             </>
                         );

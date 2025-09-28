@@ -1,5 +1,6 @@
 "use client";
 
+import SearchInput from "@/components/dashboard/navbar/search";
 import Link from "next/link";
 import type { ReactElement } from "react";
 import { ScreenSize, useIsScreenSize } from "../../../hooks/use-mobile";
@@ -81,6 +82,9 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
 
                     {/* Right */}
                     <div className="flex gap-2.5 items-center">
+                        <ScaleInAnimation delay={0.2}>
+                            <SearchInput />
+                        </ScaleInAnimation>
                         {!isSuperDuperSmall && (
                             <ScaleInAnimation delay={0.3}>
                                 <GitHubButton />
@@ -98,7 +102,7 @@ const DashboardNavbar = ({ user }: { user: User }): ReactElement => {
                                 className="!h-6.5"
                             />
                         </ScaleInAnimation>
-                        <ScaleInAnimation delay={0.7}>
+                        <ScaleInAnimation delay={0.6}>
                             <UserDropdown user={user} />
                         </ScaleInAnimation>
                     </div>

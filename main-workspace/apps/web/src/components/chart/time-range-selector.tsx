@@ -168,7 +168,7 @@ const PresetTimeRangeSelector = ({
                 <Button
                     key={timeRange.name}
                     className={cn(
-                        "w-32 justify-start text-sm text-white/75",
+                        "w-32 justify-start text-sm dark:text-white/75",
                         isSelected && "!bg-primary/60"
                     )}
                     variant="outline"

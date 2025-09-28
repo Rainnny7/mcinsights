@@ -81,7 +81,7 @@ const StatCard = ({
                             {/* Value */}
                             <div className="text-3xl font-bold">
                                 {isLoading ? (
-                                    <Skeleton className="w-18 h-10" />
+                                    <Skeleton className="w-18 h-9" />
                                 ) : (
                                     valueFormatter(value)
                                 )}

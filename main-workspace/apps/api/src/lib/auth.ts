@@ -22,6 +22,9 @@ export const auth: any = betterAuth({
         },
     },
     trustedOrigins: [env.CORS_ORIGIN],
+    emailAndPassword: {
+        enabled: true,
+    },
     socialProviders: {
         discord: {
             clientId: env.DISCORD_CLIENT_ID,

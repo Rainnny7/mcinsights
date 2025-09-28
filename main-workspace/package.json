@@ -28,7 +28,9 @@
         "db:down": "turbo -F api db:down",
         "prettier": "bunx prettier -w --config ./.prettierrc ."
     },
-    "dependencies": {},
+    "dependencies": {
+        "next": "^15.6.0-canary.32"
+    },
     "devDependencies": {
         "turbo": "^2.5.8",
         "@biomejs/biome": "^2.2.4"

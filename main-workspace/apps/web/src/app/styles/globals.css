@@ -73,6 +73,8 @@
     /* Breakpoints */
     --breakpoint-xs: 30rem;
     --breakpoint-3xl: 120rem;
+
+    --default-border-width: 0.5px;
 }
 
 @layer base {

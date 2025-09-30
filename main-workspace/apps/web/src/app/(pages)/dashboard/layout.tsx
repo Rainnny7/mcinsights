@@ -19,13 +19,7 @@ const DashboardLayout = async ({
         redirect("/onboarding");
     }
     return (
-        <main
-            className="relative"
-            style={{
-                background:
-                    "linear-gradient(to top, var(--dashboard-alternative-background), var(--background))",
-            }}
-        >
+        <main className="relative">
             <DashboardProvider user={user}>
                 <DiagonalLinesBackground>
                     <DashboardNavbar user={user} />

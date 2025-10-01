@@ -8,6 +8,7 @@ import UserAvatar from "@/components/dashboard/user-avatar";
 import { Password } from "@/components/password";
 import SimpleTooltip from "@/components/simple-tooltip";
 import Spinner from "@/components/spinner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -29,7 +30,12 @@ import { AnimatePresence, motion } from "motion/react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, type ChangeEvent } from "react";
+import {
+    useEffect,
+    useState,
+    type ChangeEvent,
+    type ReactElement,
+} from "react";
 import { useForm, type Control } from "react-hook-form";
 import * as z from "zod";
 
@@ -66,11 +72,16 @@ const oAuthProviders: Record<string, OAuthProviderInfo> = {
 
 const LoginForm = () => {
     const router: AppRouterInstance = useRouter();
+    const lastLoginMethod: string | null = authClient.getLastUsedLoginMethod();
+
+    const [hasMounted, setHasMounted] = useState<boolean>(false);
     const [step, setStep] = useState<"email" | "register" | "login">("email");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [foundUserAvatar, setFoundUserAvatar] = useState<string | undefined>(
         undefined
     );
+
+    useEffect(() => setHasMounted(true), []);
 
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema as any),
@@ -158,6 +169,8 @@ const LoginForm = () => {
         }
     };
 
+    const canSubmit: boolean = form.formState.isValid && !isLoading;
+
     return (
         <Form {...form}>
             <form
@@ -240,30 +253,43 @@ const LoginForm = () => {
                     )}
 
                     {/* Submit */}
-                    <AnimateIcon animateOnHover>
-                        <Button
-                            className={cn(
-                                "-mt-1 transition-all duration-300 ease-in-out transform-gpu",
-                                step !== "login" && "w-full"
+                    <div
+                        className={cn("relative", step !== "login" && "w-full")}
+                    >
+                        <AnimateIcon animateOnHover>
+                            <Button
+                                className={cn(
+                                    "-mt-1 transition-all duration-300 ease-in-out transform-gpu",
+                                    step !== "login" && "w-full"
+                                )}
+                                size="sm"
+                                type="submit"
+                                disabled={!canSubmit}
+                            >
+                                <span>
+                                    {step === "email"
+                                        ? "Continue"
+                                        : step === "register"
+                                        ? "Register"
+                                        : "Login"}
+                                </span>
+                                {isLoading ? (
+                                    <Spinner className="size-4" />
+                                ) : (
+                                    <ArrowRightIcon className="size-4" />
+                                )}
+                            </Button>
+                        </AnimateIcon>
+
+                        {/* Last Used Badge */}
+                        {hasMounted &&
+                            lastLoginMethod === "email" &&
+                            step === "email" && (
+                                <LastUsedBadge
+                                    className={cn(!canSubmit && "opacity-70")}
+                                />
                             )}
-                            size="sm"
-                            type="submit"
-                            disabled={!form.formState.isValid || isLoading}
-                        >
-                            <span>
-                                {step === "email"
-                                    ? "Continue"
-                                    : step === "register"
-                                    ? "Register"
-                                    : "Login"}
-                            </span>
-                            {isLoading ? (
-                                <Spinner className="size-4" />
-                            ) : (
-                                <ArrowRightIcon className="size-4" />
-                            )}
-                        </Button>
-                    </AnimateIcon>
+                    </div>
                 </div>
 
                 {/* OAuth Buttons */}
@@ -286,6 +312,9 @@ const LoginForm = () => {
                                         key={id}
                                         id={id}
                                         provider={provider}
+                                        wasLastUsed={
+                                            hasMounted && lastLoginMethod === id
+                                        }
                                     />
                                 )
                             )}
@@ -339,9 +368,11 @@ const PasswordField = ({
 const OAuthButton = ({
     id,
     provider,
+    wasLastUsed,
 }: {
     id: string;
     provider: OAuthProviderInfo;
+    wasLastUsed: boolean;
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -357,32 +388,49 @@ const OAuthButton = ({
 
     return (
         <SimpleTooltip content={`Continue with ${provider.name}`} side="bottom">
-            <Button
-                className="flex items-center hover:opacity-75 transition-opacity duration-300 transform-gpu"
-                variant="secondary"
-                size="sm"
-                type="button"
-                style={{ backgroundColor: provider.color }}
-                disabled={isLoading}
-                onClick={handleLogin}
-            >
-                <div className="size-4 flex justify-center items-center">
-                    {isLoading ? (
-                        <Spinner />
-                    ) : (
-                        <Image
-                            src={provider.icon}
-                            alt={provider.name}
-                            width={44}
-                            height={44}
-                            draggable={false}
-                        />
-                    )}
-                </div>
-                <span>{provider.name}</span>
-            </Button>
+            <div className="relative w-full flex">
+                <Button
+                    className="w-full flex items-center hover:opacity-75 transition-opacity duration-300 transform-gpu"
+                    variant="secondary"
+                    size="sm"
+                    type="button"
+                    style={{ backgroundColor: provider.color }}
+                    disabled={isLoading}
+                    onClick={handleLogin}
+                >
+                    <div className="size-4 flex justify-center items-center">
+                        {isLoading ? (
+                            <Spinner />
+                        ) : (
+                            <Image
+                                src={provider.icon}
+                                alt={provider.name}
+                                width={44}
+                                height={44}
+                                draggable={false}
+                            />
+                        )}
+                    </div>
+                    <span>{provider.name}</span>
+                </Button>
+
+                {/* Last Used Badge */}
+                {wasLastUsed && <LastUsedBadge />}
+            </div>
         </SimpleTooltip>
     );
 };
+
+const LastUsedBadge = ({
+    className,
+}: {
+    className?: string | undefined;
+}): ReactElement => (
+    <Badge
+        className={cn("absolute -top-3 -right-3 px-1.5 py-px z-10", className)}
+    >
+        Last Used
+    </Badge>
+);
 
 export default LoginForm;

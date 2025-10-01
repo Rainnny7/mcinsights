@@ -1,6 +1,6 @@
 import { betterAuth, type Account } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, organization } from "better-auth/plugins";
+import { admin, lastLoginMethod, organization } from "better-auth/plugins";
 import { db } from "../db";
 import * as schema from "../db/schema/auth";
 import { encrypt } from "./crypto";
@@ -56,7 +56,7 @@ export const auth: any = betterAuth({
     telemetry: {
         enabled: false,
     },
-    plugins: [admin(), organization()],
+    plugins: [admin(), organization(), lastLoginMethod()],
 });
 
 /**

@@ -360,6 +360,7 @@ const OAuthButton = ({
             <Button
                 className="flex items-center hover:opacity-75 transition-opacity duration-300 transform-gpu"
                 variant="secondary"
+                size="sm"
                 type="button"
                 style={{ backgroundColor: provider.color }}
                 disabled={isLoading}

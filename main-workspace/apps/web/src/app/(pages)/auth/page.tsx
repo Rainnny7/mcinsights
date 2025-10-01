@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowLeftIcon } from "@/components/animate-ui/icons/arrow-left";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import FadeInAnimation from "@/components/animation/fade-in-animation";
@@ -8,15 +6,25 @@ import LoginForm from "@/components/auth/login-form";
 import Background from "@/components/background";
 import SimpleTooltip from "@/components/simple-tooltip";
 import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/auth";
 import { isCloud } from "@/lib/env";
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useRouter } from "next/navigation";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { ReactElement } from "react";
 import ScaleInAnimation from "../../../components/animation/scale-in-animation";
 import BasicFooter from "../../../components/basic-footer";
 
-const LoginPage = (): ReactElement => {
-    const router: AppRouterInstance = useRouter();
+export const metadata: Metadata = {
+    title: "Auth",
+    description: "Login to your account",
+};
+
+const LoginPage = async (): Promise<ReactElement> => {
+    const session = await getSession();
+    if (session) {
+        redirect("/dashboard");
+    }
     return (
         <div className="relative px-5 min-h-screen flex justify-center items-center">
             <Background />
@@ -29,19 +37,18 @@ const LoginPage = (): ReactElement => {
                             content="Go back a previous page"
                             side="right"
                         >
-                            <div>
+                            <Link href="/" draggable={false}>
                                 <AnimateIcon animateOnHover>
                                     <Button
-                                        className="text-muted-foreground"
+                                        className="!bg-transparent text-muted-foreground"
                                         variant="ghost"
                                         size="sm"
-                                        onClick={() => router.back()}
                                     >
                                         <ArrowLeftIcon className="size-4" />
                                         <span>Go Back</span>
                                     </Button>
                                 </AnimateIcon>
-                            </div>
+                            </Link>
                         </SimpleTooltip>
                     </FadeInAnimation>
                 </div>

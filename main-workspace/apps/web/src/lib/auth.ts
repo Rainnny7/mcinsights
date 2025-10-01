@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export const checkAndGetSession = async (): Promise<SessionResponse> => {
     const session = await getSession();
     if (!session) {
-        redirect("/");
+        redirect("/auth");
     }
     return session;
 };
@@ -33,6 +33,6 @@ export const getSession = async (): Promise<SessionResponse | undefined> => {
     // Return the session and user
     return {
         session: data.session,
-        user: data.user as User,
+        user: data.user as unknown as User,
     };
 };

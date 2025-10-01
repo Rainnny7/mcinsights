@@ -48,6 +48,10 @@ const RootLayout = ({
                 outfit.variable,
                 minecraftFont.variable
             )}
+            style={{
+                background:
+                    "linear-gradient(to top, var(--dashboard-alternative-background), var(--background))",
+            }}
         >
             <AppProviders>{children}</AppProviders>
         </body>

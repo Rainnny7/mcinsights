@@ -1,5 +1,6 @@
 "use client";
 
+import UserAvatar from "@/components/dashboard/user-avatar";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -458,18 +459,19 @@ const OnboardingHeader = ({
                     <CardTitle>
                         {/* Title */}
                         {typeof currentStepData.icon === "string" ? (
-                            <Image
-                                className="rounded-full"
-                                src={currentStepData.icon.replace(
-                                    "{avatar}",
-                                    user.image!
-                                )}
-                                alt={currentStepData.title}
-                                width={24}
-                                height={24}
-                                unoptimized
-                                draggable={false}
-                            />
+                            currentStepData.icon === "{avatar}" ? (
+                                <UserAvatar user={user} />
+                            ) : (
+                                <Image
+                                    className="rounded-full"
+                                    src={currentStepData.icon}
+                                    alt={currentStepData.title}
+                                    width={24}
+                                    height={24}
+                                    unoptimized
+                                    draggable={false}
+                                />
+                            )
                         ) : (
                             <currentStepData.icon className="size-5" />
                         )}

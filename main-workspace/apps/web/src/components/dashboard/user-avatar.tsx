@@ -4,13 +4,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type UserAvatarProps = {
     className?: string;
-    user: User;
+    user?: User;
+    avatar?: string;
 };
 
-const UserAvatar = ({ className, user }: UserAvatarProps) => (
-    <Avatar className={cn(className)}>
-        <AvatarImage src={user.image!} alt={`${user.name} User Avatar`} />
-        <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
-    </Avatar>
-);
+const UserAvatar = ({ className, user, avatar }: UserAvatarProps) => {
+    const avatarSrc: string = avatar || user?.image!;
+    return (
+        <Avatar className={cn(className)}>
+            <AvatarImage
+                src={avatarSrc}
+                alt={`${user?.name || "User"} User Avatar`}
+            />
+            <AvatarFallback>{user?.name?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+        </Avatar>
+    );
+};
 export default UserAvatar;

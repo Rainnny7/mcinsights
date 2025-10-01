@@ -1,5 +1,6 @@
 "use client";
 
+import SimpleTooltip from "@/components/simple-tooltip";
 import {
     Card,
     CardContent,
@@ -14,7 +15,6 @@ import { trpc } from "../../../lib/trpc";
 import { cn } from "../../../lib/utils";
 import { useDashboard } from "../../../provider/dashboard-provider";
 import { AnimateIcon } from "../../animate-ui/icons/icon";
-import SimpleTooltip from "../../simple-tooltip";
 import { Skeleton } from "../../ui/skeleton";
 
 type StatCardProps = {
@@ -51,54 +51,54 @@ const StatCard = ({
     const value: number = data?.metrics[data.latestDataPoint ?? ""]?.value ?? 0;
 
     return (
-        <SimpleTooltip content={description}>
-            <div className="relative">
-                <AnimateIcon animateOnHover>
-                    <Card
-                        className={cn(
-                            "relative w-full px-0.5 gap-2.5 hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden",
-                            isLoading && "animate-pulse"
-                        )}
-                    >
-                        {/* Bottom Gradient */}
-                        <div className="absolute inset-x-0 -bottom-10 w-full h-16 bg-radial-[at_center] from-primary/80 to-transparent blur-md rounded-full opacity-10 -z-10" />
+        <div className="relative">
+            <AnimateIcon animateOnHover>
+                <Card
+                    className={cn(
+                        "relative w-full px-0.5 gap-2.5 hover:opacity-90 transition-all duration-300 ease-in-out transform-gpu overflow-hidden",
+                        isLoading && "animate-pulse"
+                    )}
+                >
+                    {/* Bottom Gradient */}
+                    <div className="absolute inset-x-0 -bottom-10 w-full h-16 bg-radial-[at_center] from-primary/80 to-transparent blur-md rounded-full opacity-10 -z-10" />
 
-                        {/* Header */}
-                        <CardHeader>
-                            <CardTitle className="text-sm text-muted-foreground font-medium">
-                                {title}
+                    {/* Header */}
+                    <CardHeader>
+                        <CardTitle className="text-sm text-muted-foreground font-medium">
+                            {title}
+                            <SimpleTooltip content={description} side="top">
                                 <InfoIcon className="size-3" />
+                            </SimpleTooltip>
 
-                                {/* Loading */}
-                                {isLoading && (
-                                    <Loader2Icon className="ml-auto size-4 animate-spin" />
-                                )}
-                            </CardTitle>
-                        </CardHeader>
+                            {/* Loading */}
+                            {isLoading && (
+                                <Loader2Icon className="ml-auto size-4 animate-spin" />
+                            )}
+                        </CardTitle>
+                    </CardHeader>
 
-                        {/* Content */}
-                        <CardContent className="flex justify-between items-center">
-                            {/* Value */}
-                            <div className="text-3xl font-bold">
-                                {isLoading ? (
-                                    <Skeleton className="w-18 h-9" />
-                                ) : (
-                                    valueFormatter(value)
-                                )}
-                            </div>
+                    {/* Content */}
+                    <CardContent className="flex justify-between items-center">
+                        {/* Value */}
+                        <div className="text-3xl font-bold">
+                            {isLoading ? (
+                                <Skeleton className="w-18 h-9" />
+                            ) : (
+                                valueFormatter(value)
+                            )}
+                        </div>
 
-                            {/* Icon */}
-                            <div className="p-1.5 *:size-6 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg">
-                                {icon}
-                            </div>
-                        </CardContent>
+                        {/* Icon */}
+                        <div className="p-1.5 *:size-6 bg-muted-foreground/10 text-primary/70 border border-muted-foreground/10 rounded-lg">
+                            {icon}
+                        </div>
+                    </CardContent>
 
-                        {/* Footer */}
-                        {footer && <CardFooter>{footer}</CardFooter>}
-                    </Card>
-                </AnimateIcon>
-            </div>
-        </SimpleTooltip>
+                    {/* Footer */}
+                    {footer && <CardFooter>{footer}</CardFooter>}
+                </Card>
+            </AnimateIcon>
+        </div>
     );
 };
 export default StatCard;

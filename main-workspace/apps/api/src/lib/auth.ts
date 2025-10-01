@@ -67,6 +67,13 @@ export const auth: any = betterAuth({
  * @returns the account with the access and refresh tokens encrypted
  */
 const encryptAccountData = (account: any) => {
+    if (!account.accessToken || !account.refreshToken) {
+        return {
+            data: {
+                ...account,
+            },
+        };
+    }
     return {
         data: {
             ...account,

@@ -27,7 +27,7 @@ function Input({
                 )}
 
                 {icon && (
-                    <div className="absolute left-2 top-1/2 -translate-y-1/2 *:size-4">
+                    <div className="absolute left-2 top-1/2 -translate-y-1/2 *:size-4 text-muted-foreground">
                         {icon}
                     </div>
                 )}
@@ -40,7 +40,7 @@ function Input({
                         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
                         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
                         placeholderPrefix && "pl-2 rounded-l-none",
-                        icon && "pl-7",
+                        icon && "pl-7.5",
                         keyboardShortcut && "pr-7",
                         className
                     )}

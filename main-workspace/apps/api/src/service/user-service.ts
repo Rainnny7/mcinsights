@@ -1,4 +1,6 @@
 import { user as userSchema } from "@/db/schema/auth";
+import type { UserExistsBody } from "@/types/body/user-exists-body";
+import type { User } from "better-auth/types";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { server } from "../db/schema/server";
@@ -8,6 +10,18 @@ import type { CompleteOnboardingBody } from "../types/body/complete-onboarding-b
 import type { ServerPlatform } from "../types/server";
 
 export default class UserService {
+    static checkUserExists = async (
+        input: UserExistsBody
+    ): Promise<User | undefined> => {
+        const { email } = input;
+        return (
+            await db
+                .select()
+                .from(userSchema)
+                .where(eq(userSchema.email, email))
+        )?.[0];
+    };
+
     /**
      * Complete the onboarding process for a user.
      *

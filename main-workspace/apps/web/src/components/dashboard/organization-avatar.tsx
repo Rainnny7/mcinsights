@@ -17,7 +17,7 @@ const OrganizationAvatar = ({
             alt={`${organization.name} Organization Avatar`}
         />
         <AvatarFallback className="text-sm font-normal">
-            {organization.name?.charAt(0)}
+            {organization.name?.charAt(0).toUpperCase()}
         </AvatarFallback>
     </Avatar>
 );

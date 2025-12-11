@@ -28,7 +28,7 @@
         "chalk": "^5.6.2",
         "dayjs": "^1.11.18",
         "dotenv": "^17.2.3",
-        "drizzle-orm": "^0.44.6",
+        "drizzle-orm": "^0.45.1",
         "elysia": "^1.4.9",
         "elysia-decorators": "^1.0.2",
         "pg": "^8.16.3",
